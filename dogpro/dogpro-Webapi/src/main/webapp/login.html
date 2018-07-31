@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>后台</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/easyui-perfect.css">
+    <link rel="stylesheet" href="css/icon.css">
+</head>
+<body>
+<div>
+    <img class="logo" src="img/logo.png">
+    <h1>硒微家健康顾问</h1>
+    <h2>后台办公管理系统应用平</h2>
+    <ul id="login-box">
+        <li>
+            <i></i>
+            <input type="text" id="phone">
+        </li>
+        <li>
+            <i></i>
+            <input type="password" id="pwds">
+        </li>
+        <li>
+            <button class="login">登 录</button>
+        </li>
+    </ul>
+</div>
+<div>
+    <ul id="register">
+        <li>
+            <a href="register.html">注册新用户</a>
+        </li>
+        <li>
+            <a href="#">忘记密码？</a>
+        </li>
+    </ul>
+</div>
+<script src="js/jquery-1.9.1.min.js"></script>
+<script src="js/jQuery-EasyUI-1.5.2.min.js"></script>
+<script>
+    $('.login').click(function(){
+        var phone = $('#phone').val()
+        var pwds = $('#pwds').val()
+        var params=
+            `{
+                "module":"adminLogin",
+                "action":"AdminService",
+                "paras":{
+                    "phone": "${phone}",
+                    "pwds": "${pwds}"
+                }
+            }`;
+        console.log(params)
+        var jsonpUrl =  'http://192.168.199.140:5200/dogpro-Webapi/UsercenterApi/Apiv1JP.do';
+        $.ajax({
+            url: jsonpUrl,
+            type: "get",
+            dataType: "jsonp",
+            jsonp: "callback",
+            jsonpCallback: "success_jsonpCallback",
+            data:{params:params},
+            success : function(data) {
+                console.log(data)
+                if(data.value.code==101){
+                    $.messager.alert({    // show error message
+                        title: 'error',
+                        msg: '登录失败，账号不存在'
+                    });
+                }
+                else if(data.value.result.flag == 0){
+//                    window.location.href = 'manage.html';
+                    $.messager.alert({    // show error message
+                        title: 'error',
+                        msg: data.value.result.msg
+                    });
+                }else if(data.value.result.flag == 1){
+                    window.location.href = 'manage.html';
+                }
+
+            },
+            error : function(err) {
+
+            }
+        });
+    })
+</script>
+</body>
+</html>

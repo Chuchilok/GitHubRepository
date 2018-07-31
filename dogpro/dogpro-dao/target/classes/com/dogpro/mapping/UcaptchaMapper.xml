@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dogpro.dao.UcaptchaMapper" >
+  <resultMap id="BaseResultMap" type="com.dogpro.domain.model.Ucaptcha" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="captcha" property="captcha" jdbcType="VARCHAR" />
+    <result column="requestTime" property="requesttime" jdbcType="TIMESTAMP" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="deadTime" property="deadtime" jdbcType="TIMESTAMP" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="addTimes" property="addtimes" jdbcType="TIMESTAMP" />
+    <result column="updateTimes" property="updatetimes" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, phone, captcha, requestTime, state, deadTime, type, addTimes, updateTimes
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dogpro.domain.model.UcaptchaExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from Ucaptcha
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="pagination != null" >
+      limit #{pagination.begin} , #{pagination.length}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from Ucaptcha
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from Ucaptcha
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dogpro.domain.model.UcaptchaExample" >
+    delete from Ucaptcha
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dogpro.domain.model.Ucaptcha" >
+    insert into Ucaptcha (id, phone, captcha, 
+      requestTime, state, deadTime, 
+      type, addTimes, updateTimes
+      )
+    values (#{id,jdbcType=BIGINT}, #{phone,jdbcType=VARCHAR}, #{captcha,jdbcType=VARCHAR}, 
+      #{requesttime,jdbcType=TIMESTAMP}, #{state,jdbcType=INTEGER}, #{deadtime,jdbcType=TIMESTAMP}, 
+      #{type,jdbcType=INTEGER}, #{addtimes,jdbcType=TIMESTAMP}, #{updatetimes,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.dogpro.domain.model.Ucaptcha" >
+    insert into Ucaptcha
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="captcha != null" >
+        captcha,
+      </if>
+      <if test="requesttime != null" >
+        requestTime,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="deadtime != null" >
+        deadTime,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="addtimes != null" >
+        addTimes,
+      </if>
+      <if test="updatetimes != null" >
+        updateTimes,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="captcha != null" >
+        #{captcha,jdbcType=VARCHAR},
+      </if>
+      <if test="requesttime != null" >
+        #{requesttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="deadtime != null" >
+        #{deadtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="addtimes != null" >
+        #{addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetimes != null" >
+        #{updatetimes,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dogpro.domain.model.UcaptchaExample" resultType="java.lang.Integer" >
+    select count(*) from Ucaptcha
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update Ucaptcha
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.phone != null" >
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.captcha != null" >
+        captcha = #{record.captcha,jdbcType=VARCHAR},
+      </if>
+      <if test="record.requesttime != null" >
+        requestTime = #{record.requesttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+      <if test="record.deadtime != null" >
+        deadTime = #{record.deadtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.addtimes != null" >
+        addTimes = #{record.addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetimes != null" >
+        updateTimes = #{record.updatetimes,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update Ucaptcha
+    set id = #{record.id,jdbcType=BIGINT},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      captcha = #{record.captcha,jdbcType=VARCHAR},
+      requestTime = #{record.requesttime,jdbcType=TIMESTAMP},
+      state = #{record.state,jdbcType=INTEGER},
+      deadTime = #{record.deadtime,jdbcType=TIMESTAMP},
+      type = #{record.type,jdbcType=INTEGER},
+      addTimes = #{record.addtimes,jdbcType=TIMESTAMP},
+      updateTimes = #{record.updatetimes,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dogpro.domain.model.Ucaptcha" >
+    update Ucaptcha
+    <set >
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="captcha != null" >
+        captcha = #{captcha,jdbcType=VARCHAR},
+      </if>
+      <if test="requesttime != null" >
+        requestTime = #{requesttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="deadtime != null" >
+        deadTime = #{deadtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="addtimes != null" >
+        addTimes = #{addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetimes != null" >
+        updateTimes = #{updatetimes,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dogpro.domain.model.Ucaptcha" >
+    update Ucaptcha
+    set phone = #{phone,jdbcType=VARCHAR},
+      captcha = #{captcha,jdbcType=VARCHAR},
+      requestTime = #{requesttime,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=INTEGER},
+      deadTime = #{deadtime,jdbcType=TIMESTAMP},
+      type = #{type,jdbcType=INTEGER},
+      addTimes = #{addtimes,jdbcType=TIMESTAMP},
+      updateTimes = #{updatetimes,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

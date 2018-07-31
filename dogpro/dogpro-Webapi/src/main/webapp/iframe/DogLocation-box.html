@@ -1,0 +1,119 @@
+<!-- 遛狗组管理 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/easyui-perfect.css">
+    <link rel="stylesheet" href="../css/icon.css">
+    <link rel="stylesheet" href="../css/user.css">
+</head>
+<body>
+<div class="search-container">
+    <div class="search-box">
+        <div class="search-div fl">
+            <i></i>
+            <input class="search-input" type="text" placeholder="手机号搜索">
+        </div>
+        <span class="search-span fl">搜 索</span>
+    </div>
+</div>
+
+<table id="tb1" >
+
+</table>
+
+<div id="dlg" class="easyui-dialog" style="width:400px" closed="true" buttons="#dlg-buttons">
+    <form id="fm" method="post" novalidate style="margin:0;padding:20px 50px">
+        <div style="margin-bottom:20px;font-size:14px;border-bottom:1px solid #ccc">User Information</div>
+        <div style="margin-bottom:10px">
+            <input name="areaName" class="easyui-textbox" required="true" label="地区:" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="provinces" class="easyui-textbox" required="true" label="省份:" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="municipalities" class="easyui-textbox" required="true" label="市级:" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="districts" class="easyui-textbox" required="true"  label="区域:" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="addressAlias" class="easyui-textbox" required="true"  label="详细地:" style="width:100%">
+        </div>
+
+    </form>
+</div>
+<div id="dlg-buttons">
+    <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveUser()" style="width:90px">Save</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">Cancel</a>
+</div>
+<div id="toolbar">
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">编辑</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" id="del" onclick="destroyUser()">删除</a>
+</div>
+<script src="../js/jquery-1.9.1.min.js"></script>
+<script src="../js/jQuery-EasyUI-1.5.2.min.js"></script>
+<script src="../js/easyui-lang-zh_CN.js"></script>
+<script src="../js/dataGridTemplete.js"></script>
+<script>
+    var url;
+    function newUser(){
+        $('#dlg').dialog('open').dialog('center').dialog('setTitle','New User');
+        $('#fm').form('clear');
+    }
+    function editUser(){
+        var row = $('#tb1').datagrid('getSelected');
+        if (row){
+            $('#dlg').dialog('open').dialog('center').dialog('setTitle','Edit User');
+            $('#fm').form('load',row);
+        }
+    }
+    /////////////////////遛狗地点/////////////////////
+    $(function () {
+
+        var params=`{
+            "module":"locationList",
+            "action":"AdminService",
+            "paras":{
+                "pageNO":"0",
+                "pageSize":"5",
+                "token":"asssssssssssssssssssssssssssssssssssssssssssssssssss"
+                }
+        }`;//参数
+        var columns = [[
+                        { field: 'checkbox', checkbox: true },
+                        { field: 'dogLocationId', title: '遛狗地点Id', width: 50},
+                        { field: 'areaName', title: '区域名', width: 250 },
+                        { field: 'addressAlias', title: '地点别名', width: 250},
+                        { field: 'provinces', title: '省', width: 150 },
+                        { field: 'municipalities', title: '市', width: 150 },
+                        { field: 'districts', title: '区', width: 150 },
+                        { field: 'townStreet', title: '街道', width: 200 },
+                        { field: 'longitude', title: '经度', width: 150 },
+                        { field: 'latitude', title: '纬度', width: 150 },
+                        { field: 'latitude', title: '纬度', width: 150 },
+                        { field: 'creatorUserId', title: '建地uid', width: 100 },
+                        { field: 'perimeter', title: '周边几公里', width: 100 },
+                        { field: 'hot', title: '热度', width: 100},
+                        { field: 'orders', title: '排序号', width: 100},
+                        { field: 'state', title: '状态', width: 100}// 1/0 未删除/已删除
+                    ]];//字段
+        initDataGrid($("#tb1"),params,'#toolbar','遛狗地点','/dogpro-Webapi/UsercenterApi/ApivDataGrid.do',columns,'1000');
+    });
+    var delParams;
+    $("#del").click(function () {
+        var row  =$("#tb1").datagrid("getSelected");
+        delParams = `{
+            "module":"deleteLocation",
+            "action":"AdminService",
+            "paras":{
+                "locationId":${row.dogLocationId},
+                "token":"sersdd123dsew456dsed78sef9...d12"
+            }
+        }`;
+    })
+</script>
+</body>
+</html>

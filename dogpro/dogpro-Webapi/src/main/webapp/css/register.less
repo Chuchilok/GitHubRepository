@@ -1,0 +1,171 @@
+@wd:10px;
+.comWidth{
+  width: 100*@wd;
+  margin: 0 auto;
+}
+#content{
+  margin-top: 10%;
+  ul{
+    li{
+      line-height: 3.5*@wd;
+      margin-bottom: 2.8*@wd;
+      position: relative;
+      span{
+        font-size: 2.4*@wd;
+        color: #696969;
+        letter-spacing: .229*@wd;
+      }
+      input{
+        border: 1px solid #54B47E;
+        width: 20*@wd;
+        height: 3.5*@wd;
+        font-size: 2.4*@wd;
+        line-height: 3.5*@wd;
+        margin-left: 1.4*@wd;
+      }
+      select{
+        width: 10*@wd;
+        height: 3.5*@wd;
+        border: 1px solid #54B47E;
+        margin-left: 1.4*@wd;
+        font-size: 1.8*@wd;
+      }
+      .prompt-box{
+        display: inline-block;
+        position: absolute;
+        top: 1px;
+        left: 36*@wd;
+        i{
+          width: 3.5*@wd;
+          height: 3.5*@wd;
+          display: inline-block;
+          float: left;
+          background: url("../img/ic_true.png") no-repeat;
+          -webkit-background-size: 100% 100%;
+          background-size: 100% 100%;
+        }
+        p{
+          font-size: 1.8*@wd;
+          color: #C95866;
+          letter-spacing: .225*@wd;
+          float: left;
+          margin-left: 1.8*@wd;
+        }
+      }
+      div.error{
+        i{
+          background: url("../img/ic_error.png") no-repeat;
+          -webkit-background-size: 100% 100%;
+          background-size: 100% 100%;
+        }
+      }
+    }
+  }
+}
+.page-box{
+  margin-top: 8*@wd;
+  text-align: center;
+  overflow: hidden;
+  .prev,.next{
+    border-radius: .4*@wd;
+    width: 12*@wd;
+    height: 4*@wd;
+    -webkit-border-radius: .4*@wd;
+    -moz-border-radius: .4*@wd;
+    display: block;
+    line-height: 4*@wd;
+    margin-right: .5*@wd;
+    float: left;
+    font-size: 2*@wd;
+    color: #54B47E;
+    border: 1px solid #65BE8A;
+    cursor: pointer;
+  }
+  ul{
+    float: left;
+    li{
+      -webkit-border-radius: .4*@wd;
+      -moz-border-radius: .4*@wd;
+      border-radius: .4*@wd;
+      font-size: 2*@wd;
+      cursor: pointer;
+      width: 4*@wd;
+      height: 4*@wd;
+      line-height: 4*@wd;
+      float: left;
+      margin-right: .5*@wd;
+      border: 1px solid #65BE8A;
+      color: #54B47E;
+    }
+    li.active{
+      color: #FFFFFF;
+      background: -webkit-linear-gradient(-135deg, #ACE290 0%, #64BD89 100%); /* Safari 5.1 - 6.0 */
+      background: -o-linear-gradient(-135deg, #ACE290 0%, #64BD89 100%); /* Opera 11.1 - 12.0 */
+      background: -moz-linear-gradient(-135deg, #ACE290 0%, #64BD89 100%); /* Firefox 3.6 - 15 */
+      background: linear-gradient(-135deg, #ACE290 0%, #64BD89 100%); /* 标准的语法 */
+    }
+  }
+  .turn{
+    margin-left: 3.5*@wd;
+    float: left;
+    height: 4.2*@wd;
+    line-height: 4.2*@wd;
+    font-size: 2*@wd;
+    color: #54B47E;
+    position: relative;
+    input{
+      text-align: center;
+      font-weight:normal;
+      border: 1px solid #65BE8A;
+      height: 4*@wd;
+      width: 5*@wd;
+      display: inline-block;
+      font-size: 2*@wd;
+      position: absolute;
+      top: 0%;
+      left: 4.7*@wd;
+      -webkit-border-radius: .5*@wd;
+      -moz-border-radius: .5*@wd;
+      border-radius: .5*@wd;
+    }
+    span{
+      margin-left: 6.4*@wd;
+    }
+  }
+  .confirm{
+    float: left;
+    margin-left: .6*@wd;
+    background: #54B47E;
+    border-radius: .4*@wd;
+    -webkit-border-radius: .4*@wd;
+    -moz-border-radius: .4*@wd;
+    width: 7*@wd;
+    height: 4*@wd;
+    line-height: 4*@wd;
+    font-size: 2*@wd;
+    color: #FFFFFF;
+    display: inline-block;
+    cursor: pointer;
+  }
+}
+.head-img{
+  img{
+    margin-top: 5.5*@wd;
+    width: 10*@wd;
+    height: 10*@wd;
+    border: .3*@wd solid #A2DC84;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+  }
+  p{
+    margin-top: .75*@wd;
+    font-size: 2*@wd;
+    color: #75C68B;
+    letter-spacing: .25*@wd;
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dogpro.dao.Table1Mapper" >
+  <resultMap id="TableResultMap" type="com.dogpro.domain.model.Table1" >
+       <result column="a1" property="a1" jdbcType="VARCHAR" />
+       <result column="a2" property="a2" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.dogpro.domain.model.Table1" >
+    insert into t1 (a1, a2)
+    values ( #{a1,jdbcType=VARCHAR},  #{a2,jdbcType=VARCHAR})
+  </insert> 
+</mapper>

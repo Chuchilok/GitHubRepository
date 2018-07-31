@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.webpublish.dao.ProjectMapper" >
+  <resultMap id="BaseResultMap" type="com.webpublish.domain.model.Project" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="project_name" property="projectName" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="buildTimes" property="buildtimes" jdbcType="TIMESTAMP" />
+    <result column="addTimes" property="addtimes" jdbcType="TIMESTAMP" />
+    <result column="updateTimes" property="updatetimes" jdbcType="TIMESTAMP" />
+    <result column="buildUser_ID" property="builduserId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, project_name, state, buildTimes, addTimes, updateTimes, buildUser_ID
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.webpublish.domain.model.ProjectExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from Project
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="pagination != null" >
+      limit #{pagination.begin} , #{pagination.length}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from Project
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from Project
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.webpublish.domain.model.ProjectExample" >
+    delete from Project
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.webpublish.domain.model.Project" >
+    insert into Project (ID, project_name, state, 
+      buildTimes, addTimes, updateTimes, 
+      buildUser_ID)
+    values (#{id,jdbcType=BIGINT}, #{projectName,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
+      #{buildtimes,jdbcType=TIMESTAMP}, #{addtimes,jdbcType=TIMESTAMP}, #{updatetimes,jdbcType=TIMESTAMP}, 
+      #{builduserId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.webpublish.domain.model.Project" >
+    insert into Project
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="projectName != null" >
+        project_name,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="buildtimes != null" >
+        buildTimes,
+      </if>
+      <if test="addtimes != null" >
+        addTimes,
+      </if>
+      <if test="updatetimes != null" >
+        updateTimes,
+      </if>
+      <if test="builduserId != null" >
+        buildUser_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="projectName != null" >
+        #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="buildtimes != null" >
+        #{buildtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="addtimes != null" >
+        #{addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetimes != null" >
+        #{updatetimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="builduserId != null" >
+        #{builduserId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.webpublish.domain.model.ProjectExample" resultType="java.lang.Integer" >
+    select count(*) from Project
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update Project
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.projectName != null" >
+        project_name = #{record.projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+      <if test="record.buildtimes != null" >
+        buildTimes = #{record.buildtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.addtimes != null" >
+        addTimes = #{record.addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetimes != null" >
+        updateTimes = #{record.updatetimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.builduserId != null" >
+        buildUser_ID = #{record.builduserId,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update Project
+    set ID = #{record.id,jdbcType=BIGINT},
+      project_name = #{record.projectName,jdbcType=VARCHAR},
+      state = #{record.state,jdbcType=INTEGER},
+      buildTimes = #{record.buildtimes,jdbcType=TIMESTAMP},
+      addTimes = #{record.addtimes,jdbcType=TIMESTAMP},
+      updateTimes = #{record.updatetimes,jdbcType=TIMESTAMP},
+      buildUser_ID = #{record.builduserId,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.webpublish.domain.model.Project" >
+    update Project
+    <set >
+      <if test="projectName != null" >
+        project_name = #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="buildtimes != null" >
+        buildTimes = #{buildtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="addtimes != null" >
+        addTimes = #{addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetimes != null" >
+        updateTimes = #{updatetimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="builduserId != null" >
+        buildUser_ID = #{builduserId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.webpublish.domain.model.Project" >
+    update Project
+    set project_name = #{projectName,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER},
+      buildTimes = #{buildtimes,jdbcType=TIMESTAMP},
+      addTimes = #{addtimes,jdbcType=TIMESTAMP},
+      updateTimes = #{updatetimes,jdbcType=TIMESTAMP},
+      buildUser_ID = #{builduserId,jdbcType=BIGINT}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

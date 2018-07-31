@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge，chrome=1">
+    <title>后台管理</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/easyui-perfect.css">
+    <link rel="stylesheet" href="css/icon.css">
+    <link rel="stylesheet" href="css/manage.css?v1">
+</head>
+<body>
+<div id="login-area" class="clearfix">
+    <div class="logo-box">
+        <img src="img/logo.png" class="fl logo">
+        <span>宠物APP后台管理</span>
+    </div>
+    <ul class="login-box fr">
+        <li class="toggle">
+            <img src="img/ic_refresh.png" alt="切换">
+            <span>切换账号</span>
+        </li>
+        <li class="logout">
+            <img src="img/ic_clock.png" alt="注销">
+            <span>注销</span>
+        </li>
+    </ul>
+</div>
+<div id="manage">
+    <div class="left">
+        <div class="person-box">
+            <img src="img/4.jpg">
+            <span>Admin</span>
+            <h5>超级管理员 <s class="san"></s></h5>
+        </div>
+        <ul class="item">
+            <li>
+                <i></i>
+                <span data-box="user-box">用户管理</span>
+            </li>
+            <li>
+                <i></i>
+                <span data-box="friendsCir-box">朋友圈</span>
+            </li>
+            <li>
+                <i></i>
+                <span data-box="message-box">信息管理</span>
+            </li>
+            <li>
+                <i></i>
+                <span data-box="DogLocation-box">遛狗地点</span>
+            </li>
+            <li>
+                <i></i>
+                <span data-box="walkingTrack-box">遛狗轨迹</span>
+            </li>
+            <li>
+                <i></i>
+                <span data-box="walkingGroup-box">遛狗组管理</span>
+            </li>
+            <li>
+                <i></i>
+                <span data-box="complaint-box">投诉列表</span>
+            </li>
+            <li>
+                <i></i>
+                <span data-box="feedback-box">意见反馈列表</span>
+            </li>
+            <li>
+                <i></i>
+                <span data-box="software-box">版本信息</span>
+            </li>
+            <li>
+                <i></i>
+                <span data-box="IM-box">客服IM</span>
+            </li>
+            <li>
+                <i></i>
+                <span data-box="onlineRecord-box">在线用户数记录</span>
+            </li>
+        </ul>
+    </div>
+    <div class="right">
+        <div class="top">
+            <div class="ic_left fl">
+                <i class="back"></i>
+            </div>
+            <ul class="nav-box fl">
+
+            </ul>
+        </div>
+        <div class="item-box">
+            <!--用户管理-->
+            <div class="user-box"></div>
+            <div class="DogLocation-box"></div>
+            <div class="complaint-box"></div>
+            <div class="walkingGroup-box"></div>
+            <div class="message-box"></div>
+            <div class="walkingTrack-box"></div>
+            <div class="feedback-box"></div>
+            <div class="friendsCir-box"></div>
+            <div class="software-box"></div>
+            <div class="IM-box"></div>
+            <div class="onlineRecord-box"></div>
+        </div>
+    </div>
+</div>
+<script src="js/jquery-1.9.1.min.js"></script>
+<script src="js/jQuery-EasyUI-1.5.2.min.js"></script>
+<script src="js/manage.js?v1"></script>
+</body>
+</html>

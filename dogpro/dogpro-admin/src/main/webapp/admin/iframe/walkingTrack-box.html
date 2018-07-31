@@ -1,0 +1,277 @@
+<!-- 消息管理 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/easyui-perfect.css">
+    <link rel="stylesheet" href="../css/icon.css">
+    <link rel="stylesheet" href="../css/user.css">
+    <link rel="stylesheet" href="../css/pop-dialog.css?v1">
+    <link rel="stylesheet" href="../css/map.css">
+</head>
+<body>
+
+<table id="tb1"></table>
+
+<!-----------------弹出窗口------------------>
+<div class="hidden-bg" style="display: none">
+    <div class="hidden-dialog">
+        <div id="hidden-dialog-map"></div>
+        <i class="close"></i>
+        <b class="prev">&lt;</b>
+        <b class="next">&gt;</b>
+    </div>
+</div>
+<script src="../js/jquery-1.9.1.min.js"></script>
+<script src="../js/jQuery-EasyUI-1.5.2.min.js"></script>
+<script src="../js/jsonUrl.js"></script>
+<script src="../js/easyui-lang-zh_CN.js"></script>
+<script src="../js/dataGridTemplete.js"></script>
+<!--<script src="../js/map-detail.js"></script>-->
+<script type="text/javascript" src="http://api.map.baidu.com/getscript?v=1.2&ak=&services=&t=20130716024057"></script>
+<script>
+    //////////////////////遛狗轨迹///////////////////////
+    $(function () {
+        var params = "{'action': 'AdminService','module': 'getTrack'," +
+            "'paras': {'pageNO':'0','token':'"+token+"','pageSize':'5','adminUserId':'"+userId+"'}}";//参数
+        var columns = [[
+            {field: 'trackId', title: '轨迹记录id', width: 150},
+            {field: 'groupId', title: '遛狗组记录id', width: 150},
+            {field: 'userId', title: '用户id', width: 150},
+            {field: 'nickName', title: '用户昵称', width: 150},
+            {field: 'addTimes', title: '时间', width: 150},
+            {
+                field: 'detail', title: '详情轨迹', width: 150,
+                formatter: function (value, row, index) {
+                    return `<a href="javascript:trackDetail(${row.userId},${row.groupId})">点击详情</a>`;
+                }
+            },
+        ]];//字段
+        initDataGrid($("#tb1"), params, '#toolbar', '遛狗轨迹', '/dogpro-Webapi/UsercenterApi/ApivDataGrid.do', columns);
+        /* $(".pagination-load").click();//触发刷新时间 */
+    });
+    //////////////////////遛狗轨迹详情///////////////////////
+    var localPage = 0;
+    var total = 0;
+    var localItems = [];
+    var districts;
+    var pageSize = 5;
+    var pageNO = 0;
+    var uid = 0;
+    var ulocationid = 0;
+
+    function trackDetail(id, locationid) {
+        uid = id;
+        ulocationid = locationid;
+        var params = `{
+                "module":"getTrackDetail",
+                "action":"AdminService",
+                "paras":{
+                    "adminUserId":${userId},
+                    "userId": ${uid},
+                    "groupId": ${ulocationid},
+                    "pageNO": "${pageNO}",
+                    "pageSize": "${pageSize}",
+                    "token": "${token}"
+                }
+            }`;//参数
+        $.ajax({
+            url: pageUrl,
+            type: "get",
+            dataType: "jsonp",
+            jsonp: "callback", //服务端用于接收callback调用的function名的参数
+            jsonpCallback: "success_jsonpCallback", //callback的function名称,服务端会把名称和data一起传递回来
+            data: {params: params},
+            success: function (data) {
+                ////////先是一顿赋值
+                console.log(data);
+                total = data.value.total;
+                var rows = data.value.rows;//请求的所有坐标集合
+                districts = data.value.rows[0].districts;//区域
+
+                map.clearOverlays();//清空map
+//                var local = new BMap.LocalSearch(map, {
+//                    renderOptions:{map: map}
+//                });
+//                local.search(districts);//画出大概区域
+                map.centerAndZoom(districts);
+
+                //把所有路劲放到items列表里面
+                localItems = [];
+                $.each(rows, function (i, list) {
+                    localItems[i] = new BMap.Point(list.longitude, list.latitude);
+                });
+                run(localPage);
+            },
+            error: function (err) {
+                $.messager.alert('操作提示', '获取信息失败...请联系管理员!', 'error');
+                doc.datagrid("loaded"); //移除屏蔽
+            }
+        });
+        $('.hidden-bg').fadeIn();
+    }
+
+    $('.hidden-bg .close').click(function () {
+        $('.hidden-bg').fadeOut();
+    });
+
+    var map = new BMap.Map("hidden-dialog-map");
+    map.addControl(new BMap.NavigationControl());               // 添加平移缩放控件
+    map.addControl(new BMap.ScaleControl());                    // 添加比例尺控件
+    map.addControl(new BMap.OverviewMapControl());              //添加缩略地图控件
+
+    function run() {
+        map.clearOverlays();
+        var driving = new BMap.WalkingRoute(map);           //创建驾车实例
+        for (var i = 0; i < localItems.length - 1; i++) {
+            driving.search(localItems[i], localItems[i + 1]);
+        }
+        driving.setSearchCompleteCallback(function () {
+            var pts = driving.getResults().getPlan(0).getRoute(0).getPath();    //通过驾车实例，获得一系列点的数组
+
+            var polyline = new BMap.Polyline(pts);
+            map.addOverlay(polyline);
+
+            //加点
+            var itemsImg = [];
+            var itemsTxt = [];
+            for (var i = 0; i < localItems.length; i++) {
+                //创建3个marker标注表示地图上的点，可自定义标注的图标。
+                itemsImg[i] = new BMap.Marker(localItems[i]);
+                map.addOverlay(itemsImg[i]);
+                //创建3个label
+                if (i == 0) {
+                    itemsTxt[i] = new BMap.Label("起点", {position: localItems[i]});
+                } else if (i == localItems.length - 1) {
+                    itemsTxt[i] = new BMap.Label("终点", {position: localItems[i]});
+                } else {
+                    itemsTxt[i] = new BMap.Label("途经点", {position: localItems[i]});
+                }
+                map.addOverlay(itemsTxt[i]);
+            }
+            setTimeout(function () {
+                map.setViewport(localItems);          //调整到最佳视野
+            }, 1000);
+
+        });
+    }
+
+    function prev() {
+        if (pageNO >= 1) {
+            pageNO--;
+        } else if (pageNO == 0) {
+            $.messager.alert('提示信息', '已经是第一页了,不能再后退了', 'info');
+        }
+        var params = `{
+                "module":"getTrackDetail",
+                "action":"AdminService",
+                "paras":{
+                    "adminUserId":${userId},
+                    "userId": ${uid},
+                    "groupId": ${ulocationid},
+                    "pageNO":${pageNO},
+                    "pageSize":${pageSize},
+                    "token":${token}
+                }
+            }`;//参数
+        $.ajax({
+            url: pageUrl,
+            type: "get",
+            dataType: "jsonp",
+            jsonp: "callback", //服务端用于接收callback调用的function名的参数
+            jsonpCallback: "success_jsonpCallback", //callback的function名称,服务端会把名称和data一起传递回来
+            data: {params: params},
+            success: function (data) {
+                ////////先是一顿赋值
+                console.log(data)
+                var rows = data.value.rows;//请求的所有坐标集合
+                districts = data.value.rows[0].districts;//区域
+
+                map.clearOverlays();//清空map
+//                var local = new BMap.LocalSearch(map, {
+//                    renderOptions:{map: map}
+//                });
+//                local.search(districts);//画出大概区域
+                map.centerAndZoom(districts);
+
+                //把所有路劲放到items列表里面
+                localItems = [];
+                $.each(rows, function (i, list) {
+                    localItems[i] = new BMap.Point(list.longitude, list.latitude);
+                });
+                run();
+            },
+            error: function (err) {
+                $.messager.alert('操作提示', '获取信息失败...请联系管理员!', 'error');
+                doc.datagrid("loaded"); //移除屏蔽
+            }
+        });
+        console.log('当前页' + pageNO);
+//        run();
+    }
+
+    function next() {
+        if (pageNO < Math.floor(total / pageSize)) {
+            pageNO++;
+        } else if (pageNO == Math.floor(total / pageSize)) {
+            $.messager.alert('提示信息', '已经是最后一页了,不能再前进了', 'info');
+        }
+        var params = `{
+                "module":"getTrackDetail",
+                "action":"AdminService",
+                "paras":{
+                    "adminUserId":${userId},
+                    "userId": ${uid},
+                    "groupId": ${ulocationid},
+                    "pageNO":${pageNO},
+                    "pageSize":${pageSize},
+                    "token":${token}
+                }
+            }`;//参数
+        $.ajax({
+            url: pageUrl,
+            type: "get",
+            dataType: "jsonp",
+            jsonp: "callback", //服务端用于接收callback调用的function名的参数
+            jsonpCallback: "success_jsonpCallback", //callback的function名称,服务端会把名称和data一起传递回来
+            data: {params: params},
+            success: function (data) {
+                ////////先是一顿赋值
+                console.log(data)
+                var rows = data.value.rows;//请求的所有坐标集合
+                districts = data.value.rows[0].districts;//区域
+
+                map.clearOverlays();//清空map
+//                var local = new BMap.LocalSearch(map, {
+//                    renderOptions:{map: map}
+//                });
+//                local.search(districts);//画出大概区域
+                map.centerAndZoom(districts);
+
+                //把所有路劲放到items列表里面
+                localItems = [];
+                $.each(rows, function (i, list) {
+                    localItems[i] = new BMap.Point(list.longitude, list.latitude);
+                });
+                run();
+            },
+            error: function (err) {
+                $.messager.alert('操作提示', '获取信息失败...请联系管理员!', 'error');
+                doc.datagrid("loaded"); //移除屏蔽
+            }
+        });
+        console.log('当前页' + pageNO);
+//        run();
+    }
+
+    $('.hidden-dialog .prev').click(function () {
+        prev();
+    });
+    $('.hidden-dialog .next').click(function () {
+        next();
+    })
+</script>
+</body>
+</html>

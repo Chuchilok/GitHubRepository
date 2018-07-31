@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dogpro.dao.MessageMediaMapper" >
+  <resultMap id="BaseResultMap" type="com.dogpro.domain.model.MessageMedia" >
+    <id column="msgMediaId" property="msgmediaid" jdbcType="BIGINT" />
+    <result column="uploadTimes" property="uploadtimes" jdbcType="TIMESTAMP" />
+    <result column="userId" property="userid" jdbcType="BIGINT" />
+    <result column="mediaType" property="mediatype" jdbcType="INTEGER" />
+    <result column="mediaUrl" property="mediaurl" jdbcType="VARCHAR" />
+    <result column="messageId" property="messageid" jdbcType="BIGINT" />
+    <result column="addTimes" property="addtimes" jdbcType="TIMESTAMP" />
+    <result column="updateTimes" property="updatetimes" jdbcType="TIMESTAMP" />
+    <result column="resourceCode" property="resourcecode" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    msgMediaId, uploadTimes, userId, mediaType, mediaUrl, messageId, addTimes, updateTimes, 
+    resourceCode
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dogpro.domain.model.MessageMediaExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from MessageMedia
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="pagination != null" >
+      limit #{pagination.begin} , #{pagination.length}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from MessageMedia
+    where msgMediaId = #{msgmediaid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from MessageMedia
+    where msgMediaId = #{msgmediaid,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dogpro.domain.model.MessageMediaExample" >
+    delete from MessageMedia
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dogpro.domain.model.MessageMedia" >
+    insert into MessageMedia (msgMediaId, uploadTimes, userId, 
+      mediaType, mediaUrl, messageId, 
+      addTimes, updateTimes, resourceCode
+      )
+    values (#{msgmediaid,jdbcType=BIGINT}, #{uploadtimes,jdbcType=TIMESTAMP}, #{userid,jdbcType=BIGINT}, 
+      #{mediatype,jdbcType=INTEGER}, #{mediaurl,jdbcType=VARCHAR}, #{messageid,jdbcType=BIGINT}, 
+      #{addtimes,jdbcType=TIMESTAMP}, #{updatetimes,jdbcType=TIMESTAMP}, #{resourcecode,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.dogpro.domain.model.MessageMedia" >
+    insert into MessageMedia
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="msgmediaid != null" >
+        msgMediaId,
+      </if>
+      <if test="uploadtimes != null" >
+        uploadTimes,
+      </if>
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="mediatype != null" >
+        mediaType,
+      </if>
+      <if test="mediaurl != null" >
+        mediaUrl,
+      </if>
+      <if test="messageid != null" >
+        messageId,
+      </if>
+      <if test="addtimes != null" >
+        addTimes,
+      </if>
+      <if test="updatetimes != null" >
+        updateTimes,
+      </if>
+      <if test="resourcecode != null" >
+        resourceCode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="msgmediaid != null" >
+        #{msgmediaid,jdbcType=BIGINT},
+      </if>
+      <if test="uploadtimes != null" >
+        #{uploadtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=BIGINT},
+      </if>
+      <if test="mediatype != null" >
+        #{mediatype,jdbcType=INTEGER},
+      </if>
+      <if test="mediaurl != null" >
+        #{mediaurl,jdbcType=VARCHAR},
+      </if>
+      <if test="messageid != null" >
+        #{messageid,jdbcType=BIGINT},
+      </if>
+      <if test="addtimes != null" >
+        #{addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetimes != null" >
+        #{updatetimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="resourcecode != null" >
+        #{resourcecode,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dogpro.domain.model.MessageMediaExample" resultType="java.lang.Integer" >
+    select count(*) from MessageMedia
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update MessageMedia
+    <set >
+      <if test="record.msgmediaid != null" >
+        msgMediaId = #{record.msgmediaid,jdbcType=BIGINT},
+      </if>
+      <if test="record.uploadtimes != null" >
+        uploadTimes = #{record.uploadtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.userid != null" >
+        userId = #{record.userid,jdbcType=BIGINT},
+      </if>
+      <if test="record.mediatype != null" >
+        mediaType = #{record.mediatype,jdbcType=INTEGER},
+      </if>
+      <if test="record.mediaurl != null" >
+        mediaUrl = #{record.mediaurl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.messageid != null" >
+        messageId = #{record.messageid,jdbcType=BIGINT},
+      </if>
+      <if test="record.addtimes != null" >
+        addTimes = #{record.addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetimes != null" >
+        updateTimes = #{record.updatetimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.resourcecode != null" >
+        resourceCode = #{record.resourcecode,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update MessageMedia
+    set msgMediaId = #{record.msgmediaid,jdbcType=BIGINT},
+      uploadTimes = #{record.uploadtimes,jdbcType=TIMESTAMP},
+      userId = #{record.userid,jdbcType=BIGINT},
+      mediaType = #{record.mediatype,jdbcType=INTEGER},
+      mediaUrl = #{record.mediaurl,jdbcType=VARCHAR},
+      messageId = #{record.messageid,jdbcType=BIGINT},
+      addTimes = #{record.addtimes,jdbcType=TIMESTAMP},
+      updateTimes = #{record.updatetimes,jdbcType=TIMESTAMP},
+      resourceCode = #{record.resourcecode,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dogpro.domain.model.MessageMedia" >
+    update MessageMedia
+    <set >
+      <if test="uploadtimes != null" >
+        uploadTimes = #{uploadtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userid != null" >
+        userId = #{userid,jdbcType=BIGINT},
+      </if>
+      <if test="mediatype != null" >
+        mediaType = #{mediatype,jdbcType=INTEGER},
+      </if>
+      <if test="mediaurl != null" >
+        mediaUrl = #{mediaurl,jdbcType=VARCHAR},
+      </if>
+      <if test="messageid != null" >
+        messageId = #{messageid,jdbcType=BIGINT},
+      </if>
+      <if test="addtimes != null" >
+        addTimes = #{addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetimes != null" >
+        updateTimes = #{updatetimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="resourcecode != null" >
+        resourceCode = #{resourcecode,jdbcType=BIGINT},
+      </if>
+    </set>
+    where msgMediaId = #{msgmediaid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dogpro.domain.model.MessageMedia" >
+    update MessageMedia
+    set uploadTimes = #{uploadtimes,jdbcType=TIMESTAMP},
+      userId = #{userid,jdbcType=BIGINT},
+      mediaType = #{mediatype,jdbcType=INTEGER},
+      mediaUrl = #{mediaurl,jdbcType=VARCHAR},
+      messageId = #{messageid,jdbcType=BIGINT},
+      addTimes = #{addtimes,jdbcType=TIMESTAMP},
+      updateTimes = #{updatetimes,jdbcType=TIMESTAMP},
+      resourceCode = #{resourcecode,jdbcType=BIGINT}
+    where msgMediaId = #{msgmediaid,jdbcType=BIGINT}
+  </update>
+</mapper>

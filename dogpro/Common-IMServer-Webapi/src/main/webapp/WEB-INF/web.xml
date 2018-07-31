@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	id="schedule-console" version="3.0">
+	<display-name>Archetype Created Web Application</display-name>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:spring.xml,classpath:spring-mybatis.xml,classpath:spring-APNS-ios.xml</param-value>
+	</context-param>
+
+
+	<filter>
+		<description>字符集过滤器</description>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<description>字符集编码</description>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+			<!-- 强制进行转码 -->
+		</init-param>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+
+
+
+
+
+	<listener>
+		<description>spring监听器</description>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener>
+
+	<servlet>
+		<description>spring mvc servlet</description>
+		<servlet-name>springMvc</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<description>spring mvc 配置文件</description>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:spring-mvc.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>springMvc</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	<error-page>
+		<exception-type>java.lang.Exception</exception-type>
+		<location>/WEB-INF/view/error.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/WEB-INF/view/error.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/view/404.jsp</location>
+	</error-page>
+	<session-config>
+		<session-timeout>15</session-timeout>
+	</session-config>
+
+	<listener>
+		<listener-class>com.dogpro.common.tool.SpringInit</listener-class>
+	</listener>
+	<!-- 全局代理 -->
+	<listener>
+		<listener-class>com.dogpro.service.listener.ProxyListener</listener-class>
+	</listener>
+	<!-- MQTT  IM -->
+	<listener>         
+           <listener-class>com.imserver.listener.MQTTIMListener</listener-class>
+    </listener>
+    <!-- MQTT  上线  遗嘱 -->
+	<listener>         
+           <listener-class>com.imserver.listener.MQTTOnlineListener</listener-class>
+    </listener>
+     <!-- Redis读取在线用户集合  记录Redis队列 -->
+	<listener>         
+           <listener-class>com.imserver.listener.OnlineRecordListener</listener-class>
+    </listener>
+    
+    <!-- 读取Redis 推送信息队列  处理推送 -->
+    <listener>         
+           <listener-class>com.imserver.listener.PushListener</listener-class>
+    </listener>
+	
+	<!-- 每分钟 读取一次Redis遛狗记录  判断加入群组12小时  判断结束遛狗3小时 -->
+	<listener>         
+           <listener-class>com.dogpro.service.listener.ExitGroupListener</listener-class>
+    </listener>
+    
+    <!-- 读取Lucene 队列属性  修改索引文件 -->
+	<listener>
+		<listener-class>com.dogpro.service.listener.LuceneListener</listener-class>
+	</listener>
+	
+	<!-- 写数据库 -->
+	<!-- IM信息记录入数据库   离线时间入数据库 -->
+	<listener>         
+           <listener-class>com.imserver.listener.MQTTdbListener</listener-class>
+    </listener>
+    
+    <!-- 用户推送标识记录 入数据库    推送信息记录入数据库 -->
+    <listener>         
+           <listener-class>com.imserver.listener.PushdbListener</listener-class>
+    </listener>
+    
+    <!-- 用户遛狗轨迹 记录  入数据库 -->
+    <listener>
+	<listener-class>com.dogpro.service.listener.RedisdbListener</listener-class>
+</listener>
+	
+	
+	 <context-param>
+		<param-name>webAppRootKey</param-name>
+		<param-value>webapp.Common-IMServer-Webapi</param-value>
+</context-param>
+	
+</web-app>

@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>dogpro</groupId>
+    <artifactId>dogpro</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <groupId>dogpro</groupId>
+  <artifactId>dogpro-admin</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+  <name>dogpro-admin Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+  
+
+<dependencies>
+   
+	<dependency>
+		<groupId>dogpro</groupId>
+		<artifactId>dogpro-common</artifactId>
+		<version>${project.version}</version>
+    </dependency>
+    
+    
+    <dependency>
+		<groupId>dogpro</groupId>
+		<artifactId>dogpro-dao</artifactId>
+		<version>${project.version}</version>
+    </dependency>
+    
+    
+     <dependency>
+		<groupId>dogpro</groupId>
+		<artifactId>dogpro-domain</artifactId>
+		<version>${project.version}</version>
+    </dependency>
+    
+    
+    
+    <dependency>
+		<groupId>dogpro</groupId>
+		<artifactId>dogpro-service</artifactId>
+		<version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    
+      </dependencies>
+ <build>
+    <finalName>dogpro-admin</finalName>
+    <plugins>  
+            <plugin>  
+                <groupId>org.apache.maven.plugins</groupId>  
+                <artifactId>maven-compiler-plugin</artifactId>  
+                <version>2.3.2</version>  
+                <configuration>  
+                    <source>1.7</source>  
+                    <target>1.7</target>  
+                </configuration>  
+            </plugin>  
+        </plugins>
+  </build>
+</project>

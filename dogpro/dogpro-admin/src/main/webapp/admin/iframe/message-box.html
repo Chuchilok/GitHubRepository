@@ -1,0 +1,86 @@
+<!-- 消息管理 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/easyui-perfect.css">
+    <link rel="stylesheet" href="../css/icon.css">
+    <link rel="stylesheet" href="../css/user.css">
+</head>
+<body>
+
+<table id="tb1"></table>
+
+<script src="../js/jquery-1.9.1.min.js"></script>
+<script src="../js/jQuery-EasyUI-1.5.2.min.js"></script>
+<script src="../js/jsonUrl.js?v1"></script>
+<script src="../js/easyui-lang-zh_CN.js"></script>
+<script src="../js/dataGridTemplete.js"></script>
+<script>
+    var url;
+    /////////////////////默认加载//////////////////
+    $(function () {
+        //消息管理
+        var params = "{'action': 'AdminService','module': 'getAllMsg'," +
+            "'paras': {'pageNO':'0','token':'"+token+"','pageSize':'5','adminUserId':'"+userId+"'}}";//参数
+        var columns = [[
+            {field: 'messageId', title: '消息Id', width: 150},
+            {field: 'senduserId', title: '发送方userId', width: 150},
+            {field: 'sendNickname', title: '发送方昵称', width: 150},
+            {field: 'acceptuserId', title: '接收方userId', width: 150},
+            {field: 'acceptNickName', title: '接收方昵称', width: 150},
+            {
+                field: 'type', title: '消息类型', width: 150, formatter: function (value, row, index) {
+                if (row.type == 1) {
+                    return '好友请求'
+                } else if (row.type == 2) {
+                    return '好友请求回复'
+                } else if (row.type == 3) {
+                    return '好友文本消息'
+                }
+                else if (row.type == 4) {
+                    return '好友图片信息'
+                } else if (row.type == 5) {
+                    return '好友视频信息'
+                } else if (row.type == 6) {
+                    return '好友定位信息'
+                }
+                else if (row.type == 7) {
+                    return '群信息'
+                } else if (row.type == 8) {
+                    return '群视频信息 '
+                } else if (row.type == 9) {
+                    return '群图片信息 '
+                }
+                return 0;
+            }
+            },
+            {field: 'acceptTimes', title: '接收时间', width: 150},
+            {
+                field: 'state', title: '状态', width: 150, formatter: function (value, row, index) {
+                if (row.state == 0) {
+                    return '未处理'
+                } else if (row.state == 1) {
+                    return '已读'
+                } else if (row.state == 2) {
+                    return '已处理'
+                }
+                else if (row.state == 3) {
+                    return '发送中'
+                } else if (row.state == 4) {
+                    return '发送失败'
+                }
+                return 0;
+            }
+            },
+            {field: 'source', title: '消息来源', width: 150},
+            {field: 'addTimes', title: '数据添加时间', width: 250},
+            {field: 'content', title: '消息体', width: 150},
+        ]];//字段
+        initDataGrid($("#tb1"), params, '#toolbar', '消息管理', '/dogpro-Webapi/UsercenterApi/ApivDataGrid.do', columns, '1000');
+    })
+</script>
+</body>
+</html>

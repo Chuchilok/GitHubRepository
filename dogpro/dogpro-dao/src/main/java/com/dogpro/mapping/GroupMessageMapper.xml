@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dogpro.dao.GroupMessageMapper" >
+  <resultMap id="BaseResultMap" type="com.dogpro.domain.model.GroupMessage" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="sendUserId" property="senduserid" jdbcType="BIGINT" />
+    <result column="acceptUserId" property="acceptuserid" jdbcType="BIGINT" />
+    <result column="locationId" property="locationid" jdbcType="BIGINT" />
+    <result column="acceptTimes" property="accepttimes" jdbcType="TIMESTAMP" />
+    <result column="acceptLongitude" property="acceptlongitude" jdbcType="REAL" />
+    <result column="acceptLatitude" property="acceptlatitude" jdbcType="REAL" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="keyss" property="keyss" jdbcType="BIGINT" />
+    <result column="addTimes" property="addtimes" jdbcType="TIMESTAMP" />
+    <result column="updateTimes" property="updatetimes" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.dogpro.domain.model.GroupMessage" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, sendUserId, acceptUserId, locationId, acceptTimes, acceptLongitude, acceptLatitude, 
+    state, type, keyss, addTimes, updateTimes
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.dogpro.domain.model.GroupMessageExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from GroupMessage
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dogpro.domain.model.GroupMessageExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from GroupMessage
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="pagination != null" >
+      limit #{pagination.begin} , #{pagination.length}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from GroupMessage
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from GroupMessage
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dogpro.domain.model.GroupMessageExample" >
+    delete from GroupMessage
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dogpro.domain.model.GroupMessage" >
+    insert into GroupMessage (ID, sendUserId, acceptUserId, 
+      locationId, acceptTimes, acceptLongitude, 
+      acceptLatitude, state, type, 
+      keyss, addTimes, updateTimes, 
+      content)
+    values (#{id,jdbcType=BIGINT}, #{senduserid,jdbcType=BIGINT}, #{acceptuserid,jdbcType=BIGINT}, 
+      #{locationid,jdbcType=BIGINT}, #{accepttimes,jdbcType=TIMESTAMP}, #{acceptlongitude,jdbcType=REAL}, 
+      #{acceptlatitude,jdbcType=REAL}, #{state,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
+      #{keyss,jdbcType=BIGINT}, #{addtimes,jdbcType=TIMESTAMP}, #{updatetimes,jdbcType=TIMESTAMP}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dogpro.domain.model.GroupMessage" >
+    insert into GroupMessage
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="senduserid != null" >
+        sendUserId,
+      </if>
+      <if test="acceptuserid != null" >
+        acceptUserId,
+      </if>
+      <if test="locationid != null" >
+        locationId,
+      </if>
+      <if test="accepttimes != null" >
+        acceptTimes,
+      </if>
+      <if test="acceptlongitude != null" >
+        acceptLongitude,
+      </if>
+      <if test="acceptlatitude != null" >
+        acceptLatitude,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="keyss != null" >
+        keyss,
+      </if>
+      <if test="addtimes != null" >
+        addTimes,
+      </if>
+      <if test="updatetimes != null" >
+        updateTimes,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="senduserid != null" >
+        #{senduserid,jdbcType=BIGINT},
+      </if>
+      <if test="acceptuserid != null" >
+        #{acceptuserid,jdbcType=BIGINT},
+      </if>
+      <if test="locationid != null" >
+        #{locationid,jdbcType=BIGINT},
+      </if>
+      <if test="accepttimes != null" >
+        #{accepttimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="acceptlongitude != null" >
+        #{acceptlongitude,jdbcType=REAL},
+      </if>
+      <if test="acceptlatitude != null" >
+        #{acceptlatitude,jdbcType=REAL},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="keyss != null" >
+        #{keyss,jdbcType=BIGINT},
+      </if>
+      <if test="addtimes != null" >
+        #{addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetimes != null" >
+        #{updatetimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dogpro.domain.model.GroupMessageExample" resultType="java.lang.Integer" >
+    select count(*) from GroupMessage
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update GroupMessage
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.senduserid != null" >
+        sendUserId = #{record.senduserid,jdbcType=BIGINT},
+      </if>
+      <if test="record.acceptuserid != null" >
+        acceptUserId = #{record.acceptuserid,jdbcType=BIGINT},
+      </if>
+      <if test="record.locationid != null" >
+        locationId = #{record.locationid,jdbcType=BIGINT},
+      </if>
+      <if test="record.accepttimes != null" >
+        acceptTimes = #{record.accepttimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.acceptlongitude != null" >
+        acceptLongitude = #{record.acceptlongitude,jdbcType=REAL},
+      </if>
+      <if test="record.acceptlatitude != null" >
+        acceptLatitude = #{record.acceptlatitude,jdbcType=REAL},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.keyss != null" >
+        keyss = #{record.keyss,jdbcType=BIGINT},
+      </if>
+      <if test="record.addtimes != null" >
+        addTimes = #{record.addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetimes != null" >
+        updateTimes = #{record.updatetimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update GroupMessage
+    set ID = #{record.id,jdbcType=BIGINT},
+      sendUserId = #{record.senduserid,jdbcType=BIGINT},
+      acceptUserId = #{record.acceptuserid,jdbcType=BIGINT},
+      locationId = #{record.locationid,jdbcType=BIGINT},
+      acceptTimes = #{record.accepttimes,jdbcType=TIMESTAMP},
+      acceptLongitude = #{record.acceptlongitude,jdbcType=REAL},
+      acceptLatitude = #{record.acceptlatitude,jdbcType=REAL},
+      state = #{record.state,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER},
+      keyss = #{record.keyss,jdbcType=BIGINT},
+      addTimes = #{record.addtimes,jdbcType=TIMESTAMP},
+      updateTimes = #{record.updatetimes,jdbcType=TIMESTAMP},
+      content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update GroupMessage
+    set ID = #{record.id,jdbcType=BIGINT},
+      sendUserId = #{record.senduserid,jdbcType=BIGINT},
+      acceptUserId = #{record.acceptuserid,jdbcType=BIGINT},
+      locationId = #{record.locationid,jdbcType=BIGINT},
+      acceptTimes = #{record.accepttimes,jdbcType=TIMESTAMP},
+      acceptLongitude = #{record.acceptlongitude,jdbcType=REAL},
+      acceptLatitude = #{record.acceptlatitude,jdbcType=REAL},
+      state = #{record.state,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER},
+      keyss = #{record.keyss,jdbcType=BIGINT},
+      addTimes = #{record.addtimes,jdbcType=TIMESTAMP},
+      updateTimes = #{record.updatetimes,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dogpro.domain.model.GroupMessage" >
+    update GroupMessage
+    <set >
+      <if test="senduserid != null" >
+        sendUserId = #{senduserid,jdbcType=BIGINT},
+      </if>
+      <if test="acceptuserid != null" >
+        acceptUserId = #{acceptuserid,jdbcType=BIGINT},
+      </if>
+      <if test="locationid != null" >
+        locationId = #{locationid,jdbcType=BIGINT},
+      </if>
+      <if test="accepttimes != null" >
+        acceptTimes = #{accepttimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="acceptlongitude != null" >
+        acceptLongitude = #{acceptlongitude,jdbcType=REAL},
+      </if>
+      <if test="acceptlatitude != null" >
+        acceptLatitude = #{acceptlatitude,jdbcType=REAL},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="keyss != null" >
+        keyss = #{keyss,jdbcType=BIGINT},
+      </if>
+      <if test="addtimes != null" >
+        addTimes = #{addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetimes != null" >
+        updateTimes = #{updatetimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.dogpro.domain.model.GroupMessage" >
+    update GroupMessage
+    set sendUserId = #{senduserid,jdbcType=BIGINT},
+      acceptUserId = #{acceptuserid,jdbcType=BIGINT},
+      locationId = #{locationid,jdbcType=BIGINT},
+      acceptTimes = #{accepttimes,jdbcType=TIMESTAMP},
+      acceptLongitude = #{acceptlongitude,jdbcType=REAL},
+      acceptLatitude = #{acceptlatitude,jdbcType=REAL},
+      state = #{state,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      keyss = #{keyss,jdbcType=BIGINT},
+      addTimes = #{addtimes,jdbcType=TIMESTAMP},
+      updateTimes = #{updatetimes,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dogpro.domain.model.GroupMessage" >
+    update GroupMessage
+    set sendUserId = #{senduserid,jdbcType=BIGINT},
+      acceptUserId = #{acceptuserid,jdbcType=BIGINT},
+      locationId = #{locationid,jdbcType=BIGINT},
+      acceptTimes = #{accepttimes,jdbcType=TIMESTAMP},
+      acceptLongitude = #{acceptlongitude,jdbcType=REAL},
+      acceptLatitude = #{acceptlatitude,jdbcType=REAL},
+      state = #{state,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      keyss = #{keyss,jdbcType=BIGINT},
+      addTimes = #{addtimes,jdbcType=TIMESTAMP},
+      updateTimes = #{updatetimes,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

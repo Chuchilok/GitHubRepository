@@ -1,0 +1,66 @@
+<a href="http://www.100sucai.com" style="display:none" >http://www.100sucai.com</a>
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]> <html class="lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]> <html class="lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Simple Toggle Switch</title>
+  <link rel="stylesheet" href="css/switchOnOff.css?v1">
+  <script src="js/jquery-1.9.1.min.js"></script>
+</head>
+<body>
+    <label class="switch">
+      <input type="checkbox" class="switch-input">
+      <span class="switch-label" data-on="On" data-off="Off"></span>
+      <span class="switch-handle"></span>
+    </label>
+
+    <label class="switch">
+      <input type="checkbox" class="switch-input" checked>
+      <span class="switch-label" data-on="On" data-off="Off"></span>
+      <span class="switch-handle"></span>
+    </label>
+
+    <label class="switch switch-green">
+      <input type="checkbox" class="switch-input" checked>
+      <span class="switch-label" data-on="On" data-off="Off"></span>
+      <span class="switch-handle"></span>
+    </label>
+<div class="msg">
+    <div class="msg_caption">
+        <button class="bigger" >放大</button>
+        <button class="smaller" >缩小</button>
+    </div>
+    <div>
+        <p id="paras" >
+        This is some text. This is some text. This is some text. This is some text. This
+        is some text. This is some text. This is some text. This is some text. This is some
+        text. This is some text. This is some text. This is some text. This is some text.
+        This is some text. This is some text. This is some text. This is some text. This
+        is some text. This is some text.
+        </p>
+        <input id="para" s="A" type="tel" value="123">
+    </div>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+$(function(){
+    $("button").click(function(){
+        var thisEle = $("#para").css("font-size"); 
+        var textFontSize = parseFloat(thisEle , 10);
+        var unit = thisEle.slice(-2); //获取单位
+        var cName = $(this).attr("class");
+        if(cName == "bigger"){
+                textFontSize += 2;
+        }else if(cName == "smaller"){
+                textFontSize -= 2;
+        }
+        //设置para的字体大小
+        $("[s="+'A'+"]").css("font-size",  textFontSize + unit );
+    });
+});
+</script>

@@ -1,0 +1,589 @@
+<!-- 遛狗组管理 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/easyui-perfect.css">
+    <link rel="stylesheet" href="../css/icon.css">
+    <link rel="stylesheet" href="../css/user.css">
+    <link rel="stylesheet" href="../css/pop-dialog-location.css">
+    <script type="text/javascript"
+            src="http://api.map.baidu.com/api?v=2.0&ak=F0i6SrLmHquLVNLCqpExxPrj8mWVdFwx"></script>
+    <!--加载鼠标绘制工具-->
+    <script src="../js/DrawingManager_min.js"></script>
+    <link rel="stylesheet" href="../css/DrawingManager_min.css">
+</head>
+<body>
+
+<div id="larImage-box">
+    <img id="larImage" src="">
+    <span class="close">×</span>
+</div>
+
+
+<table id="tb1"></table>
+
+<div id="dlg" class="easyui-dialog" style="width:400px"
+     closed="true" buttons="#dlg-buttons">
+    <form id="fm" method="post" novalidate style="margin:0;padding:20px 50px">
+        <!--<input type="hidden" value="" name="type" id="type">-->
+        <div style="margin-bottom:20px;font-size:14px;border-bottom:1px solid #ccc">版本信息</div>
+        <div style="margin-bottom:10px">
+            <input name="type" type="hidden" id="handleType">
+            <input name="dogLocationId" type="hidden" id="dogLocationId">
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="areaname" class="easyui-textbox" required="true" label="区域名：" style="width:100%">
+        </div>
+
+        <div style="margin-bottom:10px">
+            <input name="addressalias" class="easyui-textbox" required="true" label="地点别名：" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="provinces" class="easyui-textbox" required="true" label="省：" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+          <input name="municipalities" class="easyui-textbox" required="true" label="市：" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+          <input name="districts" class="easyui-textbox" required="true" label="区：" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+          <input name="townstreet" class="easyui-textbox" required="true" label="街道：" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+          <input name="perimeter" class="easyui-textbox" required="true" label="周边几公里：" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+          <input name="longitude" class="easyui-textbox" required="true" label="经度：" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+          <input name="latitude" class="easyui-textbox" required="true" label="纬度：" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+          <input name="hot" class="easyui-textbox" required="true" label="热度：" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+          <input name="orders" class="easyui-textbox" required="true" label="排序号：" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+          <input name="locationpic" id="locationpic" type="hidden">
+        </div>
+    </form>
+    <form name="uploadForm" id="uploadForm"  enctype="multipart/form-data" method="post">
+    	<input type="file" name="file">
+    	<input type="hidden" name="adminUserId" id="adminUserId" >
+    	<input type="hidden" name="token" id="token" >
+    </form>
+</div>
+<div id="dlg-buttons">
+    <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveUserAndPic()" style="width:90px">Save</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel"
+       onclick="javascript:$('#dlg').dialog('close')" style="width:90px">Cancel</a>
+</div>
+<div id="toolbar">
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">增加</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">编辑</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true"
+       onclick="destroyUser()">删除</a>
+       <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true"
+       id="importExcelClick">导入Excel文件</a>
+</div>
+<div id="importExcel" class="easyui-dialog" style="width:400px"
+     closed="true" buttons="#importExcel-buttons">
+    <form name="importExcelForm" id="importExcelForm"  enctype="multipart/form-data" method="post">
+        <div style="margin-bottom:10px">
+          	<label>下载导入模版：</label>
+          	<a href="/dogpro-admin/DogLocationTemp.xlsx">遛狗地点导入模版</a>
+        </div>
+    	<input type="file" name="file" style="width:100%" label="选择文件：">
+    	<input type="hidden" name="importUserId" id="importExcelAdminUserId" >
+    	<input type="hidden" name="importToken" id="importExcelToken" >
+    </form>
+</div>
+<div id="importExcel-buttons">
+    <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="uploadExcel()" style="width:90px">导入</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel"
+       onclick="javascript:$('#importExcel').dialog('close')" style="width:90px">关闭</a>
+</div>
+
+
+<!-----------------弹出窗口------------------>
+<div class="hidden-bg" style="display: none">
+    <div>
+        <div id="map-result">
+            <input type="button" value="清除所有覆盖物" onclick="clearAll()"/>
+            <input type="button" value="保存图形" onclick="getPoint()"/>
+            <input type="button" value="开启线、面编辑功能" onclick="Editing('enable')"/>
+            <input type="button" value="关闭线、面编辑功能" onclick="Editing('disable')"/>
+            <input type="button" id="showArea" value="显示原有多边形" onclick="showPolygon(this)"/>
+            <input type="button" value="画多边形" onclick="draw(BMAP_DRAWING_POLYGON)"/>
+            <p>提示 : 点击画多边形，右键开始绘画，双击停止绘画</p>
+        </div>
+        <div class="hidden-dialog">
+            <div id="hidden-dialog-map">
+            </div>
+            <i class="close"></i>
+        </div>
+    </div>
+</div>
+
+<script src="../js/jquery-1.9.1.min.js"></script>
+<script src="../js/jQuery-EasyUI-1.5.2.min.js"></script>
+<script src="../js/jsonUrl.js?v1"></script>
+<script src="../js/easyui-lang-zh_CN.js"></script>
+<script src="../js/dataGridTemplete.js"></script>
+<script src="../js/serializeJSON.js"></script>
+<script>
+$(function(){
+	//打开导入表格上传 dialog
+	$("#importExcelClick").click(function(){
+		$('#importExcel').dialog('open').dialog('center').dialog('setTitle', '导入遛狗地点');
+		$("#importExcelAdminUserId").val(userId);
+		$("#importExcelToken").val(token);
+	});
+	
+})
+function uploadExcel(){
+    var formData = new FormData($( "#importExcelForm" )[0]);
+    $.ajax({
+        url: '/dogpro-admin/SystemAdminApi/importExcel' ,
+        type: 'POST',
+        data: formData,
+        async: false,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (data) {
+        	if(data.code == 200){//成功请求
+        		$.messager.alert('提示信息', data.message +"<br>成功导入："+data.result, 'info');
+        		$('#importExcel').dialog('close')
+        	}
+        },
+        error: function (data) {
+        	
+        	$.messager.alert('操作提示', '获取信息失败...请联系管理员!', 'error');
+        }
+    });
+	
+}
+function saveUserAndPic() {
+	$("#adminUserId").val(userId);
+	$("#token").val(token);
+    var formData = new FormData($( "#uploadForm" )[0]);
+	//locationpic
+	
+	$.ajax({
+        url: '/dogpro-admin/SystemAdminApi/uploadPic' ,
+        type: 'POST',
+        data: formData,
+        async: false,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (returndata) {
+        	$("#locationpic").val(returndata.result.image);
+        	console.log($("#locationpic").val())
+            var a = $("#fm").serializeJSON();//Object对象
+            a.token = token;
+            a.adminUserId = userId;
+            var p = eval('(' + params + ')');//转为object对象
+            p.paras = a;
+            p = JSON.stringify(p);
+            $.ajax({
+                url: jsonUrl,
+                type: "get",
+                dataType: "jsonp",
+                jsonp: "callback", //服务端用于接收callback调用的function名的参数
+                jsonpCallback: "success_jsonpCallback", //callback的function名称,服务端会把名称和data一起传递回来
+                data: {params: p},
+                success: function (data) {
+                    console.log(data);
+                    if (data.value.state == 'success') {
+                        $.messager.alert('提示信息', '操作成功', 'info');//error、question、info、warning。
+                        $('#dlg').dialog('close');
+                        $(".pagination-load").click();
+                    } else {
+                        $.messager.alert('错误', '操作失败', 'error');
+                        $('#dlg').dialog('close');
+                    }
+                },
+                error: function (err) {
+                    $.messager.alert('操作提示', '获取信息失败...请联系管理员!', 'error');
+                    doc.datagrid("loaded"); //移除屏蔽
+                }
+            });
+        },
+        error: function (returndata) {
+        }
+   });
+}
+    /////////////////////遛狗地点/////////////////////
+     function newUser() {
+        var row = $('#tb1').datagrid('getSelected');
+
+        $('#dlg').dialog('open').dialog('center').dialog('setTitle', '增加遛狗地点');
+        $('#fm').form('clear');
+        $('#uploadForm').form('clear');
+        //params是全局
+        params = `{
+            "module":"addLocation",
+            "action":"AdminService"
+        }`;//新增
+        /*
+        locationPic	String	遛狗地点图片url（不带ip端口） */
+    }
+
+    function editUser() {
+        var row = $('#tb1').datagrid('getSelected');
+		$("#dogLocationId").val(row.dogLocationId);
+        if (row) {
+            $('#dlg').dialog('open').dialog('center').dialog('setTitle', '编辑遛狗地点');
+            $('#uploadForm').form('clear');
+            $('#fm').form('load', row);
+        }
+        params = `{
+            "module":"alterLocation",
+            "action":"AdminService"
+        }`;//
+       /*
+        locationPic（新增）	String	遛狗地点图片url（不带ip端口） */
+    }
+
+    function destroyUser() {
+        $.messager.confirm('Confirm', '确定要删除?', function (r) {
+            if (r) {
+                var row = $('#tb1').datagrid('getSelected');//获取当前行
+
+                params = `{
+                    "module":"deleteLocation",
+                    "action":"AdminService",
+                    "paras":{
+                        "adminUserId":${userId},
+                        "locationId":${row.dogLocationId},
+                        "token":"${token}"
+                    }
+                }`;//新增样本
+                $.ajax({
+                    url: jsonUrl,
+                    type: "get",
+                    dataType: "jsonp",
+                    jsonp: "callback", //服务端用于接收callback调用的function名的参数
+                    jsonpCallback: "success_jsonpCallback", //callback的function名称,服务端会把名称和data一起传递回来
+                    data: {params: params},
+                    success: function (data) {
+                        console.log(data);
+                        if (data.value.state == 'success') {
+                            $.messager.alert('提示信息', '操作成功', 'info');//error、question、info、warning。
+                            $('#dlg').dialog('close');
+                            $(".pagination-load").click();
+                        } else {
+                            $.messager.alert('错误', '操作失败', 'error');
+                            $('#dlg').dialog('close');
+                        }
+                    },
+                    error: function (err) {
+                        $.messager.alert('操作提示', '获取信息失败...请联系管理员!', 'error');
+                        doc.datagrid("loaded"); //移除屏蔽
+                    }
+                });
+            }
+        });
+
+    }
+    
+    
+    
+    
+    //    $('.hidden-bg').fadeIn();
+    $(function () {
+        var params = `{
+            "module":"locationList",
+            "action":"AdminService",
+            "paras":{
+                "adminUserId":${userId},
+                "pageNO":"0",
+                "pageSize":"5",
+                "token":"${token}"
+                }
+        }`;//参数
+       /* 
+        private String locationpic; */
+        var columns = [[
+            {field: 'dogLocationId', title: '遛狗地点Id', width: 100},
+            {field: 'areaname', title: '区域名', width: 250},
+            {field: 'addressalias', title: '地点别名', width: 250},
+            {field: 'provinces', title: '省', width: 150},
+            {field: 'municipalities', title: '市', width: 150},
+            {field: 'districts', title: '区', width: 150},
+            {field: 'townstreet', title: '街道', width: 200},
+            {field: 'longitude', title: '经度', width: 150},
+            {field: 'latitude', title: '纬度', width: 150},
+            {field: 'creatoruserid', title: '建地uid', width: 100},
+            {field: 'perimeter', title: '周边几公里', width: 100},
+            {field: 'hot', title: '热度', width: 100},
+            {field: 'orders', title: '排序号', width: 100},
+            {field: 'state', title: '状态', width: 100},// 1/0 未删除/已删除
+            {
+                field: 'locationpic', title: '图片', width: 100,
+                formatter: function (value, row, index) {
+                	var locationpic = row.locationpic;
+                	var url = picUrl + locationpic;
+                    return `<span data-url="${url}" alt="图片" class="larImg">点击弹出图片</span>`;
+                   
+                }
+            },
+            {
+                field: 'detail', title: '区域范围', width: 150,
+                formatter: function (value, row, index) {
+                    return `<a href="javascript:areaSpace(${row.dogLocationId},${row.longitude},${row.latitude})">点击详情</a>`;
+                }
+            },
+        ]];//字段
+        initDataGrid($("#tb1"), params, '#toolbar', '遛狗地点', '/dogpro-Webapi/UsercenterApi/ApivDataGrid.do', columns, '1100');
+    });
+    var delParams;
+    $("#del").click(function () {
+        var row = $("#tb1").datagrid("getSelected");
+        delParams = `{
+            "module":"deleteLocation",
+            "action":"AdminService",
+            "paras":{
+                "adminUserId":${userId},
+                "locationId":${row.dogLocationId},
+                "token":"${token}"
+            }
+        }`;
+    });
+
+    ///////////////////////////////////////////地图描点功能开始/////////////////////////////////////
+
+    var map = new BMap.Map('hidden-dialog-map', {enableMapClick: false});
+
+    var overlays = [];
+    var overlaycomplete = function (e) {
+        overlays.push(e.overlay);
+    };
+    var styleOptions = {
+        strokeColor: "red",    //边线颜色。
+        fillColor: "red",      //填充颜色。当参数为空时，圆形将没有填充效果。
+        strokeWeight: 3,       //边线的宽度，以像素为单位。
+        strokeOpacity: 0.8,    //边线透明度，取值范围0 - 1。
+        fillOpacity: 0.6,      //填充的透明度，取值范围0 - 1。
+        strokeStyle: 'solid' //边线的样式，solid或dashed。
+    };
+    map.enableScrollWheelZoom(); //鼠标滚轮缩放功能
+
+
+    //实例化鼠标绘制工具
+    var drawingManager = new BMapLib.DrawingManager(map, {
+        isOpen: false, //是否开启绘制模式
+        //enableDrawingTool: true, //是否显示工具栏
+        drawingToolOptions: {
+            anchor: BMAP_ANCHOR_TOP_RIGHT, //位置
+            offset: new BMap.Size(5, 5), //偏离值
+        },
+        circleOptions: styleOptions, //圆的样式
+        polylineOptions: styleOptions, //线的样式
+        polygonOptions: styleOptions, //多边形的样式
+        rectangleOptions: styleOptions //矩形的样式
+    });
+
+    //添加鼠标绘制工具监听事件，用于获取绘制结果
+    drawingManager.addEventListener('overlaycomplete', overlaycomplete);
+
+    function draw(type) {
+        drawingManager.open();
+        drawingManager.setDrawingMode(type);
+    }
+
+    function clearAll() {
+        for (var i = 0; i < overlays.length; i++) {
+            map.removeOverlay(overlays[i]);
+        }
+        overlays.length = 0;
+    }
+
+    function getPoint() {
+        var coordinateAll = '';
+        if (overlays.length == 0) {
+//            $.messager.alert('操作提示', '不能保存空图形，操作失败！', 'error');
+            isNull = 0;
+        } else {
+            var overlay = overlays[0].getPath();
+            for (var j = 0; j < overlay.length; j++) {
+                coordinateAll += overlay[j].lng + ',' + overlay[j].lat + '|';
+            }
+            coordinateAll += overlay[0].lng + ',' + overlay[0].lat;
+        }
+
+        ///////////////////////打开图形异步请求//////////////////////////
+        if (isNull == 1) {
+            var module = "addDogLocationAreaSpace";
+        } else {
+            var module = "modifyDogLocationAreaSpace";
+        }
+
+
+        var params = ` {
+            "module": "${module}",
+            "action":"AdminService",
+            "paras": {
+                "adminUserId":${userId},
+                "dogLocationId":"${dogLocationId}",
+                "ploygonStr":"${coordinateAll}",
+                "token":"${token}"
+                }
+            }`;//参数
+        $.ajax({
+            url: jsonUrl,
+            type: "get",
+            dataType: "jsonp",
+            jsonp: "callback", //服务端用于接收callback调用的function名的参数
+            jsonpCallback: "success_jsonpCallback", //callback的function名称,服务端会把名称和data一起传递回来
+            data: {params: params},
+            success: function (data) {
+                console.log(data)
+                $.messager.alert('操作提示', '提交数据成功!', 'info');
+            },
+            error: function (err) {
+                $.messager.alert('操作提示', '获取信息失败...请联系管理员!', 'error');
+                doc.datagrid("loaded"); //移除屏蔽
+            }
+        });
+
+    }
+	function showPic(url){
+		
+		
+		console.log($(url));
+		
+		//$.messager.alert('操作提示', url, 'info');//
+	}
+	
+	
+    function Editing(state) {
+        for (var i = 0; i < overlays.length; i++) {
+            state == 'enable' ? overlays[i].enableEditing() : overlays[i].disableEditing();
+        }
+    }
+
+    function showPolygon(btn) {
+        clearAll();
+        var polygon = new BMap.Polygon(polygonArray, styleOptions);  //创建多边形
+        map.addOverlay(polygon);   //增加多边形
+        overlays.push(polygon); //是否把该图像加入到编辑和删除行列
+    }
+
+    var polygonArray = [];//存放原有地图坐标
+
+    var isNull = 0;
+
+    
+    
+    
+    
+    
+    
+    ///////////////////////点开详情异步请求//////////////////////////
+
+    function areaSpace(id, lng, lat) {
+        dogLocationId = id;
+        var lngCenter = lng;
+        var latCenter = lat;
+        $('.hidden-bg').fadeIn();
+        var params = `{
+                "module":"findDogLocationAreaSpace",
+                "action":"AdminService",
+                "paras": {
+                    "adminUserId":${userId},
+                    "dogLocationId":${dogLocationId},
+                    "token":"${token}"
+                }
+            }`;//参数
+        $.ajax({
+            url: jsonUrl,
+            type: "get",
+            dataType: "jsonp",
+            jsonp: "callback", //服务端用于接收callback调用的function名的参数
+            jsonpCallback: "success_jsonpCallback", //callback的function名称,服务端会把名称和data一起传递回来
+            data: {params: params},
+            success: function (data) {
+                map = new BMap.Map('hidden-dialog-map', {enableMapClick: false});
+                map.enableScrollWheelZoom(); //鼠标滚轮缩放功能
+                map.centerAndZoom(new BMap.Point(lngCenter, latCenter), 16);//创建大致空间
+//                map.addControl(new BMap.NavigationControl());               // 添加平移缩放控件
+//                map.addControl(new BMap.ScaleControl());                    // 添加比例尺控件
+//                map.addControl(new BMap.OverviewMapControl());              //添加缩略地图控件
+                if (data.value.result == null) {
+                    if (overlays.length > 0) {
+                        overlays.pop();
+                    }
+                    isNull = 1;
+                } else {
+                    isNull = 0;
+                    var dat = data.value.result;
+
+                    //////////显示又有图形////////////
+                    polygonArray = [];
+                    for (var i = 0; i < dat.length - 1; i++) {
+                        polygonArray.push(new BMap.Point(dat[i][0], dat[i][1]));
+                    }
+                    var polygon = new BMap.Polygon(polygonArray, styleOptions);  //创建多边形
+                    map.addOverlay(polygon);   //增加多边形
+                    if (overlays.length > 0) {
+                        overlays.pop();
+                    }
+                    overlays.push(polygon); //是否把该图像加入到编辑和删除行列
+                }
+
+                //实例化鼠标绘制工具
+                drawingManager = new BMapLib.DrawingManager(map, {
+                    isOpen: false, //是否开启绘制模式
+                    //enableDrawingTool: true, //是否显示工具栏
+                    drawingToolOptions: {
+                        anchor: BMAP_ANCHOR_TOP_RIGHT, //位置
+                        offset: new BMap.Size(5, 5), //偏离值
+                    },
+                    circleOptions: styleOptions, //圆的样式
+                    polylineOptions: styleOptions, //线的样式
+                    polygonOptions: styleOptions, //多边形的样式
+                    rectangleOptions: styleOptions //矩形的样式
+                });
+
+                //添加鼠标绘制工具监听事件，用于获取绘制结果
+                drawingManager.addEventListener('overlaycomplete', overlaycomplete);
+            },
+            error: function (err) {
+                $.messager.alert('操作提示', '获取信息失败...请联系管理员!', 'error');
+                doc.datagrid("loaded"); //移除屏蔽
+            }
+        });
+    }
+
+    $('.hidden-bg .close').click(function () {
+        $('.hidden-bg').fadeOut();
+    });
+	
+    
+    $('body').on('click','.larImg',function(){
+    	var url = $(this).attr('data-url');
+    	$('#larImage-box img').attr('src', url);
+	    $('#larImage-box').fadeIn();
+    })
+    
+    ////////// 图片放大缩小开始//////////
+	$('#larImage-box .close').click(function () {
+	    $(this).parent().fadeOut();
+	})
+	////////// 图片放大缩小结束//////////
+
+</script>
+</body>
+</html>
+
+
+
+

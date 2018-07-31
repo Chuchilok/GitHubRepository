@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>dogpro</groupId>
+    <artifactId>dogpro</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <groupId>dogpro</groupId>
+  <artifactId>Common-IMServer</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>Common-IMServer</name>
+  <url>http://maven.apache.org</url>
+  <properties>
+  <maven.compiler.target>1.7</maven.compiler.target>
+		<maven.compiler.source>1.7</maven.compiler.source>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<logback.version>1.0.13</logback.version>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+	<dependency>
+		<groupId>dogpro</groupId>
+		<artifactId>dogpro-common</artifactId>
+		<version>${project.version}</version>
+    </dependency>
+   
+	<dependency>  
+  <groupId>org.fusesource.mqtt-client</groupId>  
+  <artifactId>mqtt-client</artifactId>  
+  <version>1.10</version>   
+</dependency>  
+
+     <dependency>
+		<groupId>dogpro</groupId>
+		<artifactId>dogpro-domain</artifactId>
+		<version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+		<groupId>dogpro</groupId>
+		<artifactId>dogpro-dao</artifactId>
+		<version>${project.version}</version>
+    </dependency>
+
+   
+    <dependency>
+		<groupId>com.ibm.micro</groupId>
+		<artifactId>client.mqttv3</artifactId>
+		<version>1.0</version>
+    </dependency>
+    <!-- 2017-09-14许明诚添加的（始） -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.1</version>
+		</dependency>
+    	<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.1.39</version>
+		</dependency>
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-codec</artifactId>
+			<version>4.0.27.Final</version>
+		</dependency>
+				<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-handler</artifactId>
+			<version>4.0.27.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>1.7.5</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- <dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>log4j-over-slf4j</artifactId>
+			<version>1.7.5</version>
+			<scope>test</scope>
+		</dependency> -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+			<version>1.0.13</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.0.13</version>
+			<scope>test</scope>
+		</dependency>
+    <!-- 2017-09-14许明诚添加的  （完）-->
+    
+ <dependency>
+		<groupId>dogpro</groupId>
+		<artifactId>dogpro-service</artifactId>
+		<version>${project.version}</version>
+    </dependency>
+    
+  </dependencies>
+</project>

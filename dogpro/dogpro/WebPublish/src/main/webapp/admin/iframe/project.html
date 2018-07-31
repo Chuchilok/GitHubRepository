@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/project.css">
+    <link rel="stylesheet" href="../css/icon.css">
+    <link rel="stylesheet" href="../css/easyui-perfect.css">
+    <link rel="stylesheet" href="../css/pop-dialog.css">
+</head>
+<body>
+<ul id="btn-box">
+    <li><a href="javascript:;;" onclick="newUser()">New</a></li>
+    <!--<li><a href="javascript:;;" onclick="removeUser()">Remove</a></li>-->
+</ul>
+<div></div>
+<table class="altrowstable" id="alternatecolor">
+    <tr>
+        <th>项目ID</th>
+        <th>创建人</th>
+        <th>创建时间</th>
+        <th>项目名称</th>
+        <th>详情</th>
+    </tr>
+</table>
+
+<div id="dlg" class="easyui-dialog" style="width:400px"
+     closed="true" buttons="#dlg-buttons">
+    <form id="fm" method="post" novalidate style="margin:0;padding:20px 50px">
+        <div style="margin-bottom:20px;font-size:14px;border-bottom:1px solid #ccc">工作详情</div>
+        <div style="margin-bottom:10px">
+            <input name="projectName" class="easyui-textbox" required="true" label="项目名称：" style="width:100%">
+        </div>
+    </form>
+</div>
+<div id="dlg-buttons">
+    <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveUser()" style="width:90px">Save</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel"
+       onclick="javascript:$('#dlg').dialog('close')" style="width:90px">Cancel</a>
+</div>
+<!-----------------弹出窗口------------------>
+<div class="hidden-bg">
+    <div class="hidden-dialog">
+        <table id="tb"></table>
+        <i class="close"></i>
+    </div>
+</div>
+<div id="toolbar" style="display: none;">
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newVersion()">New
+        Version</a>
+    <!--<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true"-->
+       <!--onclick="destroyVersion()">Remove-->
+        <!--Version</a>-->
+</div>
+
+
+
+<div id="vdlg" class="easyui-dialog" style="width:400px"
+     closed="true" buttons="#vdlg-buttons">
+     
+     <div style="margin:0;padding:20px 50px">
+      <div style="margin-bottom:10px;font-size:14px;border-bottom:1px solid #ccc">版本详情</div>
+     <form id="upload_form" action="/UsercenterApi/Apiv3.do" method="post" enctype="multipart/form-data" target="nm_iframe">
+   			<input type="file" name="file" id="upload_file">
+ 			  <input type="hidden" name="userId" id="upload_userId" >
+			  <input type="hidden" name="token" id="upload_token">  
+   			<input type="submit" value="上传" class="submit"> 
+			</form>
+<iframe id="id_iframe" name="nm_iframe" style="display:none;"></iframe> 
+    <form id="vfm" method="post" novalidate style="margin-top:10px" >
+       
+        <div style="margin-bottom:10px">
+            <input name="versionNO" class="easyui-textbox" required="true" label="版本编号：" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="versionName" class="easyui-textbox" required="true" label="版本名：" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px" id="upload-box">
+        	<!-- 
+        	
+        	<input type="file" id="file_upload"/>
+            <input type="button" value="上传" id="upload" class="sub"/>
+        	
+             -->
+             
+            
+             
+            <div class="url-box" style="display: none;"><span>下载地址：</span><span class="upload-url"></span></div>
+        </div>
+        <div style="margin-bottom:20px" id="restart-box">
+            <span>是否重启：</span>
+            <label><input type="radio" name="restart" value="1" id="restart-on">是</label>
+            <label><input type="radio" name="restart" value="0">否</label>
+        </div>
+    </form>
+    </div>
+</div>
+<div id="vdlg-buttons">
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveVersion()" style="width:90px">Save</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel"
+       onclick="javascript:$('#vdlg').dialog('close')" style="width:90px">Cancel</a>
+</div>
+<script src="../js/jquery-1.8.2.min.js"></script>
+<script src="../js/jquery.form.js"></script>
+<script src="../js/jQuery-EasyUI-1.5.2.min.js"></script>
+<script src="../js/easyui-lang-zh_CN.js"></script>
+<script src="../js/WebPublish_jsonUrl.js"></script>
+<script src="../js/dataGridTemplete.js"></script>
+<script src="../js/serializeJSON.js"></script>
+<script src="../js/project.js"></script>
+</body>
+</html>

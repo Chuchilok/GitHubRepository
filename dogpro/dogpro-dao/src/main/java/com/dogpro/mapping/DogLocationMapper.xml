@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dogpro.dao.DogLocationMapper" >
+  <resultMap id="BaseResultMap" type="com.dogpro.domain.model.DogLocation" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="pid" property="pid" jdbcType="BIGINT" />
+    <result column="areaName" property="areaname" jdbcType="VARCHAR" />
+    <result column="addressAlias" property="addressalias" jdbcType="VARCHAR" />
+    <result column="provinces" property="provinces" jdbcType="VARCHAR" />
+    <result column="municipalities" property="municipalities" jdbcType="VARCHAR" />
+    <result column="districts" property="districts" jdbcType="VARCHAR" />
+    <result column="townStreet" property="townstreet" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="longitude" property="longitude" jdbcType="DECIMAL" />
+    <result column="latitude" property="latitude" jdbcType="DECIMAL" />
+    <result column="perimeter" property="perimeter" jdbcType="REAL" />
+    <result column="creatorUserId" property="creatoruserid" jdbcType="BIGINT" />
+    <result column="addTimes" property="addtimes" jdbcType="TIMESTAMP" />
+    <result column="updateTimes" property="updatetimes" jdbcType="TIMESTAMP" />
+    <result column="orders" property="orders" jdbcType="INTEGER" />
+    <result column="hot" property="hot" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="keyss" property="keyss" jdbcType="VARCHAR" />
+    <result column="locationPic" property="locationpic" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, pid, areaName, addressAlias, provinces, municipalities, districts, townStreet, 
+    address, longitude, latitude, perimeter, creatorUserId, addTimes, updateTimes, orders, 
+    hot, state, keyss, locationPic
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dogpro.domain.model.DogLocationExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from DogLocation
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="pagination != null" >
+      limit #{pagination.begin} , #{pagination.length}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from DogLocation
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from DogLocation
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dogpro.domain.model.DogLocationExample" >
+    delete from DogLocation
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dogpro.domain.model.DogLocation" >
+    insert into DogLocation (id, pid, areaName, 
+      addressAlias, provinces, municipalities, 
+      districts, townStreet, address, 
+      longitude, latitude, perimeter, 
+      creatorUserId, addTimes, updateTimes, 
+      orders, hot, state, 
+      keyss, locationPic)
+    values (#{id,jdbcType=BIGINT}, #{pid,jdbcType=BIGINT}, #{areaname,jdbcType=VARCHAR}, 
+      #{addressalias,jdbcType=VARCHAR}, #{provinces,jdbcType=VARCHAR}, #{municipalities,jdbcType=VARCHAR}, 
+      #{districts,jdbcType=VARCHAR}, #{townstreet,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{longitude,jdbcType=DECIMAL}, #{latitude,jdbcType=DECIMAL}, #{perimeter,jdbcType=REAL}, 
+      #{creatoruserid,jdbcType=BIGINT}, #{addtimes,jdbcType=TIMESTAMP}, #{updatetimes,jdbcType=TIMESTAMP}, 
+      #{orders,jdbcType=INTEGER}, #{hot,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, 
+      #{keyss,jdbcType=VARCHAR}, #{locationpic,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective"    keyProperty="id" useGeneratedKeys="true"  parameterType="com.dogpro.domain.model.DogLocation" >
+    insert into DogLocation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="pid != null" >
+        pid,
+      </if>
+      <if test="areaname != null" >
+        areaName,
+      </if>
+      <if test="addressalias != null" >
+        addressAlias,
+      </if>
+      <if test="provinces != null" >
+        provinces,
+      </if>
+      <if test="municipalities != null" >
+        municipalities,
+      </if>
+      <if test="districts != null" >
+        districts,
+      </if>
+      <if test="townstreet != null" >
+        townStreet,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="longitude != null" >
+        longitude,
+      </if>
+      <if test="latitude != null" >
+        latitude,
+      </if>
+      <if test="perimeter != null" >
+        perimeter,
+      </if>
+      <if test="creatoruserid != null" >
+        creatorUserId,
+      </if>
+      <if test="addtimes != null" >
+        addTimes,
+      </if>
+      <if test="updatetimes != null" >
+        updateTimes,
+      </if>
+      <if test="orders != null" >
+        orders,
+      </if>
+      <if test="hot != null" >
+        hot,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="keyss != null" >
+        keyss,
+      </if>
+      <if test="locationpic != null" >
+        locationPic,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="pid != null" >
+        #{pid,jdbcType=BIGINT},
+      </if>
+      <if test="areaname != null" >
+        #{areaname,jdbcType=VARCHAR},
+      </if>
+      <if test="addressalias != null" >
+        #{addressalias,jdbcType=VARCHAR},
+      </if>
+      <if test="provinces != null" >
+        #{provinces,jdbcType=VARCHAR},
+      </if>
+      <if test="municipalities != null" >
+        #{municipalities,jdbcType=VARCHAR},
+      </if>
+      <if test="districts != null" >
+        #{districts,jdbcType=VARCHAR},
+      </if>
+      <if test="townstreet != null" >
+        #{townstreet,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        #{longitude,jdbcType=DECIMAL},
+      </if>
+      <if test="latitude != null" >
+        #{latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="perimeter != null" >
+        #{perimeter,jdbcType=REAL},
+      </if>
+      <if test="creatoruserid != null" >
+        #{creatoruserid,jdbcType=BIGINT},
+      </if>
+      <if test="addtimes != null" >
+        #{addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetimes != null" >
+        #{updatetimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orders != null" >
+        #{orders,jdbcType=INTEGER},
+      </if>
+      <if test="hot != null" >
+        #{hot,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="keyss != null" >
+        #{keyss,jdbcType=VARCHAR},
+      </if>
+      <if test="locationpic != null" >
+        #{locationpic,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dogpro.domain.model.DogLocationExample" resultType="java.lang.Integer" >
+    select count(*) from DogLocation
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update DogLocation
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.pid != null" >
+        pid = #{record.pid,jdbcType=BIGINT},
+      </if>
+      <if test="record.areaname != null" >
+        areaName = #{record.areaname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addressalias != null" >
+        addressAlias = #{record.addressalias,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provinces != null" >
+        provinces = #{record.provinces,jdbcType=VARCHAR},
+      </if>
+      <if test="record.municipalities != null" >
+        municipalities = #{record.municipalities,jdbcType=VARCHAR},
+      </if>
+      <if test="record.districts != null" >
+        districts = #{record.districts,jdbcType=VARCHAR},
+      </if>
+      <if test="record.townstreet != null" >
+        townStreet = #{record.townstreet,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.longitude != null" >
+        longitude = #{record.longitude,jdbcType=DECIMAL},
+      </if>
+      <if test="record.latitude != null" >
+        latitude = #{record.latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="record.perimeter != null" >
+        perimeter = #{record.perimeter,jdbcType=REAL},
+      </if>
+      <if test="record.creatoruserid != null" >
+        creatorUserId = #{record.creatoruserid,jdbcType=BIGINT},
+      </if>
+      <if test="record.addtimes != null" >
+        addTimes = #{record.addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetimes != null" >
+        updateTimes = #{record.updatetimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.orders != null" >
+        orders = #{record.orders,jdbcType=INTEGER},
+      </if>
+      <if test="record.hot != null" >
+        hot = #{record.hot,jdbcType=INTEGER},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+      <if test="record.keyss != null" >
+        keyss = #{record.keyss,jdbcType=VARCHAR},
+      </if>
+      <if test="record.locationpic != null" >
+        locationPic = #{record.locationpic,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update DogLocation
+    set id = #{record.id,jdbcType=BIGINT},
+      pid = #{record.pid,jdbcType=BIGINT},
+      areaName = #{record.areaname,jdbcType=VARCHAR},
+      addressAlias = #{record.addressalias,jdbcType=VARCHAR},
+      provinces = #{record.provinces,jdbcType=VARCHAR},
+      municipalities = #{record.municipalities,jdbcType=VARCHAR},
+      districts = #{record.districts,jdbcType=VARCHAR},
+      townStreet = #{record.townstreet,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      longitude = #{record.longitude,jdbcType=DECIMAL},
+      latitude = #{record.latitude,jdbcType=DECIMAL},
+      perimeter = #{record.perimeter,jdbcType=REAL},
+      creatorUserId = #{record.creatoruserid,jdbcType=BIGINT},
+      addTimes = #{record.addtimes,jdbcType=TIMESTAMP},
+      updateTimes = #{record.updatetimes,jdbcType=TIMESTAMP},
+      orders = #{record.orders,jdbcType=INTEGER},
+      hot = #{record.hot,jdbcType=INTEGER},
+      state = #{record.state,jdbcType=INTEGER},
+      keyss = #{record.keyss,jdbcType=VARCHAR},
+      locationPic = #{record.locationpic,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dogpro.domain.model.DogLocation" >
+    update DogLocation
+    <set >
+      <if test="pid != null" >
+        pid = #{pid,jdbcType=BIGINT},
+      </if>
+      <if test="areaname != null" >
+        areaName = #{areaname,jdbcType=VARCHAR},
+      </if>
+      <if test="addressalias != null" >
+        addressAlias = #{addressalias,jdbcType=VARCHAR},
+      </if>
+      <if test="provinces != null" >
+        provinces = #{provinces,jdbcType=VARCHAR},
+      </if>
+      <if test="municipalities != null" >
+        municipalities = #{municipalities,jdbcType=VARCHAR},
+      </if>
+      <if test="districts != null" >
+        districts = #{districts,jdbcType=VARCHAR},
+      </if>
+      <if test="townstreet != null" >
+        townStreet = #{townstreet,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        longitude = #{longitude,jdbcType=DECIMAL},
+      </if>
+      <if test="latitude != null" >
+        latitude = #{latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="perimeter != null" >
+        perimeter = #{perimeter,jdbcType=REAL},
+      </if>
+      <if test="creatoruserid != null" >
+        creatorUserId = #{creatoruserid,jdbcType=BIGINT},
+      </if>
+      <if test="addtimes != null" >
+        addTimes = #{addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetimes != null" >
+        updateTimes = #{updatetimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orders != null" >
+        orders = #{orders,jdbcType=INTEGER},
+      </if>
+      <if test="hot != null" >
+        hot = #{hot,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="keyss != null" >
+        keyss = #{keyss,jdbcType=VARCHAR},
+      </if>
+      <if test="locationpic != null" >
+        locationPic = #{locationpic,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dogpro.domain.model.DogLocation" >
+    update DogLocation
+    set pid = #{pid,jdbcType=BIGINT},
+      areaName = #{areaname,jdbcType=VARCHAR},
+      addressAlias = #{addressalias,jdbcType=VARCHAR},
+      provinces = #{provinces,jdbcType=VARCHAR},
+      municipalities = #{municipalities,jdbcType=VARCHAR},
+      districts = #{districts,jdbcType=VARCHAR},
+      townStreet = #{townstreet,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      longitude = #{longitude,jdbcType=DECIMAL},
+      latitude = #{latitude,jdbcType=DECIMAL},
+      perimeter = #{perimeter,jdbcType=REAL},
+      creatorUserId = #{creatoruserid,jdbcType=BIGINT},
+      addTimes = #{addtimes,jdbcType=TIMESTAMP},
+      updateTimes = #{updatetimes,jdbcType=TIMESTAMP},
+      orders = #{orders,jdbcType=INTEGER},
+      hot = #{hot,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER},
+      keyss = #{keyss,jdbcType=VARCHAR},
+      locationPic = #{locationpic,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  
+  <resultMap id="DistanceResultMap" type="com.dogpro.domain.model.extend.DoglocationDistance" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="pid" property="pid" jdbcType="BIGINT" />
+    <result column="areaName" property="areaname" jdbcType="VARCHAR" />
+    <result column="addressAlias" property="addressalias" jdbcType="VARCHAR" />
+    <result column="provinces" property="provinces" jdbcType="VARCHAR" />
+    <result column="municipalities" property="municipalities" jdbcType="VARCHAR" />
+    <result column="districts" property="districts" jdbcType="VARCHAR" />
+    <result column="townStreet" property="townstreet" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="longitude" property="longitude" jdbcType="DECIMAL" />
+    <result column="latitude" property="latitude" jdbcType="DECIMAL" />
+    <result column="perimeter" property="perimeter" jdbcType="REAL" />
+    <result column="creatorUserId" property="creatoruserid" jdbcType="BIGINT" />
+    <result column="addTimes" property="addtimes" jdbcType="TIMESTAMP" />
+    <result column="updateTimes" property="updatetimes" jdbcType="TIMESTAMP" />
+    <result column="orders" property="orders" jdbcType="INTEGER" />
+    <result column="hot" property="hot" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="keyss" property="keyss" jdbcType="VARCHAR" />
+    <result column="locationPic" property="locationpic" jdbcType="VARCHAR" />
+    <result column="distance" property="distance" jdbcType="DECIMAL" />
+  </resultMap>
+  <select id="selectByDistance" resultMap="DistanceResultMap" parameterType="map" >
+    <![CDATA[
+   SELECT
+    *,
+    ROUND(
+        6378.138 * 2 * ASIN(
+            SQRT(
+                POW(
+                    SIN(
+                        (
+                           #{latitude} * PI() / 180 - latitude * PI() / 180
+                        ) / 2
+                    ),
+                    2
+                ) + COS(#{latitude} * PI() / 180) * COS(latitude * PI() / 180) * POW(
+                    SIN(
+                        (
+                            #{longitude} * PI() / 180 - longitude * PI() / 180
+                        ) / 2
+                    ),
+                    2
+                )
+            )
+        ) * 1000
+    ) AS distance
+FROM
+    DogLocation
+ORDER BY
+    distance
+    ]]>
+    <if test="pagination != null" >
+      limit #{pagination.begin} , #{pagination.length}
+    </if>
+  </select>
+  
+  
+  
+  <select id="selectHotLocation" resultMap="DistanceResultMap" parameterType="map" >
+    <![CDATA[
+   SELECT
+    *,
+    ROUND(
+        6378.138 * 2 * ASIN(
+            SQRT(
+                POW(
+                    SIN(
+                        (
+                           #{latitude} * PI() / 180 - latitude * PI() / 180
+                        ) / 2
+                    ),
+                    2
+                ) + COS(#{latitude} * PI() / 180) * COS(latitude * PI() / 180) * POW(
+                    SIN(
+                        (
+                            #{longitude} * PI() / 180 - longitude * PI() / 180
+                        ) / 2
+                    ),
+                    2
+                )
+            )
+        ) * 1000
+    ) AS distance
+FROM
+    DogLocation
+WHERE 
+	districts = #{districts}
+AND 
+	hot > 0
+ORDER BY
+    distance
+    ]]>
+    <if test="pagination != null" >
+      limit #{pagination.begin} , #{pagination.length}
+    </if>
+  </select>
+  
+</mapper>

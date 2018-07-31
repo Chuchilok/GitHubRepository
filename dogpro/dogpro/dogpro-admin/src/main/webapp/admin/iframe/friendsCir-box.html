@@ -1,0 +1,59 @@
+<!-- 朋友圈管理 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/easyui-perfect.css">
+    <link rel="stylesheet" href="../css/icon.css">
+    <link rel="stylesheet" href="../css/user.css">
+    <link rel="stylesheet" href="../css/pop-dialog.css">
+</head>
+<body>
+
+<div class="search-container">
+    <div class="search-box">
+        <div class="search-div fl">
+            <i></i>
+            <input class="search-input" type="text" placeholder="内容模糊搜索">
+        </div>
+        <span class="search-span fl">搜 索</span>
+    </div>
+</div>
+<table id="tb1">
+
+</table>
+<!-----------------弹出窗口------------------>
+<div class="hidden-bg" style="display: none">
+    <div class="hidden-dialog">
+        <table id="detail">
+        </table>
+        <i class="close"></i>
+    </div>
+</div>
+<div id="dlg" class="easyui-dialog" style="width: 400px" closed="true"
+     buttons="#dlg-buttons">
+    <div style="margin: 0; padding: 20px 50px">
+        <input type="hidden" name="userId">
+        <div
+                style="margin-bottom: 20px; font-size: 14px; border-bottom: 1px solid #ccc">朋友圈详情
+        </div>
+        <div style="margin-bottom: 10px">
+            <div class="medias"></div>
+        </div>
+    </div>
+</div>
+<div id="dlg-buttons">
+    <a href="javascript:void(0)" class="easyui-linkbutton c6"
+       iconCls="icon-ok" onclick="javascript:$('#dlg').dialog('close')"
+       style="width: 90px">关闭</a>
+</div>
+<script src="../js/jquery-1.9.1.min.js"></script>
+<script src="../js/jQuery-EasyUI-1.5.2.min.js"></script>
+<script src="../js/jsonUrl.js?v1"></script>
+<script src="../js/easyui-lang-zh_CN.js"></script>
+<script src="../js/dataGridTemplete.js?v1"></script>
+<script src="../js/friendsCir-box.js?v1"></script>
+</body>
+</html>

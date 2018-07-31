@@ -1,0 +1,113 @@
+@wd:6.7px;
+body{
+  text-align: center;
+  background: #5EB77D;
+}
+.logo{
+  width: 70*@wd;
+  margin-top: 9.4*@wd;
+}
+h1{
+  margin-top: 15*@wd;
+}
+h2{
+  margin-top: 1*@wd;
+}
+h1,h2{
+  font-size: 6.4*@wd;
+  color: #FFFFFF;
+  letter-spacing: .4*@wd;
+  text-shadow: 0 .2*@wd 1.5*@wd #274A32;
+}
+#login-box{
+  overflow: hidden;
+  display: inline-block;
+  margin-top: 7.2*@wd;
+  li{
+    width: 40*@wd;
+    height: 6.8*@wd;
+    background: #FFFFFF;
+    float: left;
+    position: relative;
+    -webkit-border-radius: 1*@wd;
+    -moz-border-radius: 1*@wd;
+    border-radius: 1*@wd;
+    i{
+      display: block;
+      width: 4.3*@wd;
+      height: 4.5*@wd;
+      -webkit-background-size: 100% 100%;
+      background-size: 100% 100%;
+      position: absolute;
+      top: 50%;
+      left: 1.9*@wd;
+      -webkit-transform: translate(0%,-50%);
+      -moz-transform: translate(0%,-50%);
+      -ms-transform: translate(0%,-50%);
+      -o-transform: translate(0%,-50%);
+      transform: translate(0%,-50%);
+    }
+    input{
+      width: 28*@wd;
+      height: 5.2*@wd;
+      margin-top: .8*@wd;
+      margin-left: 6*@wd;
+      border-left: .2*@wd solid #5EB77B;;
+      font-size: 3.6*@wd;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      padding-left: 2*@wd;
+    }
+    .login{
+      width: 100%;
+      height: 100%;
+      font-size: 3.6*@wd;
+      color: #FFFFFF;
+      background: #459768;
+      border-radius: 1.2*@wd;
+      border: none;
+    }
+  }
+  li:nth-child(1){
+    margin-right: 5*@wd;
+    i{
+      background: url("../img/ic_login.png") no-repeat;
+      -webkit-background-size: 100% 100%;
+      background-size: 100% 100%;
+    }
+  }
+  li:nth-child(2){
+    i{
+      background: url("../img/ic_password.png") no-repeat;
+      -webkit-background-size: 100% 100%;
+      background-size: 100% 100%;
+    }
+  }
+  li:nth-child(3){
+    background: transparent;
+    text-align: left;
+    width: 19.6*@wd;
+    height: 6.8*@wd;
+    margin-left: 5*@wd;
+  }
+}
+#register{
+  display: inline-block;
+  overflow: hidden;
+  margin-top: 22*@wd;
+  li{
+    padding: 0 1.4*@wd;
+    float: left;
+    a{
+      font-size: 2.4*@wd;
+      color: #FFFFFF;
+      letter-spacing: .2*@wd;
+    }
+  }
+  li:nth-child(1){
+    border-right: .2*@wd solid #FFFFFF;
+  }
+}
+
+

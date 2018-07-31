@@ -1,0 +1,176 @@
+<!-- 消息管理 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/easyui-perfect.css">
+    <link rel="stylesheet" href="../css/icon.css">
+    <link rel="stylesheet" href="../css/user.css">
+   <link rel="stylesheet" href="../css/pop-dialog.css">
+</head>
+<body>
+<div class="search-container">
+    <div class="search-box">
+        <div class="search-div fl">
+            <i></i>
+            <input class="search-input" type="text" placeholder="手机号搜索">
+        </div>
+        <span class="search-span fl">搜 索</span>
+    </div>
+</div>
+
+<table id="tb1" >
+
+</table>
+
+<div id="dlg" class="easyui-dialog" style="width:400px"
+     closed="true" buttons="#dlg-buttons">
+    <form id="fm" method="post" novalidate style="margin:0;padding:20px 50px">
+        <div style="margin-bottom:20px;font-size:14px;border-bottom:1px solid #ccc">User Information</div>
+        <div style="margin-bottom:10px">
+            <input name="classids" class="easyui-textbox" required="true" label="姓名:" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="gradeids" class="easyui-textbox" required="true" label="手机号:" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="pnames" class="easyui-textbox" required="true" label="邮箱:" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="pswds" class="easyui-textbox" required="true"  label="昵称:" style="width:100%">
+        </div>
+    </form>
+</div>
+<div id="dlg-buttons">
+    <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveUser()" style="width:90px">Save</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">Cancel</a>
+</div>
+<!-- <div id="toolbar">
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">New User</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">Edit User</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">Remove User</a>
+</div> -->
+<!-----------------弹出窗口------------------>
+<div class="hidden-bg" style="display: none">
+		<div class="hidden-dialog">
+			<table id="tb2">
+			</table>
+			<i class="close"></i>
+		</div>
+		
+	</div>
+<!--<div id="dlg-buttons-detail">-->
+    <!--<a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveUser()" style="width:90px">Save</a>-->
+    <!--<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">Cancel</a>-->
+<!--</div>-->
+<!--<div id="toolbar-detail">-->
+    <!--<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">New User</a>-->
+    <!--<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">Edit User</a>-->
+    <!--<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">Remove User</a>-->
+<!--</div>-->
+<script src="../js/jquery-1.9.1.min.js"></script>
+<script src="../js/jQuery-EasyUI-1.5.2.min.js"></script>
+<script src="../js/easyui-lang-zh_CN.js"></script>
+<script src="../js/dataGridTemplete.js"></script>
+<script>
+    var url;
+    function newUser(){
+        $('#dlg').dialog('open').dialog('center').dialog('setTitle','New User');
+        $('#fm').form('clear');
+        // url = 'save_user.php';
+    }
+    function editUser(){
+        var row = $('#tb1').datagrid('getSelected');
+        if (row){
+            $('#dlg').dialog('open').dialog('center').dialog('setTitle','Edit User');
+            $('#fm').form('load',row);
+            // url = 'update_user.php?id='+row.id;
+        }
+    }
+    function saveUser(){
+        $('#fm').form('submit',{
+            url: url,
+            onSubmit: function(){
+                return $(this).form('validate');
+            },
+            success: function(result){
+                var result = eval('('+result+')');
+                if (result.errorMsg){
+                    $.messager.show({
+                        title: 'Error',
+                        msg: result.errorMsg
+                    });
+                } else {
+                    $('#dlg').dialog('close');        // close the dialog
+                    $('#tb1').datagrid('reload');    // reload the user data
+                }
+            }
+        });
+    }
+    function destroyUser(){
+        var row = $('#tb1').datagrid('getSelected');
+        console.log(111)
+        if (row){
+            $.messager.confirm('Confirm','Are you sure you want to destroy this user?',function(r){
+                if (r){
+                    $.post('destroy_user.php',{id:row.id},function(result){
+                        if (result.success){
+                            $('#tb1').datagrid('reload');    // reload the user data
+                        } else {
+                            $.messager.show({    // show error message
+                                title: 'Error',
+                                msg: result.errorMsg
+                            });
+                        }
+                    },'json');
+                }
+            });
+        }
+    }
+    //////////////////////遛狗轨迹///////////////////////
+    $(function () {
+        var params="{'action': 'AdminService','module': 'getTrack',"+
+            "'paras': {'pageNO':'0','token':'safsfdsf','pageSize':'5'}}";//参数
+        var columns = [[
+            { field: 'locationId', title: '遛狗地点id', width: 150},
+            { field: 'userId', title: '用户id', width: 150 },
+            { field: 'nickName', title: '用户昵称', width: 150},
+            { field: 'addTimes', title: '时间', width: 150 },
+            { field: 'detail', title: '详情轨迹', width: 150 ,
+                formatter:function(value,row,index){
+                return `<a href="javascript:trackDetail(${row.userId},${row.locationId})">点击详情</a>`;
+            }},
+        ]];//字段
+        initDataGrid($("#tb1"),params,'#toolbar','遛狗轨迹','/dogpro-Webapi/UsercenterApi/ApivDataGrid.do',columns);
+        /* $(".pagination-load").click();//触发刷新时间 */
+    });
+    //////////////////////遛狗轨迹详情///////////////////////
+    function trackDetail(id,locationid) {
+
+        var params=`{
+                "module":"getTrackDetail",
+                "action":"AdminService",
+                "paras":{
+                    "userId": ${id},
+                    "locationId": ${locationid},
+                    "pageNO":"0",
+                    "pageSize":"5",
+                    "token":"sersdd123dsew456dsed78sef9...d12"
+                }
+            }`;//参数
+        var columns = [[
+            { field: 'longitude', title: '经度', width: 50},
+            { field: 'latitude', title: '纬度', width: 50 },
+            { field: 'locationName', title: '遛狗地点名称', width: 150}
+        ]];//字段
+        initDataGrid($("#tb2"),params,'#toolbar-detail','遛狗轨迹详情','/dogpro-Webapi/UsercenterApi/ApivDataGrid.do',columns);
+        $('.hidden-bg').fadeIn();
+    }
+    $('.hidden-bg .close').click(function () {
+        $('.hidden-bg').fadeOut();
+    })
+</script>
+</body>
+</html>

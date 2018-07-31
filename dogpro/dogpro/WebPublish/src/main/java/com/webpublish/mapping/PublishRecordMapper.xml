@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.webpublish.dao.PublishRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.webpublish.domain.model.PublishRecord" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="version_id" property="versionId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="publish_ip" property="publishIp" jdbcType="VARCHAR" />
+    <result column="publish_port" property="publishPort" jdbcType="INTEGER" />
+    <result column="publishTimes" property="publishtimes" jdbcType="TIMESTAMP" />
+    <result column="addTimes" property="addtimes" jdbcType="TIMESTAMP" />
+    <result column="updateTimes" property="updatetimes" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, version_id, user_id, publish_ip, publish_port, publishTimes, addTimes, updateTimes
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.webpublish.domain.model.PublishRecordExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from PublishRecord
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="pagination != null" >
+      limit #{pagination.begin} , #{pagination.length}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from PublishRecord
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from PublishRecord
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.webpublish.domain.model.PublishRecordExample" >
+    delete from PublishRecord
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.webpublish.domain.model.PublishRecord" >
+    insert into PublishRecord (ID, version_id, user_id, 
+      publish_ip, publish_port, publishTimes, 
+      addTimes, updateTimes)
+    values (#{id,jdbcType=BIGINT}, #{versionId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, 
+      #{publishIp,jdbcType=VARCHAR}, #{publishPort,jdbcType=INTEGER}, #{publishtimes,jdbcType=TIMESTAMP}, 
+      #{addtimes,jdbcType=TIMESTAMP}, #{updatetimes,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.webpublish.domain.model.PublishRecord" >
+    insert into PublishRecord
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="versionId != null" >
+        version_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="publishIp != null" >
+        publish_ip,
+      </if>
+      <if test="publishPort != null" >
+        publish_port,
+      </if>
+      <if test="publishtimes != null" >
+        publishTimes,
+      </if>
+      <if test="addtimes != null" >
+        addTimes,
+      </if>
+      <if test="updatetimes != null" >
+        updateTimes,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="versionId != null" >
+        #{versionId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="publishIp != null" >
+        #{publishIp,jdbcType=VARCHAR},
+      </if>
+      <if test="publishPort != null" >
+        #{publishPort,jdbcType=INTEGER},
+      </if>
+      <if test="publishtimes != null" >
+        #{publishtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="addtimes != null" >
+        #{addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetimes != null" >
+        #{updatetimes,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.webpublish.domain.model.PublishRecordExample" resultType="java.lang.Integer" >
+    select count(*) from PublishRecord
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update PublishRecord
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.versionId != null" >
+        version_id = #{record.versionId,jdbcType=BIGINT},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.publishIp != null" >
+        publish_ip = #{record.publishIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.publishPort != null" >
+        publish_port = #{record.publishPort,jdbcType=INTEGER},
+      </if>
+      <if test="record.publishtimes != null" >
+        publishTimes = #{record.publishtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.addtimes != null" >
+        addTimes = #{record.addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetimes != null" >
+        updateTimes = #{record.updatetimes,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update PublishRecord
+    set ID = #{record.id,jdbcType=BIGINT},
+      version_id = #{record.versionId,jdbcType=BIGINT},
+      user_id = #{record.userId,jdbcType=BIGINT},
+      publish_ip = #{record.publishIp,jdbcType=VARCHAR},
+      publish_port = #{record.publishPort,jdbcType=INTEGER},
+      publishTimes = #{record.publishtimes,jdbcType=TIMESTAMP},
+      addTimes = #{record.addtimes,jdbcType=TIMESTAMP},
+      updateTimes = #{record.updatetimes,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.webpublish.domain.model.PublishRecord" >
+    update PublishRecord
+    <set >
+      <if test="versionId != null" >
+        version_id = #{versionId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="publishIp != null" >
+        publish_ip = #{publishIp,jdbcType=VARCHAR},
+      </if>
+      <if test="publishPort != null" >
+        publish_port = #{publishPort,jdbcType=INTEGER},
+      </if>
+      <if test="publishtimes != null" >
+        publishTimes = #{publishtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="addtimes != null" >
+        addTimes = #{addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetimes != null" >
+        updateTimes = #{updatetimes,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.webpublish.domain.model.PublishRecord" >
+    update PublishRecord
+    set version_id = #{versionId,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=BIGINT},
+      publish_ip = #{publishIp,jdbcType=VARCHAR},
+      publish_port = #{publishPort,jdbcType=INTEGER},
+      publishTimes = #{publishtimes,jdbcType=TIMESTAMP},
+      addTimes = #{addtimes,jdbcType=TIMESTAMP},
+      updateTimes = #{updatetimes,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

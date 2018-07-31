@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context" xsi:schemaLocation="http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans.xsd 
+http://www.springframework.org/schema/context 
+http://www.springframework.org/schema/context/spring-context-3.2.xsd 
+http://www.springframework.org/schema/mvc 
+http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+	<!-- 启动SpringMVC的注解功能，它会自动注册HandlerMapping、HandlerAdapter、ExceptionResolver的相关实例 -->
+  	<!--   <mvc:annotation-driven />-->
+    
+    
+    <mvc:annotation-driven/>  
+    
+  
+    
+	<!-- 自动扫描controller包下的所有类，使其认为spring mvc的控制器com.imserver.service.dbservice -->
+	<context:component-scan base-package="com.dogpro.upload.controller" />
+
+	<!-- 当在web.xml 中   DispatcherServlet使用 <url-pattern>/</url-pattern> 映射时，能映射静态资源 -->
+    <mvc:default-servlet-handler/>
+    <!-- 静态资源映射(配置之后，可以访问到static文件夹下的内容) -->
+    <mvc:resources mapping="/static/**" location="/WEB-INF/static/"/>
+	
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+
+	<!-- 对模型视图名称的解析，即在模型视图名称添加前后缀 -->
+	<!-- <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/" p:suffix=".jsp" /> -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/view/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	
+	<!-- 定义SpringContextUtil -->
+	<!-- <bean id="springContextUtil" class="com.agriculturehealthbigdata.web.SpringContextUtil" /> -->
+ 
+	<bean id="springContextUtil" class="com.dogpro.common.Interfacetool.ApplicationContextHelper" />
+	<!-- 定时任务：要求所有的定时任务在spring启动之后跟着启动 -->
+	<!--<bean id="instantiationTracingBeanPostProcessor" init-method="autoLoadTask" class="com.agriculturehealthbigdata.controller.InstantiationTracingBeanPostProcessor" >
+		<property name="quartzService" ref="quartzService" />
+	</bean>
+	l -->
+	<!-- 文件上传 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding">
+			<value>UTF-8</value>
+		</property>
+		<property name="maxUploadSize">
+			<value>32505856</value><!-- 上传文件大小限制为31M，31*1024*1024 -->
+		</property>
+		<property name="maxInMemorySize">
+			<value>4096</value>
+		</property>
+	</bean>
+
+ <bean id="mappingJackson2HttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+        <property name="supportedMediaTypes">
+            <list>
+                <value>text/html;charset=UTF-8</value>
+                <value>text/json;charset=UTF-8</value>
+                <value>application/json;charset=UTF-8</value>  
+                <value>text/jsonp;charset=UTF-8</value>
+                <value>application/jsonp;charset=UTF-8</value>
+            </list>
+        </property>
+    </bean>
+
+ 
+     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <ref bean="mappingJackson2HttpMessageConverter" />
+            </list>
+        </property>
+    </bean>
+   
+	 
+    
+    
+</beans>

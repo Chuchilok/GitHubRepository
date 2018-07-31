@@ -1,0 +1,257 @@
+DogLocationMapper.xml 
+insertSelective 加了返回主键  keyProperty="id" useGeneratedKeys="true" 
+UserMapper FriendCircleMapper
+user friendCircle 加了返回主键
+
+UserMapper.java
+    //插入数据返回id
+    int insertAndGetId(User record);
+UserMapper.xml
+ <!-- 额外添加 插入数据返回id -->
+  <insert id="insertAndGetId" useGeneratedKeys="true" keyProperty="userId" parameterType="com.dogpro.domain.model.User" >
+    insert into User (user_id, sex, headPic, 
+      nickname, sign, phone, 
+      pswd, provinces, municipalities, 
+      districts, townStreet, address, 
+      addTime, updateTime)
+    values (#{userId,jdbcType=BIGINT}, #{sex,jdbcType=VARCHAR}, #{headpic,jdbcType=VARCHAR}, 
+      #{nickname,jdbcType=VARCHAR}, #{sign,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{pswd,jdbcType=VARCHAR}, #{provinces,jdbcType=VARCHAR}, #{municipalities,jdbcType=VARCHAR}, 
+      #{districts,jdbcType=VARCHAR}, #{townstreet,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{addtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+
+FriendCircleMapper.java
+    //插入数据返回id
+    int insertAndGetId(User record);
+FriendCircleMapper.xml
+ <!-- 额外添加 插入数据返回id -->
+  <insert id="insertAndGetId" useGeneratedKeys="true" keyProperty="userId" parameterType="com.dogpro.domain.model.User" >
+    insert into User (user_id, sex, headPic, 
+      nickname, sign, phone, 
+      pswd, provinces, municipalities, 
+      districts, townStreet, address, 
+      addTime, updateTime)
+    values (#{userId,jdbcType=BIGINT}, #{sex,jdbcType=VARCHAR}, #{headpic,jdbcType=VARCHAR}, 
+      #{nickname,jdbcType=VARCHAR}, #{sign,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{pswd,jdbcType=VARCHAR}, #{provinces,jdbcType=VARCHAR}, #{municipalities,jdbcType=VARCHAR}, 
+      #{districts,jdbcType=VARCHAR}, #{townstreet,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{addtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.dogpro.domain.model.FriendCircleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from FriendCircle
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="pagination != null" >
+      limit #{pagination.begin} , #{pagination.length}
+    </if>
+  </select>
+  
+  
+  
+FriendsMapper.java
+List<Friends> selectByFriends(Friends example);
+FriendsMapper.xml
+<select id="selectByFriends" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from Friends
+   	where user user_id = #{userId,jdbcType=VARCHAR}
+   	and friend_state = 1
+   	and state = 1
+   	
+  </select>
+	
+    <select id="selectByUidFid" resultMap="BaseResultMap" parameterType="map" >
+    select
+    <include refid="Base_Column_List" />
+    from Friends
+    where user_id = #{userId,jdbcType=VARCHAR} and friend_user_id = #{friendUserId,jdbcType=VARCHAR}
+    and state = 1
+  </select>
+  <select id="selectUserIsFriend" resultType="int" parameterType="com.dogpro.domain.model.Friends">
+  	select count(*) from Friends where 
+  	(user_id = #{userId,jdbcType=VARCHAR} and friend_user_id = #{friendUserId,jdbcType=VARCHAR}) 
+  	and friend_state = 1 
+  	and state = 1
+  </select>
+  
+  <select id="countFriendsByUid" resultType="int" parameterType="java.lang.Long">
+  	select count(*) from Friends where 
+  	user_id = #{userId,jdbcType=VARCHAR} 
+  	and friend_state = 1 
+  	and state = 1
+  </select>
+  
+  -----------------------FriendCircleMapper.xml
+  <insert id="insert" parameterType="com.dogpro.domain.model.FriendCircle" >
+    insert into FriendCircle (friendCir_id, user_id, publishTime, 
+      mediaType, type, publishIp, 
+      remark, sort, addTimes, 
+      updateTimes, provinces, municipalities, 
+      districts, townStreet, address, 
+      longitude, latitude, state, 
+      content)
+    values (#{friendcirId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{publishtime,jdbcType=TIMESTAMP}, 
+      #{mediatype,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{publiship,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{sort,jdbcType=VARCHAR}, #{addtimes,jdbcType=TIMESTAMP}, 
+      #{updatetimes,jdbcType=TIMESTAMP}, #{provinces,jdbcType=VARCHAR}, #{municipalities,jdbcType=VARCHAR}, 
+      #{districts,jdbcType=VARCHAR}, #{townstreet,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{longitude,jdbcType=REAL}, #{latitude,jdbcType=REAL}, #{state,jdbcType=INTEGER}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+   <insert id="insertAndGetId" useGeneratedKeys="true" keyProperty="friendcirId" parameterType="com.dogpro.domain.model.FriendCircle" >
+    insert into FriendCircle (friendCir_id, user_id, publishTime, 
+      mediaType, type, publishIp, 
+      remark, sort, addTimes, 
+      updateTimes, provinces, municipalities, 
+      districts, townStreet, address, 
+      longitude, latitude, content
+      )
+    values (#{friendcirId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{publishtime,jdbcType=TIMESTAMP}, 
+      #{mediatype,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{publiship,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{sort,jdbcType=VARCHAR}, #{addtimes,jdbcType=TIMESTAMP}, 
+      #{updatetimes,jdbcType=TIMESTAMP}, #{provinces,jdbcType=VARCHAR}, #{municipalities,jdbcType=VARCHAR}, 
+      #{districts,jdbcType=VARCHAR}, #{townstreet,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{longitude,jdbcType=REAL}, #{latitude,jdbcType=REAL}, #{content,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+ -------------------------------- 
+  WalkingDogTrackMapper.xml---->
+  <select id="selectUserByExample" resultMap="BaseResultMap" parameterType="com.dogpro.domain.model.WalkingDogTrackExample" >
+    select
+    <include refid="Base_Column_List" />
+    from WalkingDogTrack
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause} 
+    </if>
+    group by userId,groupId
+    <if test="pagination != null" >
+      limit #{pagination.begin} , #{pagination.length}
+    </if>
+  </select>
+  
+  FriendCircleExample.java-----------------------------加的--->
+  public Criteria andContentLike(String value) {
+            addCriterion("content like", value, "content");
+            return (Criteria) this;
+        }
+        
+WalkingDogGroupMapper.xml  -----------------------------加的--->
+ <select id="selectToGroupByExample" resultMap="BaseResultMap" parameterType="com.dogpro.domain.model.WalkingDogGroupExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from WalkingDogGroup
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    group by doglocationid
+    <if test="pagination != null" >
+      limit #{pagination.begin} , #{pagination.length}
+    </if>
+  </select>
+  <select id="countByExampleGroup" parameterType="com.dogpro.domain.model.WalkingDogGroupExample" resultType="java.lang.Integer" >
+    select count(a.doglocationid) from (
+    select doglocationid from WalkingDogGroup
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    group by doglocationid
+    ) a
+  </select>
+  
+  
+  
+  AreaSpaceMapper.xml
+   <sql id="Base_Column_List" >
+    id, dogLocation_id, CONVERT(AsText(Range) USING utf8) as Range, state, addTimes, updateTimes
+  </sql>
+  insert 和 insertSelective ----> GeomFromText(#{range,jdbcType=OTHER})更改了有关 range
+  
+  
+  MessageMapper.java
+  List<Message> selectUnread(@Param("userId")Long userId, @Param("msgCode")Long msgcode,@Param("pagination")PaginationUtil pagination);
+  int countUnread(@Param("userId")Long userId, @Param("msgCode")Long msgcode);
+  
+  MessageMapper.xml
+  <select id="selectUnread" resultMap="BaseResultMap" parameterType="map">
+  	select distinct
+    <include refid="Base_Column_List" />
+  	from Message
+  	where msgCode > #{msgCode}
+  	and (sendUserId = #{userId} or acceptUserId = #{userId})
+  	order by msgCode asc
+    <if test="pagination != null" >
+      limit #{pagination.begin} , #{pagination.length}
+    </if>
+  </select>
+  
+  <select id="countUnread" resultType="java.lang.Integer" parameterType="map">
+  	select count(*)
+  	from Message
+  	where msgCode > #{msgCode}
+  	and (sendUserId = #{userId} or acceptUserId = #{userId})
+  </select>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.dogpro.domain.model.MessageExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from Message
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="pagination != null" >
+      limit #{pagination.begin} , #{pagination.length}
+    </if>
+  </select>
+  
+  
+  
+  
+  User.java
+  public String getHeadpic() {
+    	if(headpic.indexOf("_sub.")<0){
+    		headpic = headpic.replaceAll("\\.", "_sub\\.");
+    	}
+        return headpic;
+    }
+
+    public void setHeadpic(String headpic) {
+    	this.headpic = headpic == null ? null : headpic.trim();
+        if(this.headpic.indexOf("_sub.")>0){
+        	this.headpic = this.headpic.replaceAll("_sub\\.", "\\.");
+    	}
+    }
+  
+  
+  

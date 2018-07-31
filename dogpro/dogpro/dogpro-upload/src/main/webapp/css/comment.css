@@ -1,0 +1,260 @@
+.small-font {
+  -webkit-transform-origin-x: 0;
+  -moz-transform-origin-x: 0;
+  -ms-transform-origin-x: 0;
+  -o-transform-origin-x: 0;
+  transform-origin-x: 0;
+  -webkit-transform: scale(0.83);
+  -moz-transform: scale(0.83);
+  -ms-transform: scale(0.83);
+  -o-transform: scale(0.83);
+  transform: scale(0.83);
+}
+#top {
+  background: -webkit-linear-gradient(to right, #FCCC56, #C36D02);
+  /* Safari 5.1 - 6.0 */
+  background: -o-linear-gradient(to right, #FCCC56, #C36D02);
+  /* Opera 11.1 - 12.0 */
+  background: -moz-linear-gradient(to right, #FCCC56, #C36D02);
+  /* Firefox 3.6 - 15 */
+  background: linear-gradient(to right, #FCCC56, #C36D02);
+  /* 标准的语法 */
+  position: relative;
+}
+#top h1 {
+  font-size: .18rem;
+  text-align: center;
+  font-weight: normal;
+  color: #FFFFFF;
+  letter-spacing: 0.005rem;
+  line-height: .42rem;
+}
+#top span {
+  font-size: .14rem;
+  color: #FFFFFF;
+  letter-spacing: 0.0122rem;
+  position: absolute;
+  top: 50%;
+  left: 4%;
+  -webkit-transform: translate(0%, -50%);
+  -moz-transform: translate(0%, -50%);
+  -ms-transform: translate(0%, -50%);
+  -o-transform: translate(0%, -50%);
+  transform: translate(0%, -50%);
+}
+#detail .detail-txt {
+  padding: .13rem .13rem 0 .13rem;
+  margin-bottom: .15rem;
+  overflow: hidden;
+}
+#detail .detail-txt img {
+  width: .5rem;
+  height: .5rem;
+}
+#detail .detail-txt span {
+  font-size: .16rem;
+  color: #777777;
+  letter-spacing: 0.0133rem;
+  font-weight: bold;
+}
+#detail .detail-txt p {
+  font-size: .14rem;
+  color: #6E6E6E;
+  letter-spacing: 0.0146rem;
+  line-height: 0.165rem;
+}
+#detail .detail-img {
+  margin-bottom: .068rem;
+  overflow: hidden;
+}
+#detail .detail-img .left .help {
+  display: none;
+  width: .63rem;
+}
+#detail .detail-img .right .img {
+  width: 75%;
+  overflow: hidden;
+}
+#detail .detail-img .right .img img {
+  float: left;
+  width: 0.725rem;
+  height: 0.725rem;
+  margin-right: 0.025rem;
+  margin-bottom: 0.025rem;
+}
+#detail .detail-img .right span {
+  display: block;
+  font-size: .09rem;
+  color: #6E6E6E;
+  letter-spacing: .0125rem;
+  margin-top: .065rem;
+  margin-bottom: .06rem;
+}
+#detail .detail-img .right .icon {
+  position: relative;
+}
+#detail .detail-img .right .icon-6 {
+  width: .19rem;
+  margin-right: .23rem;
+}
+#detail .detail-img .right .icon-comment {
+  width: .24rem;
+}
+#detail .detail-img .right .icon-more {
+  position: absolute;
+  width: .225rem;
+  right: .13rem;
+  -webkit-transform: translate(0%, -50%);
+  -moz-transform: translate(0%, -50%);
+  -ms-transform: translate(0%, -50%);
+  -o-transform: translate(0%, -50%);
+  transform: translate(0%, -50%);
+  top: 40%;
+}
+#detail .left {
+  width: 18.6%;
+}
+#detail .right {
+  width: 81.4%;
+}
+#comment {
+  width: 93.2%;
+  margin: 0 auto;
+}
+#comment .top {
+  background: #F5F5F5;
+  height: .44rem;
+  position: relative;
+  margin-bottom: .01rem;
+}
+#comment .top .ic-6-sel {
+  width: .095rem;
+  position: absolute;
+  top: 50%;
+  left: .07rem;
+  -webkit-transform: translate(0%, -50%);
+  -moz-transform: translate(0%, -50%);
+  -ms-transform: translate(0%, -50%);
+  -o-transform: translate(0%, -50%);
+  transform: translate(0%, -50%);
+}
+#comment .top .friend-6 {
+  height: 100%;
+  margin-left: .25rem;
+}
+#comment .top .friend-6 img {
+  width: .29rem;
+  height: .29rem;
+  float: left;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  margin-top: .075rem;
+  margin-right: 0.03rem;
+}
+.comment-list {
+  position: relative;
+}
+.comment-list .ic-msg {
+  width: .095rem;
+  position: absolute;
+  top: .106rem;
+  left: .085rem;
+  z-index: 1;
+}
+.comment-list li {
+  width: 100%;
+  overflow: hidden;
+  background: #F5F5F5;
+  padding-left: .25rem;
+  margin-bottom: .01rem;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  position: relative;
+}
+.comment-list li img {
+  float: left;
+  width: .29rem;
+  height: .29rem;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  margin-top: .08rem;
+  margin-right: .04rem;
+}
+.comment-list li > div {
+  float: left;
+  width: 2.75rem;
+}
+.comment-list li > div span,
+.comment-list li > div p {
+  font-size: .13rem;
+  color: #FFB02F;
+  letter-spacing: .0111rem;
+  width: 100%;
+  height: auto;
+}
+.comment-list li > div span {
+  color: #FFB02F;
+  margin-top: .05rem;
+  display: block;
+  position: relative;
+}
+.comment-list li > div p {
+  color: #767676;
+  margin-bottom: 0.04rem;
+  word-wrap: break-word;
+  word-break: break-all;
+  line-height: .15rem;
+  margin-top: .03rem;
+}
+.comment-list li b {
+  font-size: .1rem;
+  color: #777777;
+  letter-spacing: .005rem;
+  position: absolute;
+  top: 0%;
+  right: 0%;
+  font-weight: normal;
+}
+.loadtip {
+  display: block;
+  width: 100%;
+  text-align: center;
+  color: #999;
+  border-top: 1px solid #ddd;
+  position: relative;
+  z-index: -1;
+}
+.loadtip span {
+  font-size: .15rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+.swiper-container {
+  overflow: visible;
+}
+.swiper-wrapper {
+  background: #FFFFFF;
+}
+html,
+body {
+  height: 100%;
+}
+.swiper-slide {
+  height: auto;
+  background: #FFFFFF;
+  z-index: 10;
+  padding-bottom: .1rem;
+}
+.swiper-container,
+.swiper-wrapper {
+  height: calc(93.5vh);
+}

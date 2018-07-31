@@ -1,0 +1,81 @@
+<!-- 意见反馈 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/easyui-perfect.css">
+    <link rel="stylesheet" href="../css/icon.css">
+    <link rel="stylesheet" href="../css/user.css">
+</head>
+<body>
+
+<table id="tb1"></table>
+
+<script src="../js/jquery-1.9.1.min.js"></script>
+<script src="../js/jQuery-EasyUI-1.5.2.min.js"></script>
+<script src="../js/jsonUrl.js?v1"></script>
+<script src="../js/easyui-lang-zh_CN.js"></script>
+<script src="../js/dataGridTemplete.js"></script>
+<script>
+    function newUser() {
+        $('#dlg').dialog('open').dialog('center').dialog('setTitle', 'New User');
+        $('#fm').form('clear');
+        // url = 'save_user.php';
+    }
+
+    function editUser() {
+        var row = $('#tb1').datagrid('getSelected');
+        if (row) {
+            $('#dlg').dialog('open').dialog('center').dialog('setTitle', 'Edit User');
+            $('#fm').form('load', row);
+            // url = 'update_user.php?id='+row.id;
+        }
+    }
+    function destroyUser() {
+        var row = $('#tb1').datagrid('getSelected');
+        console.log(111)
+        if (row) {
+            $.messager.confirm('Confirm', 'Are you sure you want to destroy this user?', function (r) {
+                if (r) {
+                    $.post('destroy_user.php', {id: row.id}, function (result) {
+                        if (result.success) {
+                            $('#tb1').datagrid('reload');    // reload the user data
+                        } else {
+                            $.messager.show({    // show error message
+                                title: 'Error',
+                                msg: result.errorMsg
+                            });
+                        }
+                    }, 'json');
+                }
+            });
+        }
+    }
+
+    $(function () {
+        //意见反馈
+        var params = `{
+	        	"module":"feedbackList",
+	        	"action":"AdminService",
+	        	"paras":{
+	        	    "adminUserId":${userId},
+		        	"pageNO":"0",
+		        	"pageSize":"5",
+		        	"token":"${token}"
+	        	}
+        	}`;//参数
+        var columns = [[
+            {field: 'feedbackId', title: '意见反馈id', width: 150},
+            {field: 'userId', title: '提意见的用户Id', width: 150},
+            {field: 'nickname', title: '用户昵称', width: 150},
+            {field: 'content', title: '反馈内容', width: 150},
+            {field: 'addTimes', title: '提意见时间', width: 150}
+        ]];//字段
+        initDataGrid($("#tb1"), params, '#toolbar', '意见反馈列表', '/dogpro-Webapi/UsercenterApi/ApivDataGrid.do', columns);
+        $(".pagination-load").click();//触发刷新时间
+    })
+</script>
+</body>
+</html>

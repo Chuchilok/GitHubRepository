@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dogpro.dao.DiscussMapper" >
+  <resultMap id="BaseResultMap" type="com.dogpro.domain.model.Discuss" >
+    <id column="discuss_id" property="discussId" jdbcType="BIGINT" />
+    <result column="PId" property="pid" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="discussTime" property="discusstime" jdbcType="TIMESTAMP" />
+    <result column="discussIp" property="discussip" jdbcType="VARCHAR" />
+    <result column="friendCir_id" property="friendcirId" jdbcType="BIGINT" />
+    <result column="discussContent" property="discusscontent" jdbcType="VARCHAR" />
+    <result column="addTimes" property="addtimes" jdbcType="TIMESTAMP" />
+    <result column="updateTimes" property="updatetimes" jdbcType="TIMESTAMP" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    discuss_id, PId, user_id, discussTime, discussIp, friendCir_id, discussContent, addTimes, 
+    updateTimes, state
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dogpro.domain.model.DiscussExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from Discuss
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="pagination != null" >
+      limit #{pagination.begin} , #{pagination.length}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from Discuss
+    where discuss_id = #{discussId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from Discuss
+    where discuss_id = #{discussId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dogpro.domain.model.DiscussExample" >
+    delete from Discuss
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dogpro.domain.model.Discuss" >
+    insert into Discuss (discuss_id, PId, user_id, 
+      discussTime, discussIp, friendCir_id, 
+      discussContent, addTimes, updateTimes, 
+      state)
+    values (#{discussId,jdbcType=BIGINT}, #{pid,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, 
+      #{discusstime,jdbcType=TIMESTAMP}, #{discussip,jdbcType=VARCHAR}, #{friendcirId,jdbcType=BIGINT}, 
+      #{discusscontent,jdbcType=VARCHAR}, #{addtimes,jdbcType=TIMESTAMP}, #{updatetimes,jdbcType=TIMESTAMP}, 
+      #{state,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dogpro.domain.model.Discuss" >
+    insert into Discuss
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="discussId != null" >
+        discuss_id,
+      </if>
+      <if test="pid != null" >
+        PId,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="discusstime != null" >
+        discussTime,
+      </if>
+      <if test="discussip != null" >
+        discussIp,
+      </if>
+      <if test="friendcirId != null" >
+        friendCir_id,
+      </if>
+      <if test="discusscontent != null" >
+        discussContent,
+      </if>
+      <if test="addtimes != null" >
+        addTimes,
+      </if>
+      <if test="updatetimes != null" >
+        updateTimes,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="discussId != null" >
+        #{discussId,jdbcType=BIGINT},
+      </if>
+      <if test="pid != null" >
+        #{pid,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="discusstime != null" >
+        #{discusstime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="discussip != null" >
+        #{discussip,jdbcType=VARCHAR},
+      </if>
+      <if test="friendcirId != null" >
+        #{friendcirId,jdbcType=BIGINT},
+      </if>
+      <if test="discusscontent != null" >
+        #{discusscontent,jdbcType=VARCHAR},
+      </if>
+      <if test="addtimes != null" >
+        #{addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetimes != null" >
+        #{updatetimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dogpro.domain.model.DiscussExample" resultType="java.lang.Integer" >
+    select count(*) from Discuss
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update Discuss
+    <set >
+      <if test="record.discussId != null" >
+        discuss_id = #{record.discussId,jdbcType=BIGINT},
+      </if>
+      <if test="record.pid != null" >
+        PId = #{record.pid,jdbcType=BIGINT},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.discusstime != null" >
+        discussTime = #{record.discusstime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.discussip != null" >
+        discussIp = #{record.discussip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.friendcirId != null" >
+        friendCir_id = #{record.friendcirId,jdbcType=BIGINT},
+      </if>
+      <if test="record.discusscontent != null" >
+        discussContent = #{record.discusscontent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addtimes != null" >
+        addTimes = #{record.addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetimes != null" >
+        updateTimes = #{record.updatetimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update Discuss
+    set discuss_id = #{record.discussId,jdbcType=BIGINT},
+      PId = #{record.pid,jdbcType=BIGINT},
+      user_id = #{record.userId,jdbcType=BIGINT},
+      discussTime = #{record.discusstime,jdbcType=TIMESTAMP},
+      discussIp = #{record.discussip,jdbcType=VARCHAR},
+      friendCir_id = #{record.friendcirId,jdbcType=BIGINT},
+      discussContent = #{record.discusscontent,jdbcType=VARCHAR},
+      addTimes = #{record.addtimes,jdbcType=TIMESTAMP},
+      updateTimes = #{record.updatetimes,jdbcType=TIMESTAMP},
+      state = #{record.state,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dogpro.domain.model.Discuss" >
+    update Discuss
+    <set >
+      <if test="pid != null" >
+        PId = #{pid,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="discusstime != null" >
+        discussTime = #{discusstime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="discussip != null" >
+        discussIp = #{discussip,jdbcType=VARCHAR},
+      </if>
+      <if test="friendcirId != null" >
+        friendCir_id = #{friendcirId,jdbcType=BIGINT},
+      </if>
+      <if test="discusscontent != null" >
+        discussContent = #{discusscontent,jdbcType=VARCHAR},
+      </if>
+      <if test="addtimes != null" >
+        addTimes = #{addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetimes != null" >
+        updateTimes = #{updatetimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+    </set>
+    where discuss_id = #{discussId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dogpro.domain.model.Discuss" >
+    update Discuss
+    set PId = #{pid,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=BIGINT},
+      discussTime = #{discusstime,jdbcType=TIMESTAMP},
+      discussIp = #{discussip,jdbcType=VARCHAR},
+      friendCir_id = #{friendcirId,jdbcType=BIGINT},
+      discussContent = #{discusscontent,jdbcType=VARCHAR},
+      addTimes = #{addtimes,jdbcType=TIMESTAMP},
+      updateTimes = #{updatetimes,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=INTEGER}
+    where discuss_id = #{discussId,jdbcType=BIGINT}
+  </update>
+  
+   <select id="allianceDetailDiscuss" resultType="java.util.Map" parameterType="map" >
+   <![CDATA[
+    SELECT d.*,u.nickname,u.headPic,u2.nickname as replyname ,u2.user_id as replyUserId, if(d.PId<>0,1,0)as isReply
+from (Discuss d LEFT JOIN User u ON d.user_id = u.user_id) LEFT JOIN 
+(Discuss d2 LEFT JOIN User u2 ON d2.user_id = u2.user_id) ON d.PId = d2.discuss_id
+WHERE d.friendCir_id = #{friendCirId} 
+and d.state = 1
+ORDER BY d.discussTime desc
+    ]]>
+    <if test="pagination != null" >
+      limit #{pagination.begin} , #{pagination.length}
+    </if>
+  </select>
+</mapper>

@@ -1,0 +1,3 @@
+<!--Mapper文件-->
+VersionMapper.xml 
+<insert id="insertSelective" useGeneratedKeys="true" keyProperty="ID" parameterType="com.webpublish.domain.model.Version" >

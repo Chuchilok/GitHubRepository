@@ -1,0 +1,93 @@
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+#item-box {
+  float: left;
+  width: 12%;
+  background: #283643;
+  height: 100%;
+  h5 {
+    color: #ffffff;
+    line-height: 60px;
+    height: 60px;
+    font-size: 18px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border-bottom: 1px solid #212C34;
+
+  }
+  ul {
+    margin-top: 20px;
+    li {
+      height: 50px;
+      line-height: 50px;
+      border-bottom: 1px solid #34404B;
+      position: relative;
+      cursor: pointer;
+      i {
+        display: block;
+        width: 15px;
+        height: 15px;
+        position: absolute;
+        top: 50%;
+        left: 10%;
+        -webkit-transform: translate(0%, -50%);
+        -moz-transform: translate(0%, -50%);
+        -ms-transform: translate(0%, -50%);
+        -o-transform: translate(0%, -50%);
+        transform: translate(0%, -50%);
+      }
+      span {
+        color: #ffffff;
+        font-size: 15px;
+        margin-left: 22%;
+        font-family: 'YouYuan';
+      }
+    }
+    li.active {
+      background: #1CC09F;
+    }
+    li:nth-child(1) {
+      i {
+        background: url("../img/ic_group.png") no-repeat;
+        -webkit-background-size: 100% 100%;
+        background-size: 100% 100%;
+      }
+    }
+    li:nth-child(2) {
+      i {
+        background: url("../img/ic_write.png") no-repeat;
+        -webkit-background-size: 100% 100%;
+        background-size: 100% 100%;
+      }
+    }
+    li:nth-child(3) {
+      i {
+        background: url("../img/ic_gift.png") no-repeat;
+        -webkit-background-size: 100% 100%;
+        background-size: 100% 100%;
+      }
+    }
+  }
+}
+
+#content {
+  float: left;
+  width: 88%;
+  height: 100%;
+  .content-top {
+    height: 5%;
+    background: #1CC09F;
+  }
+  .content-main {
+    height: 100%;
+  }
+}
+
+iframe {
+  border: none;
+}

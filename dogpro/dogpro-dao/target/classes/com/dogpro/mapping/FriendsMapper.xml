@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dogpro.dao.FriendsMapper" >
+  <resultMap id="BaseResultMap" type="com.dogpro.domain.model.Friends" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="friend_user_id" property="friendUserId" jdbcType="BIGINT" />
+    <result column="is_request" property="isRequest" jdbcType="INTEGER" />
+    <result column="request_time" property="requestTime" jdbcType="TIMESTAMP" />
+    <result column="friend_comment" property="friendComment" jdbcType="VARCHAR" />
+    <result column="longitude" property="longitude" jdbcType="REAL" />
+    <result column="latitude" property="latitude" jdbcType="REAL" />
+    <result column="is_openFriend_cir_to_friend" property="isOpenfriendCirToFriend" jdbcType="INTEGER" />
+    <result column="addTimes" property="addtimes" jdbcType="TIMESTAMP" />
+    <result column="updateTimes" property="updatetimes" jdbcType="TIMESTAMP" />
+    <result column="friend_state" property="friendState" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, user_id, friend_user_id, is_request, request_time, friend_comment, longitude, 
+    latitude, is_openFriend_cir_to_friend, addTimes, updateTimes, friend_state, state
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dogpro.domain.model.FriendsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from Friends
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="pagination != null" >
+      limit #{pagination.begin} , #{pagination.length}
+    </if>
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from Friends
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from Friends
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dogpro.domain.model.FriendsExample" >
+    delete from Friends
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dogpro.domain.model.Friends" >
+    insert into Friends (id, user_id, friend_user_id, 
+      is_request, request_time, friend_comment, 
+      longitude, latitude, is_openFriend_cir_to_friend, 
+      addTimes, updateTimes, friend_state, 
+      state)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{friendUserId,jdbcType=BIGINT}, 
+      #{isRequest,jdbcType=INTEGER}, #{requestTime,jdbcType=TIMESTAMP}, #{friendComment,jdbcType=VARCHAR}, 
+      #{longitude,jdbcType=REAL}, #{latitude,jdbcType=REAL}, #{isOpenfriendCirToFriend,jdbcType=INTEGER}, 
+      #{addtimes,jdbcType=TIMESTAMP}, #{updatetimes,jdbcType=TIMESTAMP}, #{friendState,jdbcType=INTEGER}, 
+      #{state,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dogpro.domain.model.Friends" >
+    insert into Friends
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="friendUserId != null" >
+        friend_user_id,
+      </if>
+      <if test="isRequest != null" >
+        is_request,
+      </if>
+      <if test="requestTime != null" >
+        request_time,
+      </if>
+      <if test="friendComment != null" >
+        friend_comment,
+      </if>
+      <if test="longitude != null" >
+        longitude,
+      </if>
+      <if test="latitude != null" >
+        latitude,
+      </if>
+      <if test="isOpenfriendCirToFriend != null" >
+        is_openFriend_cir_to_friend,
+      </if>
+      <if test="addtimes != null" >
+        addTimes,
+      </if>
+      <if test="updatetimes != null" >
+        updateTimes,
+      </if>
+      <if test="friendState != null" >
+        friend_state,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="friendUserId != null" >
+        #{friendUserId,jdbcType=BIGINT},
+      </if>
+      <if test="isRequest != null" >
+        #{isRequest,jdbcType=INTEGER},
+      </if>
+      <if test="requestTime != null" >
+        #{requestTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="friendComment != null" >
+        #{friendComment,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        #{longitude,jdbcType=REAL},
+      </if>
+      <if test="latitude != null" >
+        #{latitude,jdbcType=REAL},
+      </if>
+      <if test="isOpenfriendCirToFriend != null" >
+        #{isOpenfriendCirToFriend,jdbcType=INTEGER},
+      </if>
+      <if test="addtimes != null" >
+        #{addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetimes != null" >
+        #{updatetimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="friendState != null" >
+        #{friendState,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dogpro.domain.model.FriendsExample" resultType="java.lang.Integer" >
+    select count(*) from Friends
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update Friends
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.friendUserId != null" >
+        friend_user_id = #{record.friendUserId,jdbcType=BIGINT},
+      </if>
+      <if test="record.isRequest != null" >
+        is_request = #{record.isRequest,jdbcType=INTEGER},
+      </if>
+      <if test="record.requestTime != null" >
+        request_time = #{record.requestTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.friendComment != null" >
+        friend_comment = #{record.friendComment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.longitude != null" >
+        longitude = #{record.longitude,jdbcType=REAL},
+      </if>
+      <if test="record.latitude != null" >
+        latitude = #{record.latitude,jdbcType=REAL},
+      </if>
+      <if test="record.isOpenfriendCirToFriend != null" >
+        is_openFriend_cir_to_friend = #{record.isOpenfriendCirToFriend,jdbcType=INTEGER},
+      </if>
+      <if test="record.addtimes != null" >
+        addTimes = #{record.addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetimes != null" >
+        updateTimes = #{record.updatetimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.friendState != null" >
+        friend_state = #{record.friendState,jdbcType=INTEGER},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update Friends
+    set id = #{record.id,jdbcType=BIGINT},
+      user_id = #{record.userId,jdbcType=BIGINT},
+      friend_user_id = #{record.friendUserId,jdbcType=BIGINT},
+      is_request = #{record.isRequest,jdbcType=INTEGER},
+      request_time = #{record.requestTime,jdbcType=TIMESTAMP},
+      friend_comment = #{record.friendComment,jdbcType=VARCHAR},
+      longitude = #{record.longitude,jdbcType=REAL},
+      latitude = #{record.latitude,jdbcType=REAL},
+      is_openFriend_cir_to_friend = #{record.isOpenfriendCirToFriend,jdbcType=INTEGER},
+      addTimes = #{record.addtimes,jdbcType=TIMESTAMP},
+      updateTimes = #{record.updatetimes,jdbcType=TIMESTAMP},
+      friend_state = #{record.friendState,jdbcType=INTEGER},
+      state = #{record.state,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dogpro.domain.model.Friends" >
+    update Friends
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="friendUserId != null" >
+        friend_user_id = #{friendUserId,jdbcType=BIGINT},
+      </if>
+      <if test="isRequest != null" >
+        is_request = #{isRequest,jdbcType=INTEGER},
+      </if>
+      <if test="requestTime != null" >
+        request_time = #{requestTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="friendComment != null" >
+        friend_comment = #{friendComment,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        longitude = #{longitude,jdbcType=REAL},
+      </if>
+      <if test="latitude != null" >
+        latitude = #{latitude,jdbcType=REAL},
+      </if>
+      <if test="isOpenfriendCirToFriend != null" >
+        is_openFriend_cir_to_friend = #{isOpenfriendCirToFriend,jdbcType=INTEGER},
+      </if>
+      <if test="addtimes != null" >
+        addTimes = #{addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetimes != null" >
+        updateTimes = #{updatetimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="friendState != null" >
+        friend_state = #{friendState,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dogpro.domain.model.Friends" >
+    update Friends
+    set user_id = #{userId,jdbcType=BIGINT},
+      friend_user_id = #{friendUserId,jdbcType=BIGINT},
+      is_request = #{isRequest,jdbcType=INTEGER},
+      request_time = #{requestTime,jdbcType=TIMESTAMP},
+      friend_comment = #{friendComment,jdbcType=VARCHAR},
+      longitude = #{longitude,jdbcType=REAL},
+      latitude = #{latitude,jdbcType=REAL},
+      is_openFriend_cir_to_friend = #{isOpenfriendCirToFriend,jdbcType=INTEGER},
+      addTimes = #{addtimes,jdbcType=TIMESTAMP},
+      updateTimes = #{updatetimes,jdbcType=TIMESTAMP},
+      friend_state = #{friendState,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectByFriends" resultType="java.util.Map" parameterType="java.lang.Long" >
+  SELECT u.user_id as userId,u.headPic as headpic,u.nickname as nickname,fn.notes as friendsNote
+FROM 
+Friends f LEFT JOIN `User` u
+ON f.friend_user_id = u.user_id
+LEFT JOIN FriendsNote fn 
+ON f.user_id = fn.userId
+AND f.friend_user_id = fn.friendId
+AND fn.state = 1
+WHERE
+ f.user_id = #{userId}
+AND f.friend_state = 1
+AND f.state = 1
+AND u.state = 1
+AND u.isCompleted = 1
+   	
+  </select>
+	
+    <select id="selectByUidFid" resultMap="BaseResultMap" parameterType="map" >
+    select
+    <include refid="Base_Column_List" />
+    from Friends
+    where user_id = #{userId} and friend_user_id = #{friendUserId}
+    and friend_state = 1
+    and state = 1
+  </select>
+  <select id="selectUserIsFriend" resultType="int" parameterType="com.dogpro.domain.model.Friends">
+  	select count(*) from Friends where 
+  	(user_id = #{userId,jdbcType=VARCHAR} and friend_user_id = #{friendUserId,jdbcType=VARCHAR}) 
+  	and friend_state = 1 
+  	and state = 1
+  </select>
+  
+  
+  <select id="countFriendsByUid" resultType="int" parameterType="java.lang.Long">
+  	select count(*) from Friends where 
+  	user_id = #{userId,jdbcType=VARCHAR} 
+  	and friend_state = 1 
+  	and state = 1
+  </select>
+  
+  
+  <select id="newFriendsList" resultType="java.util.Map" parameterType="map">
+  	SELECT f.user_id AS friendUserId,f.friend_comment AS content,if(f.friend_state=1,1,0) AS isFriend,u.headPic AS headPic,u.nickname AS nickname,fc.notes AS fcNote
+FROM Friends f LEFT JOIN `User` u
+ON f.user_id = u.user_id
+LEFT JOIN FriendsNote fc
+ON f.friend_user_id = fc.userId
+AND f.user_id = fc.friendId
+WHERE f.friend_user_id = #{userId}
+AND f.state = 1
+AND u.state = 1
+AND u.isCompleted = 1
+AND f.is_request = 1
+AND f.request_time > #{date}
+ORDER BY f.request_time DESC
+  </select>
+  
+  <select id="friendHomeDetail" resultType="java.util.Map" parameterType="map">
+SELECT u.nickname AS nickname,u.sex AS sex,u.headPic AS headpic,u.sign AS sign,u.municipalities AS municipalities,u.districts AS districts,COUNT(f.id) AS isFriend,fn.notes AS fcNote
+FROM `User` u LEFT JOIN Friends f 
+ON u.user_id = f.friend_user_id
+AND f.user_id = #{userId}
+AND f.friend_state = 1
+AND f.state = 1
+LEFT JOIN FriendsNote fn
+ON f.user_id = fn.userId
+AND f.friend_user_id = fn.friendId
+WHERE u.user_id = #{friendsUserId}
+LIMIT 0,1
+  </select>
+</mapper>

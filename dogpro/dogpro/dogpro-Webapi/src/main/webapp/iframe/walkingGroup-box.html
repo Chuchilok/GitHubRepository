@@ -1,0 +1,136 @@
+<!-- 遛狗组管理 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/easyui-perfect.css">
+    <link rel="stylesheet" href="../css/icon.css">
+    <link rel="stylesheet" href="../css/user.css">
+    <link rel="stylesheet" href="../css/pop-dialog.css">
+</head>
+<body>
+<div class="search-container">
+    <div class="search-box">
+        <div class="search-div fl">
+            <i></i>
+            <input class="search-input" type="text" placeholder="手机号搜索">
+        </div>
+        <span class="search-span fl">搜 索</span>
+    </div>
+</div>
+
+<table id="tb1" >
+
+</table>
+
+<div id="dlg" class="easyui-dialog" style="width:400px" closed="true" buttons="#dlg-buttons">
+    <form id="fm" method="post" novalidate style="margin:0;padding:20px 50px">
+        <div style="margin-bottom:20px;font-size:14px;border-bottom:1px solid #ccc">User Information</div>
+        <div style="margin-bottom:10px">
+            <input name="areaname" class="easyui-textbox" required="true" label="地区:" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="provinces" class="easyui-textbox" required="true" label="省:" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="municipalities" class="easyui-textbox" required="true" label="市:" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="districts" class="easyui-textbox" required="true"  label="区:" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="townstreet" class="easyui-textbox" required="true"  label="详细地:" style="width:100%">
+        </div>
+
+    </form>
+</div>
+<div id="dlg-buttons">
+    <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveUser()" style="width:90px">Save</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">Cancel</a>
+</div>
+<div id="toolbar">
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">Edit User</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">Remove User</a>
+</div>
+<!-----------------弹出窗口------------------>
+<div class="hidden-bg">
+    <div class="hidden-dialog">
+        <table id="tb2">
+        </table>
+        <i class="close"></i>
+    </div>
+</div>
+<script src="../js/jquery-1.9.1.min.js"></script>
+<script src="../js/jQuery-EasyUI-1.5.2.min.js"></script>
+<script src="../js/easyui-lang-zh_CN.js"></script>
+<script src="../js/dataGridTemplete.js"></script>
+<script>
+    var url;
+    function newUser(){
+        $('#dlg').dialog('open').dialog('center').dialog('setTitle','New User');
+        $('#fm').form('clear');
+        // url = 'save_user.php';
+    }
+    function editUser(){
+        var row = $('#tb1').datagrid('getSelected');
+        if (row){
+            $('#dlg').dialog('open').dialog('center').dialog('setTitle','Edit User');
+            $('#fm').form('load',row);
+            // url = 'update_user.php?id='+row.id;
+        }
+    }
+    //////////////////////遛狗组管理///////////////////////
+    $(function () {
+
+    	//遛狗组管理
+        var params=`{
+        	"module":"walkingDogGroupList",
+        	"action":"AdminService",
+        	"paras":{
+                "pageNO":"0",
+                "pageSize":"5",
+                "token":"sersdd123dsew456dsed78sef9...d12"
+        	    }
+        	}`;//参数
+        var columns = [[
+                        { field: 'checkbox', checkbox: true },
+                        { field: 'groupId', title: '遛狗组id(（显示该组最后一个id）)', width: 150},
+                        { field: 'locationId', title: '地点id', width: 150,hidden:'true' },
+                        { field: 'groupName', title: '遛狗组名', width: 150},
+                        { field: 'addTimes', title: '创建时间', width: 150 },
+                        { field: 'detail', title: '遛狗组成员', width: 150 ,
+                            formatter:function(value,row,index){
+                                return `<a href="javascript:groupDetail(${row.locationId})">点击详情</a>`;
+                        }},
+                    ]];//字段
+        initDataGrid($("#tb1"),params,'#toolbar','遛狗组管理','/dogpro-Webapi/UsercenterApi/ApivDataGrid.do',columns);
+        //$(".pagination-load").click();//触发刷新时间
+    });
+    //////////////////////遛狗组管理详情///////////////////////
+    function groupDetail(locationid) {
+        var params=`{
+                "module":"dogGroupDetail",
+                "action":"AdminService",
+                "paras":{
+                    "locationId": ${locationid},
+                    "pageNO":"0",
+                    "pageSize":"5",
+                    "token":"sersdd123dsew456dsed78sef9...d12"
+                }
+            }`;//参数
+        var columns = [[
+            { field: 'userId', title: '用户id', width: 50},
+            { field: 'nickName', title: '用户昵称', width: 50 },
+            { field: 'joinTimes', title: '加入时间', width: 150}
+        ]];//字段
+        initDataGrid($("#tb2"),params,'#toolbar-detail','遛狗组详情','/dogpro-Webapi/UsercenterApi/ApivDataGrid.do',columns);
+        $('.hidden-bg').fadeIn();
+    }
+    $('.hidden-bg .close').click(function () {
+        $('.hidden-bg').fadeOut();
+    })
+</script>
+</body>
+</html>

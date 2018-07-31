@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/easyui-perfect.css">
+    <link rel="stylesheet" href="../css/icon.css">
+    <link rel="stylesheet" href="../css/user.css">
+    <link rel="stylesheet" href="../css/switchOnOff.css">
+    <link rel="stylesheet" href="../css/pop-dialog.css">
+</head>
+<body>
+
+<table id="tb1">
+
+</table>
+<div id="dlg" class="easyui-dialog" style="width:400px"
+     closed="true" buttons="#dlg-buttons">
+    <form id="fm" method="post" novalidate style="margin:0;padding:20px 50px">
+        <!--<input type="hidden" value="" name="type" id="type">-->
+        <div style="margin-bottom:20px;font-size:14px;border-bottom:1px solid #ccc">版本信息</div>
+        <div style="margin-bottom:10px">
+            <input name="type" type="hidden" id="handleType">
+            <input name="vid" type="hidden" id="vid">
+        </div>
+
+        <div style="margin-bottom:10px">
+            <input name="versionName" class="easyui-textbox" required="true" label="版本名称:" style="width:100%">
+        </div>
+
+        <div style="margin-bottom:10px">
+            <input name="versionNumber" class="easyui-textbox" required="true" label="版本编号:" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="downloadURL" class="easyui-textbox" required="true" label="下载地址:" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+            <div>
+                设备类型:
+                <div style="display: inline-block;margin-left: 30px;">
+                    <input type="radio" name="deviceType" value="1" id="and">&nbsp;<label for="and"
+                                                                                          style="margin-right: 20px;cursor: pointer">安卓</label>
+                    <input type="radio" name="deviceType" value="2" id="ios">&nbsp;<label for="ios"
+                                                                                          style="cursor: pointer">IOS</label>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="dlg-buttons">
+    <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveUser()" style="width:90px">Save</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel"
+       onclick="javascript:$('#dlg').dialog('close')" style="width:90px">Cancel</a>
+</div>
+<div id="toolbar">
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">增加</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">编辑</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true"
+       onclick="destroyUser()">删除</a>
+</div>
+
+<script src="../js/jquery-1.9.1.min.js"></script>
+<script src="../js/jQuery-EasyUI-1.5.2.min.js"></script>
+<script src="../js/jsonUrl.js?v1"></script>
+<script src="../js/easyui-lang-zh_CN.js"></script>
+<script src="../js/dataGridTemplete.js?v1"></script>
+<script src="../js/serializeJSON.js"></script>
+<script>
+
+    function newUser() {
+        var row = $('#tb1').datagrid('getSelected');
+
+        $('#dlg').dialog('open').dialog('center').dialog('setTitle', '增加版本');
+        $('#fm').form('clear');
+        //params是全局
+        $("#handleType").val(1);//这个为“增”操作
+        $("#vid").val(1);
+        params = `{
+            "module":"operateVersionControl",
+            "action":"VersionControlService"
+        }`;//新增样本
+    }
+
+    function editUser() {
+        var row = $('#tb1').datagrid('getSelected');
+
+        if (row) {
+            $('#dlg').dialog('open').dialog('center').dialog('setTitle', '编辑版本');
+            $('#fm').form('load', row);
+        }
+
+        if (row.deviceType == 1) {
+            $("#and").click();
+        } else if (row.deviceType == 2) {
+            $("#ios").click();
+        }
+
+        $("#handleType").val(2);//这个为“增”操作
+        $("#vid").val(row.vid);
+
+        params = `{
+            "module":"operateVersionControl",
+            "action":"VersionControlService"
+        }`;//新增样本
+    }
+
+    function destroyUser() {
+        $.messager.confirm('Confirm', '确定要删除?', function (r) {
+            if (r) {
+                var row = $('#tb1').datagrid('getSelected');//获取当前行
+
+                params = `{
+                    "module":"operateVersionControl",
+                    "action":"VersionControlService",
+                    "paras":{
+                        "adminUserId":${userId},
+                        "vid":'${row.vid}',
+                        "type":"3",
+                        "versionName":"xxx",
+                        "deviceType":"1",
+                        "versionNumber":"1",
+                        "downloadURL":"xxxxxxxxxxxx",
+                        "token":"${token}"
+                    }
+                }`;//新增样本
+                console.log(params)
+                $.ajax({
+                    url: jsonUrl,
+                    type: "get",
+                    dataType: "jsonp",
+                    jsonp: "callback", //服务端用于接收callback调用的function名的参数
+                    jsonpCallback: "success_jsonpCallback", //callback的function名称,服务端会把名称和data一起传递回来
+                    data: {params: params},
+                    success: function (data) {
+                        console.log(data);
+                        if (data.value.state == 'success') {
+                            $.messager.alert('提示信息', '操作成功', 'info');//error、question、info、warning。
+                            $('#dlg').dialog('close');
+                            $(".pagination-load").click();
+                        } else {
+                            $.messager.alert('错误', '操作失败', 'error');
+                            $('#dlg').dialog('close');
+                        }
+                    },
+                    error: function (err) {
+                        $.messager.alert('操作提示', '获取信息失败...请联系管理员!', 'error');
+                        doc.datagrid("loaded"); //移除屏蔽
+                    }
+                });
+            }
+        });
+
+    }
+
+    //////////////////////版本信息///////////////////////
+    $(function () {
+        //遛狗组管理
+        var params = `{
+                "module":"findVersionList",
+                "action":"VersionControlService",
+                "paras":{
+                    "adminUserId":${userId},
+                    "pageNO":"0",
+                    "pageSize":"5",
+                    "versionName":"",
+                    "token":"${token}"
+                }
+            }
+        `;//参数
+        var columns = [[
+            {field: 'vid', title: 'id', width: 150},
+            {field: 'versionName', title: '版本名称', width: 150},
+            {
+                field: 'deviceType', title: '设备类型', width: 150, formatter: function (value, row, index) {
+                if (row.deviceType == 1) {
+                    return '安卓';
+                } else if (row.deviceType == 2) {
+                    return 'ios';
+                }
+            }
+            },
+            {field: 'versionNumber', title: '版本编号', width: 150},
+            {field: 'downloadURL', title: '下载地址', width: 150},
+            {field: 'releaseTime', title: '发布时间', width: 250}
+        ]];//字段
+        initDataGrid($("#tb1"), params, '#toolbar', '版本信息', '', columns);
+    });
+</script>
+</body>
+</html>

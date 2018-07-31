@@ -1,0 +1,24 @@
+searchFriendsCir  AdminService   朋友圈搜索
+{
+"module":"searchFriendsCir",
+"action":"AdminService",
+"paras":{
+"pageNO":"0",
+"pageSize":"5",
+"content":${content},
+"token":"sdfasdfsafasdf"
+}
+}
+findDisussByFriendCir    朋友圈详细评论
+{
+    		"module":"findDisussByFriendCir",
+    		"action":"AdminService",
+    		"paras":{
+    		"pageNO":"0",
+    		"pageSize":"5",
+    		"friendCirId":${friendCirId},
+    		"token":"sdfasdfsafasdf"
+    		}
+    		}
+
+遛狗轨迹的分组

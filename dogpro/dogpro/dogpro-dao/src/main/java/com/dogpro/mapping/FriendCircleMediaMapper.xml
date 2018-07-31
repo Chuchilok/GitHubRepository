@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dogpro.dao.FriendCircleMediaMapper" >
+  <resultMap id="BaseResultMap" type="com.dogpro.domain.model.FriendCircleMedia" >
+    <id column="media_id" property="mediaId" jdbcType="BIGINT" />
+    <result column="friendCir_id" property="friendcirId" jdbcType="BIGINT" />
+    <result column="mediaUrl" property="mediaurl" jdbcType="VARCHAR" />
+    <result column="mediaSubUrl" property="mediasuburl" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="addTimes" property="addtimes" jdbcType="TIMESTAMP" />
+    <result column="updateTimes" property="updatetimes" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    media_id, friendCir_id, mediaUrl, mediaSubUrl, remark, addTimes, updateTimes
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dogpro.domain.model.FriendCircleMediaExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from FriendCircleMedia
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="pagination != null" >
+      limit #{pagination.begin} , #{pagination.length}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from FriendCircleMedia
+    where media_id = #{mediaId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from FriendCircleMedia
+    where media_id = #{mediaId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dogpro.domain.model.FriendCircleMediaExample" >
+    delete from FriendCircleMedia
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dogpro.domain.model.FriendCircleMedia" >
+    insert into FriendCircleMedia (media_id, friendCir_id, mediaUrl, 
+      mediaSubUrl, remark, addTimes, 
+      updateTimes)
+    values (#{mediaId,jdbcType=BIGINT}, #{friendcirId,jdbcType=BIGINT}, #{mediaurl,jdbcType=VARCHAR}, 
+      #{mediasuburl,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{addtimes,jdbcType=TIMESTAMP}, 
+      #{updatetimes,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dogpro.domain.model.FriendCircleMedia" >
+    insert into FriendCircleMedia
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="mediaId != null" >
+        media_id,
+      </if>
+      <if test="friendcirId != null" >
+        friendCir_id,
+      </if>
+      <if test="mediaurl != null" >
+        mediaUrl,
+      </if>
+      <if test="mediasuburl != null" >
+        mediaSubUrl,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="addtimes != null" >
+        addTimes,
+      </if>
+      <if test="updatetimes != null" >
+        updateTimes,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="mediaId != null" >
+        #{mediaId,jdbcType=BIGINT},
+      </if>
+      <if test="friendcirId != null" >
+        #{friendcirId,jdbcType=BIGINT},
+      </if>
+      <if test="mediaurl != null" >
+        #{mediaurl,jdbcType=VARCHAR},
+      </if>
+      <if test="mediasuburl != null" >
+        #{mediasuburl,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="addtimes != null" >
+        #{addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetimes != null" >
+        #{updatetimes,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dogpro.domain.model.FriendCircleMediaExample" resultType="java.lang.Integer" >
+    select count(*) from FriendCircleMedia
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update FriendCircleMedia
+    <set >
+      <if test="record.mediaId != null" >
+        media_id = #{record.mediaId,jdbcType=BIGINT},
+      </if>
+      <if test="record.friendcirId != null" >
+        friendCir_id = #{record.friendcirId,jdbcType=BIGINT},
+      </if>
+      <if test="record.mediaurl != null" >
+        mediaUrl = #{record.mediaurl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mediasuburl != null" >
+        mediaSubUrl = #{record.mediasuburl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addtimes != null" >
+        addTimes = #{record.addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetimes != null" >
+        updateTimes = #{record.updatetimes,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update FriendCircleMedia
+    set media_id = #{record.mediaId,jdbcType=BIGINT},
+      friendCir_id = #{record.friendcirId,jdbcType=BIGINT},
+      mediaUrl = #{record.mediaurl,jdbcType=VARCHAR},
+      mediaSubUrl = #{record.mediasuburl,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      addTimes = #{record.addtimes,jdbcType=TIMESTAMP},
+      updateTimes = #{record.updatetimes,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dogpro.domain.model.FriendCircleMedia" >
+    update FriendCircleMedia
+    <set >
+      <if test="friendcirId != null" >
+        friendCir_id = #{friendcirId,jdbcType=BIGINT},
+      </if>
+      <if test="mediaurl != null" >
+        mediaUrl = #{mediaurl,jdbcType=VARCHAR},
+      </if>
+      <if test="mediasuburl != null" >
+        mediaSubUrl = #{mediasuburl,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="addtimes != null" >
+        addTimes = #{addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetimes != null" >
+        updateTimes = #{updatetimes,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where media_id = #{mediaId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dogpro.domain.model.FriendCircleMedia" >
+    update FriendCircleMedia
+    set friendCir_id = #{friendcirId,jdbcType=BIGINT},
+      mediaUrl = #{mediaurl,jdbcType=VARCHAR},
+      mediaSubUrl = #{mediasuburl,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      addTimes = #{addtimes,jdbcType=TIMESTAMP},
+      updateTimes = #{updatetimes,jdbcType=TIMESTAMP}
+    where media_id = #{mediaId,jdbcType=BIGINT}
+  </update>
+  
+  
+  
+  <select id="selectFriendCircleMediaByUid" resultType="java.util.Map" parameterType="map">
+  	  	SELECT 
+fc.friendCir_id as friendCircleId,
+fc.mediaType as mediaType,
+fm.mediaSubUrl as mediaSubUrl,
+fm.mediaUrl as mediaUrl
+FROM
+FriendCircle fc , FriendCircleMedia fm WHERE fc.friendCir_id = fm.friendCir_id
+AND fc.state = 1
+AND fc.user_id = #{userId}
+  	order by fc.publishTime desc
+    <if test="pagination != null" >
+      limit #{pagination.begin} , #{pagination.length}
+    </if>
+  </select>
+</mapper>

@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dogpro.dao.WalkingDogTrackMapper" >
+  <resultMap id="BaseResultMap" type="com.dogpro.domain.model.WalkingDogTrack" >
+    <id column="trackId" property="trackid" jdbcType="BIGINT" />
+    <result column="userId" property="userid" jdbcType="BIGINT" />
+    <result column="groupId" property="groupid" jdbcType="BIGINT" />
+    <result column="trackTimes" property="tracktimes" jdbcType="TIMESTAMP" />
+    <result column="longitude" property="longitude" jdbcType="REAL" />
+    <result column="latitude" property="latitude" jdbcType="REAL" />
+    <result column="addTimes" property="addtimes" jdbcType="TIMESTAMP" />
+    <result column="updateTimes" property="updatetimes" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    trackId, userId, groupId, trackTimes, longitude, latitude, addTimes, updateTimes
+  </sql>
+  <select id="selectUserByExample" resultMap="BaseResultMap" parameterType="com.dogpro.domain.model.WalkingDogTrackExample" >
+    select
+    <include refid="Base_Column_List" />
+    from WalkingDogTrack
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause} 
+    </if>
+    group by userId,groupId
+    <if test="pagination != null" >
+      limit #{pagination.begin} , #{pagination.length}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dogpro.domain.model.WalkingDogTrackExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from WalkingDogTrack
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="pagination != null" >
+      limit #{pagination.begin} , #{pagination.length}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from WalkingDogTrack
+    where trackId = #{trackid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from WalkingDogTrack
+    where trackId = #{trackid,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dogpro.domain.model.WalkingDogTrackExample" >
+    delete from WalkingDogTrack
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dogpro.domain.model.WalkingDogTrack" >
+    insert into WalkingDogTrack (trackId, userId, groupId, 
+      trackTimes, longitude, latitude, 
+      addTimes, updateTimes)
+    values (#{trackid,jdbcType=BIGINT}, #{userid,jdbcType=BIGINT}, #{groupid,jdbcType=BIGINT}, 
+      #{tracktimes,jdbcType=TIMESTAMP}, #{longitude,jdbcType=REAL}, #{latitude,jdbcType=REAL}, 
+      #{addtimes,jdbcType=TIMESTAMP}, #{updatetimes,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dogpro.domain.model.WalkingDogTrack" >
+    insert into WalkingDogTrack
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="trackid != null" >
+        trackId,
+      </if>
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="groupid != null" >
+        groupId,
+      </if>
+      <if test="tracktimes != null" >
+        trackTimes,
+      </if>
+      <if test="longitude != null" >
+        longitude,
+      </if>
+      <if test="latitude != null" >
+        latitude,
+      </if>
+      <if test="addtimes != null" >
+        addTimes,
+      </if>
+      <if test="updatetimes != null" >
+        updateTimes,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="trackid != null" >
+        #{trackid,jdbcType=BIGINT},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=BIGINT},
+      </if>
+      <if test="groupid != null" >
+        #{groupid,jdbcType=BIGINT},
+      </if>
+      <if test="tracktimes != null" >
+        #{tracktimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="longitude != null" >
+        #{longitude,jdbcType=REAL},
+      </if>
+      <if test="latitude != null" >
+        #{latitude,jdbcType=REAL},
+      </if>
+      <if test="addtimes != null" >
+        #{addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetimes != null" >
+        #{updatetimes,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dogpro.domain.model.WalkingDogTrackExample" resultType="java.lang.Integer" >
+    select count(*) from WalkingDogTrack
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update WalkingDogTrack
+    <set >
+      <if test="record.trackid != null" >
+        trackId = #{record.trackid,jdbcType=BIGINT},
+      </if>
+      <if test="record.userid != null" >
+        userId = #{record.userid,jdbcType=BIGINT},
+      </if>
+      <if test="record.groupid != null" >
+        groupId = #{record.groupid,jdbcType=BIGINT},
+      </if>
+      <if test="record.tracktimes != null" >
+        trackTimes = #{record.tracktimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.longitude != null" >
+        longitude = #{record.longitude,jdbcType=REAL},
+      </if>
+      <if test="record.latitude != null" >
+        latitude = #{record.latitude,jdbcType=REAL},
+      </if>
+      <if test="record.addtimes != null" >
+        addTimes = #{record.addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetimes != null" >
+        updateTimes = #{record.updatetimes,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update WalkingDogTrack
+    set trackId = #{record.trackid,jdbcType=BIGINT},
+      userId = #{record.userid,jdbcType=BIGINT},
+      groupId = #{record.groupid,jdbcType=BIGINT},
+      trackTimes = #{record.tracktimes,jdbcType=TIMESTAMP},
+      longitude = #{record.longitude,jdbcType=REAL},
+      latitude = #{record.latitude,jdbcType=REAL},
+      addTimes = #{record.addtimes,jdbcType=TIMESTAMP},
+      updateTimes = #{record.updatetimes,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dogpro.domain.model.WalkingDogTrack" >
+    update WalkingDogTrack
+    <set >
+      <if test="userid != null" >
+        userId = #{userid,jdbcType=BIGINT},
+      </if>
+      <if test="groupid != null" >
+        groupId = #{groupid,jdbcType=BIGINT},
+      </if>
+      <if test="tracktimes != null" >
+        trackTimes = #{tracktimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="longitude != null" >
+        longitude = #{longitude,jdbcType=REAL},
+      </if>
+      <if test="latitude != null" >
+        latitude = #{latitude,jdbcType=REAL},
+      </if>
+      <if test="addtimes != null" >
+        addTimes = #{addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetimes != null" >
+        updateTimes = #{updatetimes,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where trackId = #{trackid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dogpro.domain.model.WalkingDogTrack" >
+    update WalkingDogTrack
+    set userId = #{userid,jdbcType=BIGINT},
+      groupId = #{groupid,jdbcType=BIGINT},
+      trackTimes = #{tracktimes,jdbcType=TIMESTAMP},
+      longitude = #{longitude,jdbcType=REAL},
+      latitude = #{latitude,jdbcType=REAL},
+      addTimes = #{addtimes,jdbcType=TIMESTAMP},
+      updateTimes = #{updatetimes,jdbcType=TIMESTAMP}
+    where trackId = #{trackid,jdbcType=BIGINT}
+  </update>
+</mapper>

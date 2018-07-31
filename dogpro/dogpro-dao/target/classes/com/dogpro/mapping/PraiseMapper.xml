@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dogpro.dao.PraiseMapper" >
+  <resultMap id="BaseResultMap" type="com.dogpro.domain.model.Praise" >
+    <id column="praise_id" property="praiseId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="praiseTime" property="praisetime" jdbcType="TIMESTAMP" />
+    <result column="friendCir_id" property="friendcirId" jdbcType="BIGINT" />
+    <result column="praiseStar" property="praisestar" jdbcType="VARCHAR" />
+    <result column="addTimes" property="addtimes" jdbcType="TIMESTAMP" />
+    <result column="updateTimes" property="updatetimes" jdbcType="TIMESTAMP" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    praise_id, user_id, praiseTime, friendCir_id, praiseStar, addTimes, updateTimes, 
+    state
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dogpro.domain.model.PraiseExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from Praise
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="pagination != null" >
+      limit #{pagination.begin} , #{pagination.length}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from Praise
+    where praise_id = #{praiseId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from Praise
+    where praise_id = #{praiseId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dogpro.domain.model.PraiseExample" >
+    delete from Praise
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dogpro.domain.model.Praise" >
+    insert into Praise (praise_id, user_id, praiseTime, 
+      friendCir_id, praiseStar, addTimes, 
+      updateTimes, state)
+    values (#{praiseId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{praisetime,jdbcType=TIMESTAMP}, 
+      #{friendcirId,jdbcType=BIGINT}, #{praisestar,jdbcType=VARCHAR}, #{addtimes,jdbcType=TIMESTAMP}, 
+      #{updatetimes,jdbcType=TIMESTAMP}, #{state,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dogpro.domain.model.Praise" >
+    insert into Praise
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="praiseId != null" >
+        praise_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="praisetime != null" >
+        praiseTime,
+      </if>
+      <if test="friendcirId != null" >
+        friendCir_id,
+      </if>
+      <if test="praisestar != null" >
+        praiseStar,
+      </if>
+      <if test="addtimes != null" >
+        addTimes,
+      </if>
+      <if test="updatetimes != null" >
+        updateTimes,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="praiseId != null" >
+        #{praiseId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="praisetime != null" >
+        #{praisetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="friendcirId != null" >
+        #{friendcirId,jdbcType=BIGINT},
+      </if>
+      <if test="praisestar != null" >
+        #{praisestar,jdbcType=VARCHAR},
+      </if>
+      <if test="addtimes != null" >
+        #{addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetimes != null" >
+        #{updatetimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dogpro.domain.model.PraiseExample" resultType="java.lang.Integer" >
+    select count(*) from Praise
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update Praise
+    <set >
+      <if test="record.praiseId != null" >
+        praise_id = #{record.praiseId,jdbcType=BIGINT},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.praisetime != null" >
+        praiseTime = #{record.praisetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.friendcirId != null" >
+        friendCir_id = #{record.friendcirId,jdbcType=BIGINT},
+      </if>
+      <if test="record.praisestar != null" >
+        praiseStar = #{record.praisestar,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addtimes != null" >
+        addTimes = #{record.addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetimes != null" >
+        updateTimes = #{record.updatetimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update Praise
+    set praise_id = #{record.praiseId,jdbcType=BIGINT},
+      user_id = #{record.userId,jdbcType=BIGINT},
+      praiseTime = #{record.praisetime,jdbcType=TIMESTAMP},
+      friendCir_id = #{record.friendcirId,jdbcType=BIGINT},
+      praiseStar = #{record.praisestar,jdbcType=VARCHAR},
+      addTimes = #{record.addtimes,jdbcType=TIMESTAMP},
+      updateTimes = #{record.updatetimes,jdbcType=TIMESTAMP},
+      state = #{record.state,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dogpro.domain.model.Praise" >
+    update Praise
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="praisetime != null" >
+        praiseTime = #{praisetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="friendcirId != null" >
+        friendCir_id = #{friendcirId,jdbcType=BIGINT},
+      </if>
+      <if test="praisestar != null" >
+        praiseStar = #{praisestar,jdbcType=VARCHAR},
+      </if>
+      <if test="addtimes != null" >
+        addTimes = #{addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetimes != null" >
+        updateTimes = #{updatetimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+    </set>
+    where praise_id = #{praiseId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dogpro.domain.model.Praise" >
+    update Praise
+    set user_id = #{userId,jdbcType=BIGINT},
+      praiseTime = #{praisetime,jdbcType=TIMESTAMP},
+      friendCir_id = #{friendcirId,jdbcType=BIGINT},
+      praiseStar = #{praisestar,jdbcType=VARCHAR},
+      addTimes = #{addtimes,jdbcType=TIMESTAMP},
+      updateTimes = #{updatetimes,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=INTEGER}
+    where praise_id = #{praiseId,jdbcType=BIGINT}
+  </update>
+  
+   <select id="friendCirclePraise" resultType="java.util.Map" parameterType="java.lang.Long" >
+SELECT u.headPic as praiseHeadPicUrl,u.user_id as praiseUserId
+FROM Praise p ,`User` u 
+WHERE p.user_id = u.user_id 
+AND u.isCompleted = 1
+AND p.state = 1
+AND p.friendCir_id = #{friendCirId}
+ORDER BY p.praiseTime DESC
+  </select>
+</mapper>

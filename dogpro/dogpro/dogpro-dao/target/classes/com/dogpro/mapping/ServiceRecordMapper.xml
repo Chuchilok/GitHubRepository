@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dogpro.dao.ServiceRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.dogpro.domain.model.ServiceRecord" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="chat_count" property="chatCount" jdbcType="INTEGER" />
+    <result column="last_chat_time" property="lastChatTime" jdbcType="TIMESTAMP" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="addTimes" property="addtimes" jdbcType="TIMESTAMP" />
+    <result column="updateTimes" property="updatetimes" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, user_id, chat_count, last_chat_time, state, addTimes, updateTimes
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dogpro.domain.model.ServiceRecordExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ServiceRecord
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="pagination != null" >
+      limit #{pagination.begin} , #{pagination.length}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from ServiceRecord
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from ServiceRecord
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dogpro.domain.model.ServiceRecordExample" >
+    delete from ServiceRecord
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dogpro.domain.model.ServiceRecord" >
+    insert into ServiceRecord (id, user_id, chat_count, 
+      last_chat_time, state, addTimes, 
+      updateTimes)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{chatCount,jdbcType=INTEGER}, 
+      #{lastChatTime,jdbcType=TIMESTAMP}, #{state,jdbcType=INTEGER}, #{addtimes,jdbcType=TIMESTAMP}, 
+      #{updatetimes,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dogpro.domain.model.ServiceRecord" >
+    insert into ServiceRecord
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="chatCount != null" >
+        chat_count,
+      </if>
+      <if test="lastChatTime != null" >
+        last_chat_time,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="addtimes != null" >
+        addTimes,
+      </if>
+      <if test="updatetimes != null" >
+        updateTimes,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="chatCount != null" >
+        #{chatCount,jdbcType=INTEGER},
+      </if>
+      <if test="lastChatTime != null" >
+        #{lastChatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="addtimes != null" >
+        #{addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetimes != null" >
+        #{updatetimes,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dogpro.domain.model.ServiceRecordExample" resultType="java.lang.Integer" >
+    select count(*) from ServiceRecord
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update ServiceRecord
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.chatCount != null" >
+        chat_count = #{record.chatCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.lastChatTime != null" >
+        last_chat_time = #{record.lastChatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+      <if test="record.addtimes != null" >
+        addTimes = #{record.addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetimes != null" >
+        updateTimes = #{record.updatetimes,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update ServiceRecord
+    set id = #{record.id,jdbcType=BIGINT},
+      user_id = #{record.userId,jdbcType=BIGINT},
+      chat_count = #{record.chatCount,jdbcType=INTEGER},
+      last_chat_time = #{record.lastChatTime,jdbcType=TIMESTAMP},
+      state = #{record.state,jdbcType=INTEGER},
+      addTimes = #{record.addtimes,jdbcType=TIMESTAMP},
+      updateTimes = #{record.updatetimes,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dogpro.domain.model.ServiceRecord" >
+    update ServiceRecord
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="chatCount != null" >
+        chat_count = #{chatCount,jdbcType=INTEGER},
+      </if>
+      <if test="lastChatTime != null" >
+        last_chat_time = #{lastChatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="addtimes != null" >
+        addTimes = #{addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetimes != null" >
+        updateTimes = #{updatetimes,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dogpro.domain.model.ServiceRecord" >
+    update ServiceRecord
+    set user_id = #{userId,jdbcType=BIGINT},
+      chat_count = #{chatCount,jdbcType=INTEGER},
+      last_chat_time = #{lastChatTime,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=INTEGER},
+      addTimes = #{addtimes,jdbcType=TIMESTAMP},
+      updateTimes = #{updatetimes,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  
+  <resultMap id="ServiceRecord_User_Map" type="com.dogpro.domain.model.extend.ServiceRecord_User">  
+         <id column="id" property="id" jdbcType="BIGINT" />
+   		 <result column="user_id" property="userId" jdbcType="BIGINT" />
+   		 <result column="chat_count" property="chatCount" jdbcType="INTEGER" />
+   		 <result column="last_chat_time" property="lastChatTime" jdbcType="TIMESTAMP" />
+   		 <result column="state" property="state" jdbcType="INTEGER" />
+   		 <result column="addTimes" property="addtimes" jdbcType="TIMESTAMP" />
+   		 <result column="updateTimes" property="updatetimes" jdbcType="TIMESTAMP" />
+   		 
+    	<result column="u_sex" property="user.sex" jdbcType="INTEGER" />
+   		 <result column="u_headPic" property="user.headpic" jdbcType="VARCHAR" />
+   		 <result column="u_nickname" property="user.nickname" jdbcType="VARCHAR" />
+   		 <result column="u_sign" property="user.sign" jdbcType="VARCHAR" />
+   		 <result column="u_phone" property="user.phone" jdbcType="VARCHAR" />
+   		 <result column="u_pswd" property="user.pswd" jdbcType="VARCHAR" />
+   		 <result column="u_provinces" property="user.provinces" jdbcType="VARCHAR" />
+   		 <result column="u_municipalities" property="user.municipalities" jdbcType="VARCHAR" />
+   		 <result column="u_districts" property="user.districts" jdbcType="VARCHAR" />
+   		 <result column="u_townStreet" property="user.townstreet" jdbcType="VARCHAR" />
+   		 <result column="u_address" property="user.address" jdbcType="VARCHAR" />
+   		 <result column="u_addTimes" property="user.addtimes" jdbcType="TIMESTAMP" />
+  		  <result column="u_updateTimes" property="user.updatetimes" jdbcType="TIMESTAMP" />
+  		  <result column="u_state" property="user.state" jdbcType="INTEGER" />
+  		  <result column="u_offlineTimes" property="user.offlinetimes" jdbcType="BIGINT" />
+  		  <result column="u_isCompleted" property="user.iscompleted" jdbcType="INTEGER" />
+  		  <result column="u_UUID" property="user.uuid" jdbcType="VARCHAR" />
+    </resultMap>  
+  
+ 	<select id="getUserList" resultMap="ServiceRecord_User_Map" parameterType="com.dogpro.domain.model.ServiceRecordExample" >
+    select
+     s.id,s.user_id, s.chat_count, s.last_chat_time, s.state, s.addTimes, s.updateTimes,
+      u.sex u_sex,
+      u.headPic u_headPic, 
+      u.nickname u_nickname, 
+      u.sign u_sign, 
+      u.phone u_phone, 
+      u.pswd u_pswd, 
+      u.provinces u_provinces,
+      u.municipalities u_municipalities, 
+      u.districts u_districts, 
+    u.townStreet u_townStreet, 
+    u.address u_address, 
+    u.addTimes u_addTimes, 
+    u.updateTimes u_updateTimes, 
+    u.state u_state, 
+    u.offlineTimes u_offlineTimes, 
+    u.isCompleted u_isCompleted, 
+    u.UUID u_UUID
+    from 
+    	ServiceRecord s 
+    LEFT JOIN
+    	User u
+    ON
+    	s.user_id = u.user_id
+    WHERE
+    	s.state = 1
+    AND 
+    	u.state = 1
+      order by s.last_chat_time desc
+    <if test="pagination != null" >
+      limit #{pagination.begin} , #{pagination.length}
+    </if>
+  </select>  
+  
+  <select id="getServiceRecordrByUid" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+      <include refid="Base_Column_List" />
+    from 
+    	ServiceRecord 
+    WHERE
+    	user_id = #{user_id}
+    AND 
+    	state = 1
+    limit 0,1
+  </select>  
+</mapper>

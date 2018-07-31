@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dogpro.dao.PushMessageMapper" >
+  <resultMap id="BaseResultMap" type="com.dogpro.domain.model.PushMessage" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="revUid" property="revuid" jdbcType="BIGINT" />
+    <result column="sendUid" property="senduid" jdbcType="BIGINT" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="msgCode" property="msgcode" jdbcType="BIGINT" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="targetId" property="targetid" jdbcType="BIGINT" />
+    <result column="addTimes" property="addtimes" jdbcType="TIMESTAMP" />
+    <result column="updateTimes" property="updatetimes" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.dogpro.domain.model.PushMessage" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, revUid, sendUid, type, msgCode, state, targetId, addTimes, updateTimes
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.dogpro.domain.model.PushMessageExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from PushMessage
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dogpro.domain.model.PushMessageExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from PushMessage
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="pagination != null" >
+      limit #{pagination.begin} , #{pagination.length}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from PushMessage
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from PushMessage
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dogpro.domain.model.PushMessageExample" >
+    delete from PushMessage
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dogpro.domain.model.PushMessage" >
+    insert into PushMessage (ID, revUid, sendUid, 
+      type, msgCode, state, 
+      targetId, addTimes, updateTimes, 
+      content)
+    values (#{id,jdbcType=BIGINT}, #{revuid,jdbcType=BIGINT}, #{senduid,jdbcType=BIGINT}, 
+      #{type,jdbcType=INTEGER}, #{msgcode,jdbcType=BIGINT}, #{state,jdbcType=INTEGER}, 
+      #{targetid,jdbcType=BIGINT}, #{addtimes,jdbcType=TIMESTAMP}, #{updatetimes,jdbcType=TIMESTAMP}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dogpro.domain.model.PushMessage" >
+    insert into PushMessage
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="revuid != null" >
+        revUid,
+      </if>
+      <if test="senduid != null" >
+        sendUid,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="msgcode != null" >
+        msgCode,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="targetid != null" >
+        targetId,
+      </if>
+      <if test="addtimes != null" >
+        addTimes,
+      </if>
+      <if test="updatetimes != null" >
+        updateTimes,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="revuid != null" >
+        #{revuid,jdbcType=BIGINT},
+      </if>
+      <if test="senduid != null" >
+        #{senduid,jdbcType=BIGINT},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="msgcode != null" >
+        #{msgcode,jdbcType=BIGINT},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="targetid != null" >
+        #{targetid,jdbcType=BIGINT},
+      </if>
+      <if test="addtimes != null" >
+        #{addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetimes != null" >
+        #{updatetimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dogpro.domain.model.PushMessageExample" resultType="java.lang.Integer" >
+    select count(*) from PushMessage
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update PushMessage
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.revuid != null" >
+        revUid = #{record.revuid,jdbcType=BIGINT},
+      </if>
+      <if test="record.senduid != null" >
+        sendUid = #{record.senduid,jdbcType=BIGINT},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.msgcode != null" >
+        msgCode = #{record.msgcode,jdbcType=BIGINT},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+      <if test="record.targetid != null" >
+        targetId = #{record.targetid,jdbcType=BIGINT},
+      </if>
+      <if test="record.addtimes != null" >
+        addTimes = #{record.addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetimes != null" >
+        updateTimes = #{record.updatetimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update PushMessage
+    set ID = #{record.id,jdbcType=BIGINT},
+      revUid = #{record.revuid,jdbcType=BIGINT},
+      sendUid = #{record.senduid,jdbcType=BIGINT},
+      type = #{record.type,jdbcType=INTEGER},
+      msgCode = #{record.msgcode,jdbcType=BIGINT},
+      state = #{record.state,jdbcType=INTEGER},
+      targetId = #{record.targetid,jdbcType=BIGINT},
+      addTimes = #{record.addtimes,jdbcType=TIMESTAMP},
+      updateTimes = #{record.updatetimes,jdbcType=TIMESTAMP},
+      content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update PushMessage
+    set ID = #{record.id,jdbcType=BIGINT},
+      revUid = #{record.revuid,jdbcType=BIGINT},
+      sendUid = #{record.senduid,jdbcType=BIGINT},
+      type = #{record.type,jdbcType=INTEGER},
+      msgCode = #{record.msgcode,jdbcType=BIGINT},
+      state = #{record.state,jdbcType=INTEGER},
+      targetId = #{record.targetid,jdbcType=BIGINT},
+      addTimes = #{record.addtimes,jdbcType=TIMESTAMP},
+      updateTimes = #{record.updatetimes,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dogpro.domain.model.PushMessage" >
+    update PushMessage
+    <set >
+      <if test="revuid != null" >
+        revUid = #{revuid,jdbcType=BIGINT},
+      </if>
+      <if test="senduid != null" >
+        sendUid = #{senduid,jdbcType=BIGINT},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="msgcode != null" >
+        msgCode = #{msgcode,jdbcType=BIGINT},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="targetid != null" >
+        targetId = #{targetid,jdbcType=BIGINT},
+      </if>
+      <if test="addtimes != null" >
+        addTimes = #{addtimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetimes != null" >
+        updateTimes = #{updatetimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.dogpro.domain.model.PushMessage" >
+    update PushMessage
+    set revUid = #{revuid,jdbcType=BIGINT},
+      sendUid = #{senduid,jdbcType=BIGINT},
+      type = #{type,jdbcType=INTEGER},
+      msgCode = #{msgcode,jdbcType=BIGINT},
+      state = #{state,jdbcType=INTEGER},
+      targetId = #{targetid,jdbcType=BIGINT},
+      addTimes = #{addtimes,jdbcType=TIMESTAMP},
+      updateTimes = #{updatetimes,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dogpro.domain.model.PushMessage" >
+    update PushMessage
+    set revUid = #{revuid,jdbcType=BIGINT},
+      sendUid = #{senduid,jdbcType=BIGINT},
+      type = #{type,jdbcType=INTEGER},
+      msgCode = #{msgcode,jdbcType=BIGINT},
+      state = #{state,jdbcType=INTEGER},
+      targetId = #{targetid,jdbcType=BIGINT},
+      addTimes = #{addtimes,jdbcType=TIMESTAMP},
+      updateTimes = #{updatetimes,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="getFirendCirclePush"  resultType="java.util.Map"  parameterType="map">
+SELECT p.sendUid,p.targetId,p.content,p.type,p.msgCode,u.headPic as headpic,u.sex,u.nickname,fm.mediaSubUrl as FCsubUrl
+FROM 
+(
+	SELECT * FROM 
+PushMessage
+WHERE revUid = #{userId}
+AND (type = 3 OR type = 4 OR type = 5)
+)AS p LEFT JOIN `User` u ON u.user_id = p.sendUid
+LEFT JOIN 
+(
+SELECT fm.* FROM
+FriendCircleMedia fm
+GROUP BY fm.friendCir_id
+) AS fm ON p.targetId = fm.friendCir_id
+
+ORDER BY p.msgCode DESC  
+<if test="pagination != null" >
+      limit #{pagination.begin} , #{pagination.length}
+    </if>
+    </select>
+</mapper>

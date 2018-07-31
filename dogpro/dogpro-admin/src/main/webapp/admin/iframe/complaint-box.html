@@ -1,0 +1,177 @@
+<!-- 投诉管理  -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/easyui-perfect.css">
+    <link rel="stylesheet" href="../css/icon.css">
+    <link rel="stylesheet" href="../css/user.css">
+</head>
+<body>
+
+<table id="tb1"></table>
+
+<div id="dlg" class="easyui-dialog" style="width:400px"
+     closed="true" buttons="#dlg-buttons">
+    <form id="fm" method="post" novalidate style="margin:0;padding:20px 50px">
+        <div style="margin-bottom:20px;font-size:14px;border-bottom:1px solid #ccc">User Information</div>
+        <div style="margin-bottom:10px">
+            <input name="classids" class="easyui-textbox" required="true" label="姓名:" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="gradeids" class="easyui-textbox" required="true" label="手机号:" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="pnames" class="easyui-textbox" required="true" label="邮箱:" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="pswds" class="easyui-textbox" required="true" label="昵称:" style="width:100%">
+        </div>
+    </form>
+</div>
+<div id="dlg-buttons">
+    <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveUser()" style="width:90px">Save</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel"
+       onclick="javascript:$('#dlg').dialog('close')" style="width:90px">Cancel</a>
+</div>
+<!-----------------弹出窗口------------------>
+<div class="hidden-bg" style="display: none">
+    <div class="hidden-dialog">
+        <p>审核内容：<input type="text"></p>
+        <i class="close"></i>
+    </div>
+
+</div>
+<div id="complaintDetail" class="easyui-dialog" style="width:400px"
+     closed="true" buttons="#complaintDetail-buttons">
+    <form id="fm-detail" method="post" novalidate style="margin:0;padding:20px 50px">
+        <div style="margin-bottom:20px;font-size:14px;border-bottom:1px solid #ccc">信息</div>
+        <div style="margin-bottom:10px">
+            <input name="handleProcess" class="easyui-textbox" required="true" label="处理过程:" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+            <input name="handleResult" class="easyui-textbox" required="true" label="处理结果:" style="width:100%">
+        </div>
+        <div style="margin-bottom:10px">
+            是否属实:
+            <input name="check1" type="radio" id="shushi"> <label for="shushi" checked>属实</label>
+            <input name="check2" type="radio" id="jia"> <label for="jia">虚假</label>
+        </div>
+    </form>
+</div>
+<div id="complaintDetail-buttons">
+    <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveComplaintDetail()"
+       style="width:90px">保存</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel"
+       onclick="javascript:$('#complaintDetail').dialog('close')" style="width:90px">取消</a>
+</div>
+<script src="../js/jquery-1.9.1.min.js"></script>
+<script src="../js/jQuery-EasyUI-1.5.2.min.js"></script>
+<script src="../js/jsonUrl.js?v1"></script>
+<script src="../js/easyui-lang-zh_CN.js"></script>
+<script src="../js/dataGridTemplete.js"></script>
+<script src="../js/serializeJSON.js"></script>
+<script>
+    //点击保存
+    function saveComplaintDetail() {
+        var json = $("#fm-detail").serializeJSON();
+        var row = $("#tb1").datagrid("getSelected");
+        var check;
+        if (json.check1 == 'on') {
+            check = 1;
+        } else {
+            check = 2;
+        }
+        var complaintParams = `{
+    		"module":"checkComplant",
+    		"action":"AdminService",
+    			"paras":{
+	    		"adminUserId":${userId},
+	    		"complaintId":${row.complaintId},
+	    		"check":${check},
+	    		"handleProcess":"${json.handleProcess}",
+	    		"handleResult":"${json.handleResult}",
+	    		"token":"${token}"
+	    		}
+    		}`;
+        $.ajax({
+            url: jsonUrl,
+            type: "get",
+            dataType: "jsonp",
+            jsonp: "callback", //服务端用于接收callback调用的function名的参数
+            jsonpCallback: "success_jsonpCallback", //callback的function名称,服务端会把名称和data一起传递回来
+            data: {params: complaintParams},
+            success: function (data) {
+                $.messager.alert('提示信息', data.value.result.msg, 'info');
+                $('#complaintDetail').dialog('close');
+                $(".pagination-load").click();
+            },
+            error: function (err) {
+                $.messager.alert('操作提示', '获取信息失败...请联系管理员!', 'error');
+                doc.datagrid("loaded"); //移除屏蔽
+            }
+        });
+    }
+
+    //点击审核，进入审核
+    function showComplaint(complaintId) {
+        $('#complaintDetail').dialog('open').dialog('center').dialog('setTitle', '审核');
+    }
+
+    $('.hidden-bg .close').click(function () {
+        $('.hidden-bg').fadeOut();
+    });
+    /////////////////////默认加载//////////////////////
+    $(function () {
+        //57.核查投诉（等待完成）
+        var params = `{
+        	"module":"complaintByType",
+        	"action":"AdminService",
+        	"paras":{
+        	"adminUserId":${userId},
+        	"pageNO":0,
+        	"pageSize":5,
+        	"type":0,
+        	"token":"${token}"
+        	}
+    	}`;//参数  "type":0, 默认为全部
+        var columns = [[
+            {field: 'complaintId', title: '投诉id', width: 150},
+            {field: 'friendCirId', title: '朋友圈id', width: 150},
+            {field: 'userId', title: '投诉人id', width: 150},
+            {field: 'userNickname', title: '投诉人昵称', width: 150},
+            {field: 'complaintContent', title: '投诉内容', width: 150},
+            {field: 'complaintIp', title: '投诉人IP地址', width: 250},
+            {
+                field: 'check', title: '审核情况', width: 150, formatter: function (value, row, index) {
+                if (row.check == 1) {
+                    return '属实';
+                } else if (row.check == 2) {
+                    return '虚假';
+                } else return '未处理';
+            }
+            },
+            {field: 'checkTime', title: '核查时间', width: 250},
+            {field: 'checkUserId', title: '核查管理用户id', width: 150},
+            {field: 'adminNickname', title: '管理用户', width: 150},
+            {field: 'handleProcess', title: '处理过程', width: 150},
+            {field: 'handleResult', title: '处理结果', width: 150},
+            {
+                field: 'doComplaint', title: '审核', width: 150,
+                formatter: function (value, row, index) {
+                    //如果已经审核的，显示已审核，不能点击，否则，可以点击
+                    if (row.checkUserId == '' || row.checkUserId == null) {
+                        return `<a href="javascript:showComplaint(${row.complaintId})" style="color:red;" >审核</a>`;
+                    } else {
+                        return '已审核';
+                    }
+                }
+            }
+        ]];//字段
+        initDataGrid($("#tb1"), params, '#toolbar', '投诉列表', '/dogpro-Webapi/UsercenterApi/ApivDataGrid.do', columns, '1000');
+    })
+</script>
+</body>
+</html>
