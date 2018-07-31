@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+	<context id="testTables" targetRuntime="MyBatis3">
+		<!-- MySql分页插件 
+		-->
+		<plugin type="plugins.MySQLPaginationPlugin"/>
+		<!-- Oracle分页插件 
+		<plugin type="plugins.OraclePaginationPlugin"/>
+		-->
+	
+		<commentGenerator>
+			<!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+		<!--数据库连接的信息：驱动类、连接地址、用户名、密码 -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://localhost:3306/femy" userId="root"
+			password="root" >
+		</jdbcConnection>
+		<!-- <jdbcConnection driverClass="oracle.jdbc.OracleDriver"
+			connectionURL="jdbc:oracle:thin:@127.0.0.1:1521:yycg" 
+			userId="yycg"
+			password="yycg">
+		</jdbcConnection> -->
+
+		<!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer，为 true时把JDBC DECIMAL 和 
+			NUMERIC 类型解析为java.math.BigDecimal -->
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+		<!-- targetProject:生成PO类的位置============================================================= -->
+		<javaModelGenerator targetPackage="com.femy.entity"
+			targetProject="./src">
+			<!-- enableSubPackages:是否让schema作为包的后缀 -->
+			<property name="enableSubPackages" value="false" />
+			<!-- 从数据库返回的值被清理前后的空格 -->
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+        <!-- targetProject:mapper映射文件生成的位置===================================================== -->
+		<sqlMapGenerator targetPackage="persistence.gen" 
+			targetProject="./src">
+			<!-- enableSubPackages:是否让schema作为包的后缀 -->
+			<property name="enableSubPackages" value="false" />
+		</sqlMapGenerator>
+		<!-- targetPackage：mapper接口生成的位置======================================================== -->
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="com.femy.dao.gen" 
+			targetProject="./src">
+			<!-- enableSubPackages:是否让schema作为包的后缀 -->
+			<property name="enableSubPackages" value="false" />
+		</javaClientGenerator>
+		
+		<!-- 有些表的字段需要指定java类型
+		 <table schema="" tableName="">
+			<columnOverride column="" javaType="" />
+		</table> -->
+		
+		<!-- 指定数据库表=============================================================  -->
+		<!-- 权限模块 
+		<table tableName="SYS_USER" domainObjectName="SysUser"></table>
+		<table tableName="SYS_GROUP" domainObjectName="SysGroup"></table>
+		<table tableName="SYS_USER_GROUP" domainObjectName="SysUserGroup"></table>
+		<table tableName="SYS_RES" domainObjectName="SysRes"></table>
+		<table tableName="SYS_USER_RES" domainObjectName="SysUserRes"></table>
+		<table tableName="SYS_GROUP_RES" domainObjectName="SysGroupRes"></table>
+		-->	
+		
+		<!-- ehr 
+		<table tableName="CLOCK" domainObjectName="Clock"></table>
+		<table tableName="DEPT" domainObjectName="Dept"></table>
+		<table tableName="EDU" domainObjectName="Edu"></table>
+		<table tableName="EMP" domainObjectName="Emp"></table>
+		<table tableName="EMP_FAMILY" domainObjectName="EmpFamily"></table>
+		<table tableName="EMP_TYPE" domainObjectName="EmpType"></table>
+		<table tableName="JOB" domainObjectName="Job"></table>
+		<table tableName="LEAVE_REC" domainObjectName="LeaveRec"></table>
+		<table tableName="LEAVE_TYPE" domainObjectName="LeaveType"></table>
+		<table tableName="MESSAGE" domainObjectName="Message"></table>
+		<table tableName="SCHEDULE" domainObjectName="Schedule"></table>
+		-->
+<table tableName="SYS_GROUP" domainObjectName="SysGroup"></table>
+
+
+		<!-- 销售, 服务, 系统设置用的表 -->	
+		<!--  
+		<table tableName="CHARGE_FWF" domainObjectName="ChargeFwf"></table>
+		<table tableName="CHARGE_GLF" domainObjectName="ChargeGlf"></table>
+		<table tableName="CHARGE_LSCFF" domainObjectName="ChargeLscff"></table>
+		<table tableName="CHARGE_WQF" domainObjectName="ChargeWqf"></table>
+		<table tableName="CHARGE_ZCF" domainObjectName="ChargeZcf"></table>
+		<table tableName="CHARGE_ZZF" domainObjectName="ChargeZzf"></table>
+		<table tableName="CHARGE_AREA_RATE" domainObjectName="ChargeAreaRate"></table>
+		<table tableName="GOODS_AREA_BUILDING" domainObjectName="GoodsAreaBuilding"></table>
+		<table tableName="GOODS_ROW_ROOM" domainObjectName="GoodsRowRoom"></table>
+		<table tableName="GOODS_UNIT" domainObjectName="GoodsUnit"></table>
+		<table tableName="GOODS_UNIT_LOCK_REC" domainObjectName="GoodsUnitLockRec"></table>
+		<table tableName="GOODS_PRICE_ITEM" domainObjectName="GoodsPriceItem"></table>
+		<table tableName="GOODS_XJ" domainObjectName="GoodsXj"></table>
+		<table tableName="GOODS_BEI" domainObjectName="GoodsBei"></table>
+		<table tableName="GOODS_BEI_XJ" domainObjectName="GoodsBeiXj"></table>
+		<table tableName="CUSTOMER" domainObjectName="Customer"></table>
+		<table tableName="DEPARTED" domainObjectName="Departed"></table>
+		<table tableName="DOC" domainObjectName="Doc"></table>
+		<table tableName="DOC_BCTK" domainObjectName="DocBctk"></table>
+		<table tableName="DOC_BEI" domainObjectName="DocBei"></table>
+		<table tableName="DOC_BEI_XJ" domainObjectName="DocBeiXj"></table>
+		<table tableName="DOC_XJ_APPEND" domainObjectName="DocXjAppend"></table>
+		<table tableName="DOC_CHARGE_REC" domainObjectName="DocChargeRec"></table>
+		<table tableName="DOC_REC_WQ" domainObjectName="DocRecWq"></table>
+		<table tableName="DOC_REC_AZ" domainObjectName="DocRecAz"></table>
+		<table tableName="DOC_REC_ZZF" domainObjectName="DocRecZzf"></table>
+		<table tableName="DOC_REC_GLF" domainObjectName="DocRecGlf"></table>
+		<table tableName="DOC_REC_QTF" domainObjectName="DocRecQtf"></table>
+		<table tableName="DOC_HZMB" domainObjectName="DocHzmb"></table>
+		<table tableName="TEMP_DOC" domainObjectName="TempDoc"></table>
+		<table tableName="SGDW" domainObjectName="Sgdw"></table>
+		<table tableName="SXCH" domainObjectName="Sxch"></table>
+		 -->
+		
+	</context>
+</generatorConfiguration>

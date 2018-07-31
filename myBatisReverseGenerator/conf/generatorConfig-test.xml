@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+	<context id="testTables" targetRuntime="MyBatis3">
+		<!-- MySql分页插件 
+		-->
+		<plugin type="plugins.MySQLPaginationPlugin"/>
+		<!-- Oracle分页插件 
+		<plugin type="plugins.OraclePaginationPlugin"/>
+		-->
+	
+		<commentGenerator>
+			<!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+		
+		<!-- ====================数据库连接的信息：驱动类、连接地址、用户名、密码 ==================== -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://192.168.1.200:3306/Dogpro" userId="root" password="root" >
+		<!-- connectionURL="jdbc:mysql://localhost:3306/movie_project" userId="root" password="" > -->	
+			
+		</jdbcConnection>
+		<!-- <jdbcConnection driverClass="oracle.jdbc.OracleDriver"
+			connectionURL="jdbc:oracle:thin:@127.0.0.1:1521:yycg" 
+			userId="yycg"
+			password="yycg">
+		</jdbcConnection> -->
+
+		<!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer，为 true时把JDBC DECIMAL 和 
+			NUMERIC 类型解析为java.math.BigDecimal -->
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+		<!-- ======================targetProject:生成PO类的位置======================  -->
+		<javaModelGenerator targetPackage="com.dogpro.domain.model" targetProject="./src">
+			<!-- enableSubPackages:是否让schema作为包的后缀 -->
+			<property name="enableSubPackages" value="false" />
+			<!-- 从数据库返回的值被清理前后的空格 -->
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+        <!-- ======================targetProject: mapper映射文件生成的位置====================== -->
+		<sqlMapGenerator targetPackage="com.dogpro.mapping" 
+			targetProject="./src">
+			<!-- enableSubPackages:是否让schema作为包的后缀 -->
+			<property name="enableSubPackages" value="false" />
+		</sqlMapGenerator>
+		<!-- ======================targetPackage：mapper接口生成的位置====================== -->
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="com.dogpro.dao" 
+			targetProject="./src">
+			<!-- enableSubPackages:是否让schema作为包的后缀 -->
+			<property name="enableSubPackages" value="false" />
+		</javaClientGenerator>
+		
+		<!-- 有些表的字段需要指定java类型
+		 <table schema="" tableName="Advertising">
+			<columnOverride column="startTime" javaType="DATETIME" />
+		</table> -->
+		
+		<!-- ======================指定数据库表======================  -->
+		<!-- 
+		<table tableName="Activity" domainObjectName="Activity"></table>
+		<table tableName="Advertising" domainObjectName="Advertising"></table>
+		<table tableName="Area" domainObjectName="Area"></table>
+		<table tableName="Award" domainObjectName="Award"></table>
+		<table tableName="Help" domainObjectName="Help"></table>
+		<table tableName="Menu" domainObjectName="Menu"></table>
+		<table tableName="Platform" domainObjectName="Platform"></table>
+		<table tableName="Ucaptcha" domainObjectName="Ucaptcha"></table>
+		<table tableName="UserActivity" domainObjectName="UserActivity"></table>
+		<table tableName="UserAward" domainObjectName="UserAward"></table>
+		<table tableName="UserGetAward" domainObjectName="UserGetAward"></table>
+		<table tableName="UserMember" domainObjectName="UserMember"></table>
+		 <table tableName="WalkingDogTrack" domainObjectName="WalkingDogTrack"></table>
+		 <table tableName="WalkingDogGroup" domainObjectName="WalkingDogGroup"></table>
+		 <table tableName="Friends" domainObjectName="Friends"></table>
+		 <table tableName="Message" domainObjectName="Message"></table>
+		 <table tableName="MessageMedia" domainObjectName="MessageMedia"></table>
+		<table tableName="Feedback" domainObjectName="Feedback"></table>
+		<table tableName="FriendsNote" domainObjectName="FriendsNote"></table>
+		<table tableName="AdminUser" domainObjectName="AdminUser"></table>
+		 <table tableName="GroupMessage" domainObjectName="GroupMessage"></table>
+		 <table tableName="PushUser" domainObjectName="PushUser"></table>
+		 <table tableName="Setting" domainObjectName="Setting"></table>
+		 <table tableName="VersionControl" domainObjectName="VersionControl"></table>
+		<table tableName="User" domainObjectName="User"></table>
+		<table tableName="AreaSpace" domainObjectName="AreaSpace"></table>
+		<table tableName="mqtt_user" domainObjectName="MqttUser"></table>
+		 <table tableName="User" domainObjectName="User"></table>
+		 <table tableName="UserWorking" domainObjectName="UserWorking"></table>
+		  <table tableName="FriendCircle" domainObjectName="FriendCircle"></table>
+		  <table tableName="Project" domainObjectName="Project"></table>
+		   <table tableName="PublishRecord" domainObjectName="PublishRecord"></table>
+		    <table tableName="User" domainObjectName="User"></table>
+		      <table tableName="Version" domainObjectName="Version"></table>
+		 <table tableName="article" domainObjectName="Article"></table>
+		 <table tableName="project" domainObjectName="Project"></table>
+		 <table tableName="file" domainObjectName="File"></table>
+		 
+		 <table tableName="AdminUser" domainObjectName="AdminUser"></table>
+		 <table tableName="AreaSpace" domainObjectName="AreaSpace"></table>
+		<table tableName="Complaint" domainObjectName="Complaint"></table>
+		 <table tableName="Discuss" domainObjectName="Discuss"></table>
+		<table tableName="DogLocation" domainObjectName="DogLocation"></table>
+		<table tableName="Feedback" domainObjectName="Feedback"></table>
+		<table tableName="FriendCircle" domainObjectName="FriendCircle"></table>
+		<table tableName="FriendCircleMedia" domainObjectName="FriendCircleMedia"></table>
+		<table tableName="Friends" domainObjectName="Friends"></table>
+		<table tableName="FriendsNote" domainObjectName="FriendsNote"></table>
+		<table tableName="GroupMessage" domainObjectName="GroupMessage"></table>
+		<table tableName="Impression" domainObjectName="Impression"></table>
+		 <table tableName="Message" domainObjectName="Message"></table>
+		 <table tableName="MessageMedia" domainObjectName="MessageMedia"></table>
+		 <table tableName="mqtt_user" domainObjectName="MqttUser"></table>
+		 <table tableName="Praise" domainObjectName="Praise"></table>
+		 <table tableName="PushMessage" domainObjectName="PushMessage"></table>
+		<table tableName="PushUser" domainObjectName="PushUser"></table>
+		<table tableName="Setting" domainObjectName="Setting"></table>
+		<table tableName="Ucaptcha" domainObjectName="Ucaptcha"></table>
+		<table tableName="User" domainObjectName="User"></table>
+		 <table tableName="VersionControl" domainObjectName="VersionControl"></table>
+		 <table tableName="WalkingDogTrack" domainObjectName="WalkingDogTrack"></table>
+		 <table tableName="WalkingDogGroup" domainObjectName="WalkingDogGroup"></table>
+		 <table tableName="ThirdParty" domainObjectName="ThirdParty"></table>
+		 <table tableName="ServiceRecord" domainObjectName="ServiceRecord"></table>
+		-->
+		 <table tableName="OnlineRecord" domainObjectName="OnlineRecord"></table>
+		 
+	</context>
+</generatorConfiguration>
